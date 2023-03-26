@@ -128,8 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="FCFS.h" />
+    <ClInclude Include="LinkedQueue.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="PROCESS.h" />
     <ClInclude Include="PROCESSOR.h" />
+    <ClInclude Include="QueueADT.h" />
     <ClInclude Include="RR.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="SJF.h" />

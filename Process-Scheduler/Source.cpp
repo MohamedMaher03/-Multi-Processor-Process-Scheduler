@@ -3,6 +3,7 @@
 #include"PROCESSOR.h"
 #include"UI.h"
 #include"Scheduler.h"
+#include"LinkedQueue.h"
 
 using namespace std;
 
