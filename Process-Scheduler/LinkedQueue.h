@@ -37,7 +37,7 @@ frontPtr	 backPtr
 -----------
 
 */
-
+#pragma once
 #ifndef LINKED_QUEUE_
 #define LINKED_QUEUE_
 
@@ -45,8 +45,6 @@ frontPtr	 backPtr
 #include "QueueADT.h"
 #include <vector>
 using namespace std;
-
-
 template <typename T>
 class LinkedQueue :public QueueADT<T>
 {
@@ -65,6 +63,7 @@ public:
 	//copy constructor
 	LinkedQueue(const LinkedQueue<T> & LQ);
 };
+#endif
 /////////////////////////////////////////////////////////////////////////////////////////
 
 /*
@@ -214,4 +213,3 @@ LinkedQueue<T>::LinkedQueue(const LinkedQueue<T> & LQ)
 	}
 }
 
-#endif
