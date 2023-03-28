@@ -75,3 +75,16 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	cout << endl;
 	Q = Q2;
 }
+
+string UI::ReadFileName()
+{
+	cout << "Please Enter the filename to load data from: " << endl;
+	string userChosenName;
+	cin >> userChosenName;
+	userChosenName = userChosenName + ".txt";
+	return userChosenName;
+}
+void UI::PrintMessage(string x)
+{
+	cout << x;
+}

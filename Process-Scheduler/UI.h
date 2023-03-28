@@ -2,6 +2,7 @@
 #include "PROCESS.h"
 #include "PROCESSOR.h"
 #include "LinkedQueue.h"
+#include <string>
 class UI
 {
 	enum MODE;
@@ -11,6 +12,8 @@ public:
 	void printSilent();
 	void PrintQueue(PROCESSOR*);
 	void PrintQueue(LinkedQueue<PROCESS*> Q);
+	string ReadFileName();
+	void PrintMessage(string);
 	
 
 };
