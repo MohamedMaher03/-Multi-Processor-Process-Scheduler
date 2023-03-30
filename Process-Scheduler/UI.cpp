@@ -55,7 +55,7 @@ void UI::PrintQueue(PROCESSOR* P)
 	while (!P->RDY.isEmpty())
 	{
 		P->RDY.dequeue(tmp);
-		cout << tmp->ID << ", ";
+		cout << tmp->get_PID()<< ", ";
 		Q2.enqueue(tmp);
 	}
 	cout << endl;
@@ -69,7 +69,7 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	while (!Q.isEmpty())
 	{
 		Q.dequeue(tmp);
-		cout << tmp->ID << ", ";
+		cout << tmp->get_PID() << " ,";
 		Q2.enqueue(tmp);
 	}
 	cout << endl;
