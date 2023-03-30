@@ -13,6 +13,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	}
 	IsKilled = false;
 	IsOrphan = false;
+	state = _NEW;
 
 }
 PROCESS::~PROCESS()
@@ -27,7 +28,6 @@ enum PROCESS::STATES
 	_RUN,
 	_BLK,
 	_TRM
-
 };
 
  void PROCESS::set_RT(int response)
@@ -126,34 +126,37 @@ enum PROCESS::STATES
 	 return IsParent;
  }
 
- void PROCESS::set_state(int x)
+ void PROCESS::set_state(string x)
  {
-	 if (x == 0)
+	 if (x == "NEW")
 		 state =_NEW;
-	 if (x == 1)
+	 if (x == "READY")
 		 state = _RDY;
-	 if (x == 2)
+	 if (x == "RUN")
 		 state = _RUN;
-	 if (x == 3)
+	 if (x == "BLOCK")
 		 state = _BLK;
-	 if (x == 4)
+	 if (x == "TERMINATE")
 		 state = _TRM;
-
-
  }
 
- int PROCESS::get_state()
+ string PROCESS::get_state()
  {
-	 if (state == _NEW)
-		 return 0;
-	 if (state == _RDY)
-		 return 1;
-	 if (state == _RUN)
-		 return 2;
-	 if (state == _BLK)
-		 return 3;
-	 if (state == _TRM)
-		 return 4;
+	 switch (state)
+	 {
+	 case _NEW:
+		 return "NEW";
+	 case _RDY:
+		 return "READY";
+	 case _RUN:
+		 return "RUN";
+	 case _BLK:
+		 return "BLOCKED";
+	 case _TRM:
+		 return "TERMINATED";
+	 default:
+		 return "NONE";
+	 }
  }
 
  

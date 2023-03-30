@@ -1,4 +1,6 @@
 #pragma once
+#include<string>
+using namespace std;
 class PROCESS
 {
 
@@ -39,10 +41,9 @@ public:
 	void set_IO_D(int val, int index);
 	bool get_IsKilled();
 	bool get_IsParent();
-	void set_state(int x);
-	int get_state();
+	void set_state(string x);
+	string get_state();
 
-	
 	~PROCESS();
 
 
