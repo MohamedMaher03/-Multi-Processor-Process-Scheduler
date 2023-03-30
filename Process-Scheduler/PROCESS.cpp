@@ -159,4 +159,18 @@ enum PROCESS::STATES
 	 }
  }
 
+ bool PROCESS::operator>=(PROCESS another_process)
+ {
+	 if (TT >= another_process.TT)
+		 return true;
+	 return false;
+ }
+
+ bool PROCESS::operator<=(PROCESS another_process)
+ {
+	 if (TT <= another_process.TT)
+		 return true;
+	 return false;
+ }
+
  
