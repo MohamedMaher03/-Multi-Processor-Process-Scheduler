@@ -15,7 +15,7 @@ void SJF::ScheduleAlgo()
 			PROCESS* HighestPriorityPROCESS;
 			if (RDY.dequeue(HighestPriorityPROCESS)) {
 				RUN = HighestPriorityPROCESS;
-				RUN->set_starttime(schedulerptr->get_TIMESTEP());
+				RUN->set_starttime(schedulerptr->get_TIMESTEP());  //set start time if process didn't start CPU before 
 			}
 		}
 		   // if there is a process running in the CPU
