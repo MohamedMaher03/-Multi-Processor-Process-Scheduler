@@ -9,6 +9,11 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	{
 		cout << "processor " << i + 1 << " [" << ProccessorList[i]->type << "]: " <<
 			ProccessorList[i]->RSIZE << " RDY: ";
+		/*
+		- Each processor must have RSIZE (a count for the ready queue current size)
+		- Each processor must have type string that is one of those (FCFS / SJF / RR)
+		- Each processor must have RDY queue (of course and other queues but this is what I need here)
+		*/
 		for (int j = 0; j < RSize; j++)
 		{
 			PrintQueue(ProccessorList[j]);
