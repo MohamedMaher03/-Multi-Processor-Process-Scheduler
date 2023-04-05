@@ -12,6 +12,9 @@ class PROCESS
 	int TRT;
 	int WT;
 	int  N;
+	int StartTime; //added 
+	int Countsteps; //added
+	int CountN; //added
 	int* IO_R;
 	int* IO_D;
 	bool IsKilled;
@@ -36,9 +39,17 @@ public:
 	int get_TT();
 	int get_TRT();
 	int get_WT();
+	void set_starttime(int t); //added
+	int get_starttime();	   //added
+	int get_countsteps();	   //added
+	void incrementCountsteps();//added
+	int get_countN();			//added
+	void incrementcountN();     //added
+	int get_N();                //added
 	bool get_IsOrphan();
 	void set_IO_R(int val, int index);
 	void set_IO_D(int val, int index);
+	int get_IO_R(int index);    //added
 	bool get_IsKilled();
 	bool get_IsParent();
 	void set_state(string x);

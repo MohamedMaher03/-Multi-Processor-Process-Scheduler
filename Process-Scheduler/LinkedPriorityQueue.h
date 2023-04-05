@@ -18,6 +18,7 @@ public:
 	bool peek(T& frntEntry)  const;
 	void insert_end(const T& newEntry);
 	void insert_front(const T& newEntry);
+	int get_length();
 	~LinkedPriorityQueue();
 
 	//copy constructor
@@ -47,6 +48,11 @@ void LinkedPriorityQueue<T>::insert_front(const T& newEntry) {
 		frontPtr = item;
 	}
 	length++;
+}
+template<typename T>
+inline int LinkedPriorityQueue<T>::get_length()
+{
+	return length;
 }
 template <typename T>
 LinkedPriorityQueue<T>::LinkedPriorityQueue()

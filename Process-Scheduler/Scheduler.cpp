@@ -68,3 +68,19 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 		ListOfProcessors[counter] = &tmp;
 	}
 }
+
+void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
+{
+	BLK.enqueue(blockedprocess);
+}
+
+void Scheduler::Add_toterminatedlist(PROCESS* terminatedprocess)
+{
+	TRM.enqueue(terminatedprocess);
+}
+
+int Scheduler::get_TIMESTEP()
+{
+	return TIMESTEP;
+}
+

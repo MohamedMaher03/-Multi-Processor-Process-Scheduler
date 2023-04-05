@@ -6,6 +6,9 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	PID = ID;
 	CT = CPU_Time;
 	N = Number;
+	Countsteps = 0;//added
+	CountN = 0;    //added
+	StartTime = -1; //added
 	if (!N)
 	{
 		IO_R = new int[N];
@@ -101,6 +104,42 @@ enum PROCESS::STATES
 	 return WT;
  }
 
+ void PROCESS::set_starttime(int t)
+ {
+	 if(StartTime==-1)  //if not initialize before
+	 StartTime = t;
+ }
+
+ void PROCESS::incrementCountsteps()
+ {
+	 Countsteps++;
+ }
+
+ int PROCESS::get_countN()
+ {
+	 return CountN;
+ }
+
+ void PROCESS::incrementcountN()
+ {
+	 CountN++;
+ }
+
+ int PROCESS::get_N()
+ {
+	 return N;
+ }
+
+ int PROCESS::get_starttime()
+ {
+	 return StartTime;
+ }
+
+ int PROCESS::get_countsteps()
+ {
+	 return Countsteps;
+ }
+
  bool PROCESS::get_IsOrphan()
  {
 	 return IsOrphan;
@@ -115,6 +154,13 @@ enum PROCESS::STATES
  {
 	 IO_D[index] = val;
  }
+
+ int PROCESS::get_IO_R(int index)
+ {
+	 return IO_R[index];
+ }
+
+
 
  bool PROCESS::get_IsKilled()
  {

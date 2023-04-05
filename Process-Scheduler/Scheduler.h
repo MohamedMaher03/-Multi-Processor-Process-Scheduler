@@ -33,10 +33,11 @@ class Scheduler
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
-
 	void SaveData(); // produce the output file at end of simulation
 	void CreateProcessors(int, int, int);
 	void Print(); 
-
+	void Add_toblocklist(PROCESS*blockedprocess);
+	void Add_toterminatedlist(PROCESS* terminatedprocess);
+	int get_TIMESTEP();
 };
 
