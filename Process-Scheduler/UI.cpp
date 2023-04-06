@@ -7,8 +7,8 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 		"-------------  RDY processes  -------------" << endl;
 	for (int i = 0; i < ProcessorsCount; i++)
 	{
-		cout << "processor " << i + 1 << " [" << ProccessorList[i]->type << "]: " <<
-			ProccessorList[i]->RSIZE << " RDY: ";
+		cout << "processor " << i + 1 << " [" << ProccessorList[i]->TYPE << "]: " <<
+			ProccessorList[i]->getRSIZE() << " RDY: ";
 		/*
 		- Each processor must have RSIZE (a count for the ready queue current size)
 		- Each processor must have type string that is one of those (FCFS / SJF / RR)
@@ -53,18 +53,11 @@ enum UI::MODE
 	StepByStep,
 	Silent
 };
-void UI::PrintQueue(PROCESSOR* P)
+void UI::PrintProcessorReadies(PROCESSOR* K)
 {
-	LinkedQueue<PROCESS*> Q2 = P->RDY;
-	PROCESS* tmp;
-	while (!P->RDY.isEmpty())
-	{
-		P->RDY.dequeue(tmp);
-		cout << tmp->get_PID()<< ", ";
-		Q2.enqueue(tmp);
-	}
-	cout << endl;
-	P->RDY = Q2;
+	K->PrintMyReady();
+	return;
+
 }
 
 void UI::PrintQueue(LinkedQueue<PROCESS*> Q)

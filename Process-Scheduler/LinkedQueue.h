@@ -44,6 +44,7 @@ frontPtr	 backPtr
 #include "Node.h"
 #include "QueueADT.h"
 #include <vector>
+#include"PROCESS.h"
 using namespace std;
 template <typename T>
 class LinkedQueue :public QueueADT<T>
@@ -58,6 +59,7 @@ public:
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
+	void printContents();
 	~LinkedQueue();
 
 	//copy constructor
@@ -165,6 +167,7 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 	return true;
 
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 Function: destructor
