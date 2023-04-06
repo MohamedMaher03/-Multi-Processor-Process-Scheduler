@@ -83,4 +83,19 @@ int Scheduler::get_TIMESTEP()
 {
 	return TIMESTEP;
 }
+int Scheduler::getTimeSlice()
+{
+	return TimeSlice;
+}
+
+int Scheduler::getRTF()
+{
+	return RTF;
+}
+
+int Scheduler::increase_TIMESTEP_RR()
+{
+	TIMESTEP += TimeSlice;
+	return TIMESTEP;
+}
 

@@ -42,7 +42,7 @@ public:
 	void set_starttime(int t); //added
 	int get_starttime();	   //added
 	int get_countsteps();	   //added
-	void incrementCountsteps();//added
+	void incrementCountsteps(int step);//added
 	int get_countN();			//added
 	void incrementcountN();     //added
 	int get_N();                //added
