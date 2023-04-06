@@ -53,13 +53,18 @@ private:
 
 	Node<T>* backPtr;
 	Node<T>* frontPtr;
+	int length;
 public:
 	LinkedQueue();
 	bool isEmpty() const;
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
+<<<<<<< HEAD
 	void printContents();
+=======
+	int getlength();
+>>>>>>> 7e20f2bfa29bed8de1551957d64895840a17dd5c
 	~LinkedQueue();
 
 	//copy constructor
@@ -117,6 +122,7 @@ bool LinkedQueue<T>::enqueue(const T& newEntry)
 
 	backPtr = newNodePtr; // New node is the last node now
 	return true;
+	length++;
 } // end enqueue
 
 
@@ -145,7 +151,7 @@ bool LinkedQueue<T>::dequeue(T& frntEntry)
 
 	// Free memory reserved for the dequeued node
 	delete nodeToDeletePtr;
-
+	length--;
 	return true;
 
 }
@@ -190,6 +196,11 @@ copy constructor is provided
 Input: LinkedQueue<T>: The Queue to be copied
 Output: none
 */
+template<typename T>
+ int LinkedQueue<T>::getlength()
+{
+	return length;
+}
 
 template <typename T>
 LinkedQueue<T>::LinkedQueue(const LinkedQueue<T> & LQ)

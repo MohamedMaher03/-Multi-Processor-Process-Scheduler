@@ -39,5 +39,8 @@ public:
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
 	int get_TIMESTEP();
+	int getTimeSlice();
+	int getRTF();
+	int increase_TIMESTEP_RR();
 };
 

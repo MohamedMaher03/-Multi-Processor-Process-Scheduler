@@ -110,9 +110,9 @@ enum PROCESS::STATES
 	 StartTime = t;
  }
 
- void PROCESS::incrementCountsteps()
+ void PROCESS::incrementCountsteps(int step)
  {
-	 Countsteps++;
+	 Countsteps+=step;
  }
 
  int PROCESS::get_countN()

@@ -29,17 +29,17 @@ void SJF::ScheduleAlgo()
 			{
 				if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
 				{
-					RUN->incrementCountsteps();
+					RUN->incrementCountsteps(1);
 					RUN->incrementcountN();
 					schedulerptr->Add_toblocklist(RUN);
 					RUN = nullptr;
 				}
 				else {
-					RUN->incrementCountsteps();
+					RUN->incrementCountsteps(1);
 				}
 			}
 			else {
-				RUN->incrementCountsteps();
+				RUN->incrementCountsteps(1);
 			}
 	}
 }
