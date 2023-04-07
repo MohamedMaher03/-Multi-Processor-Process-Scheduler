@@ -60,11 +60,8 @@ public:
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
-<<<<<<< HEAD
 	void printContents();
-=======
 	int getlength();
->>>>>>> 7e20f2bfa29bed8de1551957d64895840a17dd5c
 	~LinkedQueue();
 
 	//copy constructor

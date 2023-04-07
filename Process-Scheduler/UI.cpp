@@ -1,51 +1,53 @@
 #include "UI.h"
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, LinkedQueue<PROCESS*> RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
 	for (int i = 0; i < ProcessorsCount; i++)
 	{
-		cout << "processor " << i + 1 << " [" << ProccessorList[i]->TYPE << "]: " <<
+		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
 			ProccessorList[i]->getRSIZE() << " RDY: ";
 		/*
 		- Each processor must have RSIZE (a count for the ready queue current size)
 		- Each processor must have type string that is one of those (FCFS / SJF / RR)
-		- Each processor must have RDY queue (of course and other queues but this is what I need here)
+		- Each processor must have RDY queue 
 		*/
-		for (int j = 0; j < RSize; j++)
-		{
-			PrintQueue(ProccessorList[j]);
-		}
+		ProccessorList[i]->PrintMyReady();
+		cout << endl;
 	}
 	cout << "------------ - BLK processes------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK);
 	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RSize << " RUN: "; PrintQueue(RUN);
+	cout << RSize << " RUN: "; PrintRunning(RUN, RSize);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM);
 	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
 }
-void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, LinkedQueue<PROCESS*> RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
 	for (int i = 0; i < ProcessorsCount; i++)
 	{
-		cout << "processor " << i + 1 << " [" << ProccessorList[i]->type << "]: " <<
-			ProccessorList[i]->RSIZE << " RDY: ";
-		for (int j = 0; j < RSize; j++)
-		{
-			PrintQueue(ProccessorList[j]);
-		}
+		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
+			ProccessorList[i]->getRSIZE() << " RDY: ";
+		/*
+		- Each processor must have RSIZE (a count for the ready queue current size)
+		- Each processor must have type string that is one of those (FCFS / SJF / RR)
+		- Each processor must have RDY queue
+		*/
+		ProccessorList[i]->PrintMyReady();
+		cout << endl;
 	}
 	cout << "------------ - BLK processes------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK);
 	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RSize << " RUN: "; PrintQueue(RUN);
+	cout << RSize << " RUN: "; PrintRunning(RUN, RSize);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM);
+	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
 }
 enum UI::MODE
 {
@@ -72,6 +74,14 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	}
 	cout << endl;
 	Q = Q2;
+}
+
+void UI::PrintRunning(int* Run, int Size)
+{
+	for (int i = 0; i < Size; i++)
+	{
+		cout << Run[i] << ", ";
+	}
 }
 
 string UI::ReadFileName()

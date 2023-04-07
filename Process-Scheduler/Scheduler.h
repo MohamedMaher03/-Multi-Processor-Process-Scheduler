@@ -28,19 +28,24 @@ class Scheduler
 	int ProcessesCount;
 	LinkedQueue<int>ProcessesToBeKilled;
 	LinkedQueue<int>TimeOfDeath;
-
-
+	int BLK_Count;
+	int RUN_Count;
+	int TRM_Count;
+	int RunningCount; // Total number of currently running processes
+	int* Running; //This is an arry containg IDs of Running processes from each processor
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
 	void SaveData(); // produce the output file at end of simulation
 	void CreateProcessors(int, int, int);
-	void Print(); 
+	void Print(char); //Decides which mode ([I]nteractive - [S]ilent - Step[B]yStep) 
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
 	int increase_TIMESTEP_RR();
+	Scheduler();
+	~Scheduler();
 };
 

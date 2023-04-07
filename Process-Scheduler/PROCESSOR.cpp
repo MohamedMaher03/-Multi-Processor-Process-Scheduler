@@ -3,6 +3,5 @@
 
 void PROCESSOR::PrintMyReady()
 {
-	
-	RDY.
+	RDY.printContents();
 }

@@ -69,6 +69,16 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 	}
 }
 
+void Scheduler::Print(char z)
+{
+	if (z == 'I')
+		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
+	else if (z == 'B')
+		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
+	else if (z == 'S')
+		UIptr->printSilent();
+}
+
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 {
 	BLK.enqueue(blockedprocess);
@@ -99,3 +109,12 @@ int Scheduler::increase_TIMESTEP_RR()
 	return TIMESTEP;
 }
 
+Scheduler::Scheduler()
+{
+	Running = new int[totalProcessors];
+}
+
+Scheduler::~Scheduler()
+{
+	delete[] Running;
+}
