@@ -16,7 +16,8 @@ public:
 	void addToMyRdy(PROCESS*);
 	int getRSIZE(); //get the RDY Queue size 
 	string getType(); //get type of processor
-	PROCESS* getCurrentlyRunning();
+	PROCESS* getCurrentlyRunning(); //returns address of currently running process for each processor
+	bool getState();
 
 };
 
