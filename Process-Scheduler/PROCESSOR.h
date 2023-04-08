@@ -7,6 +7,7 @@ class PROCESSOR
 	PROCESS* RUN;
 	string TYPE;
 	int RSIZE;
+	bool STATE; // 0->IDLE |_||_| 1->BUSY
 public:
 	PROCESSOR(string type);
 	~PROCESSOR();
@@ -15,6 +16,7 @@ public:
 	void addToMyRdy(PROCESS*);
 	int getRSIZE(); //get the RDY Queue size 
 	string getType(); //get type of processor
+	PROCESS* getCurrentlyRunning();
 
 };
 

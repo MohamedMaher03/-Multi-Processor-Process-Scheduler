@@ -5,3 +5,8 @@ void PROCESSOR::PrintMyReady()
 {
 	RDY.printContents();
 }
+
+PROCESS* PROCESSOR::getCurrentlyRunning()
+{
+	return RUN;
+}

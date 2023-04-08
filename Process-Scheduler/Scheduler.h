@@ -44,8 +44,8 @@ public:
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
-	int increase_TIMESTEP_RR();
 	Scheduler();
+	void UpdateRunningProcesses(); //Iterates over all processors and adds Currently Running Processes
 	~Scheduler();
 };
 

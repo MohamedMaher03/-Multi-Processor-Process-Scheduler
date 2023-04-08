@@ -102,16 +102,22 @@ int Scheduler::getRTF()
 {
 	return RTF;
 }
-
-int Scheduler::increase_TIMESTEP_RR()
-{
-	TIMESTEP += TimeSlice;
-	return TIMESTEP;
-}
-
 Scheduler::Scheduler()
 {
 	Running = new int[totalProcessors];
+}
+
+void Scheduler::UpdateRunningProcesses()
+{
+	int count = 0;
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		if (ListOfProcessors[i]->getCurrentlyRunning())
+		{
+			Running[count++] = ListOfProcessors[i]->getCurrentlyRunning()->get_PID();
+		}
+	}
+	RUN_Count = count;
 }
 
 Scheduler::~Scheduler()
