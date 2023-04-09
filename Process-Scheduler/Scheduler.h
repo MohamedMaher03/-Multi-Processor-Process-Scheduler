@@ -33,6 +33,15 @@ class Scheduler
 	int TRM_Count;
 	int RunningCount; // Total number of currently running processes
 	int* Running; //This is an arry containg IDs of Running processes from each processor
+	//--------- STATISTICS -------------
+	int AvgWaitingTime; //Average waiting time for all processes
+	int AvgResponseTime; //Average Response time for all processes
+	int AvgTRT; //Average Turnaround time for all processes
+	int MigPercent; //Percentage of process migration due to RTF and MaxW
+	int StealPercent; //Percentages of processes moved by works steal
+	int ForkPercent; //Percentage of process fork
+	int KillPercent; //Percentage of process kill
+	int AvgUtilization; //Average utilization for all processors
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
