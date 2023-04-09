@@ -168,12 +168,7 @@ bool Scheduler::PromoteRdyToRun()
 
 bool Scheduler::AllDone()
 {
-	for (int i = 0; i < ProcessesCount; i++)
-	{
-		if (ListOfProcessors[i]->getCurrentlyRunning())
-			return false;
-	}
-	return true;
+	return TRM_Count == ProcessesCount;
 }
 
 Scheduler::~Scheduler()
