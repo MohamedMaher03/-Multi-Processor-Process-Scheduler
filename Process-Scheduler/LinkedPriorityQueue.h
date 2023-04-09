@@ -1,4 +1,3 @@
-#pragma once
 #ifndef LINKED_PRIORITY_QUEUE_
 #define LINKED_PRIORITY_QUEUE_
 #include"Node.h"

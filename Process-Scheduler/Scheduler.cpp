@@ -49,6 +49,10 @@ void Scheduler::LoadData()
 		
 	}
 }
+void Scheduler::SaveData()
+{
+
+}
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
@@ -118,6 +122,58 @@ void Scheduler::UpdateRunningProcesses()
 		}
 	}
 	RUN_Count = count;
+}
+
+void Scheduler::SIMULATE()
+{
+	while (!AllDone()) 
+	{
+		LoadData(); //Step 1 Load Data from Input File
+		CheckNewArrivals(); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
+		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running
+		Print('B'); // Print in Step-By-Step Mode
+		TIMESTEP++;
+	}
+}
+
+void Scheduler::CheckNewArrivals()
+{
+	int count = 0;
+	for (int i = 0; i < ProcessesCount; i++)
+	{
+		PROCESS* tmp;
+		NEW.peek(tmp);
+		if (tmp->get_AT() == TIMESTEP)
+		{
+			ListOfProcessors[count++]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
+			NEW.dequeue(tmp);
+		}
+	}
+}
+
+bool Scheduler::PromoteRdyToRun()
+{
+	PROCESS* tmp;
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		if (!ListOfProcessors[i]->getState()) //If getState == false, means the processor is idle
+		{
+			ListOfProcessors[i]->PromoteProcess();
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+bool Scheduler::AllDone()
+{
+	for (int i = 0; i < ProcessesCount; i++)
+	{
+		if (ListOfProcessors[i]->getCurrentlyRunning())
+			return false;
+	}
+	return true;
 }
 
 Scheduler::~Scheduler()

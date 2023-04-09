@@ -46,6 +46,12 @@ public:
 	int getRTF();
 	Scheduler();
 	void UpdateRunningProcesses(); //Iterates over all processors and adds Currently Running Processes
+	void SIMULATE();
+	void CheckNewArrivals(); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
+	bool PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
+	int Randomizer(); //Generates Random numbers from 1 to 100
+	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
+	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	~Scheduler();
 };
 
