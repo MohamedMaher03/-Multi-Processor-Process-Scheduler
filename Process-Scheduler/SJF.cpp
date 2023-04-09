@@ -1,21 +1,21 @@
 #include "SJF.h"
 #include "Scheduler.h"
 
-SJF::SJF()
+SJF::SJF() : PROCESSOR("SJF")
 {
 	RUN = nullptr;
-	type = "SJF";
 }
 
 void SJF::ScheduleAlgo()
 {
 	while (!RDY.isEmpty()) {
-		if (!RUN)  //if the processor is IDLE 
+		if (!STATE)  //if the processor is IDLE 
 		{
 			PROCESS* HighestPriorityPROCESS;
 			if (RDY.dequeue(HighestPriorityPROCESS)) {
 				RUN = HighestPriorityPROCESS;
 				RUN->set_starttime(schedulerptr->get_TIMESTEP());  //set start time if process didn't start CPU before 
+				STATE = 1;
 			}
 		}
 		   // if there is a process running in the CPU
@@ -24,6 +24,7 @@ void SJF::ScheduleAlgo()
 			{
 				schedulerptr->Add_toterminatedlist(RUN);
 				RUN = nullptr;
+				STATE = 0;
 			}
 			else if (RUN->get_N()>0 && RUN->get_countN()<=RUN->get_N())
 			{
@@ -33,6 +34,7 @@ void SJF::ScheduleAlgo()
 					RUN->incrementcountN();
 					schedulerptr->Add_toblocklist(RUN);
 					RUN = nullptr;
+					STATE = 0;
 				}
 				else {
 					RUN->incrementCountsteps(1);
@@ -49,9 +51,7 @@ void SJF::Set_RDYLIST(PROCESS* process)
 	RDY.enqueue(process);
 }
 
-int SJF::get_RSIZE()
-{
-	return RDY.get_length();
+void  SJF::PrintMyReady() {
+	RDY.printContents();
 }
-
 

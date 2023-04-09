@@ -3,6 +3,7 @@
 #include "PROCESS.h"
 class PROCESSOR
 {
+protected:
 	LinkedQueue<PROCESS*> RDY;
 	PROCESS* RUN;
 	string TYPE;
