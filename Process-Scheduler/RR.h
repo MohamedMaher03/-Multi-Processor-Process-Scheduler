@@ -7,12 +7,11 @@ class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;
 
-	
+
 	Scheduler* sch_ptr;
-	
+
 public:
 	RR();
 	virtual void ScheduleAlgo();//function moving process from RDY to RUN differ for each processor type
 
 };
-

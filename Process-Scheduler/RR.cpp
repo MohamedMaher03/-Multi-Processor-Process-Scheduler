@@ -2,9 +2,9 @@
 #include"PROCESS.h"
 
 
-RR::RR():PROCESSOR("RR")
+RR::RR() :PROCESSOR("RR")
 {
-	
+
 }
 
 void RR::ScheduleAlgo()
@@ -16,14 +16,14 @@ void RR::ScheduleAlgo()
 	{
 		if (!STATE)//the processor is IDLE
 		{
-			
+
 			RUN = front;
 			RUN->set_starttime(sch_ptr->get_TIMESTEP());
-			if ((RUN->get_CT()-RUN->get_countsteps()) > sch_ptr->getRTF())
+			if ((RUN->get_CT() - RUN->get_countsteps()) > sch_ptr->getRTF())
 			{
-				while((sch_ptr->get_TIMESTEP()-RUN->get_starttime()))
-				RUN->incrementCountsteps(sch_ptr->getTimeSlice());
-				
+				while ((sch_ptr->get_TIMESTEP() - RUN->get_starttime()))
+					RUN->incrementCountsteps(sch_ptr->getTimeSlice());
+
 				if (RDY.enqueue(RUN))
 					RUN = NULL;
 			}
@@ -39,4 +39,3 @@ void RR::ScheduleAlgo()
 
 
 }
-
