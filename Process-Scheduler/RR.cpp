@@ -2,10 +2,9 @@
 #include"PROCESS.h"
 
 
-RR::RR()
+RR::RR() :PROCESSOR("RR")
 {
-	RUN = NULL;
-	type = "RR";
+
 }
 
 void RR::ScheduleAlgo()
@@ -15,14 +14,16 @@ void RR::ScheduleAlgo()
 
 	while (!(RDY.isEmpty()))
 	{
-		if (!RUN)
+		if (!STATE)//the processor is IDLE
 		{
+
 			RUN = front;
 			RUN->set_starttime(sch_ptr->get_TIMESTEP());
-			if ((RUN->get_CT()-RUN->get_countsteps()) > sch_ptr->getRTF())
+			if ((RUN->get_CT() - RUN->get_countsteps()) > sch_ptr->getRTF())
 			{
-				RUN->incrementCountsteps(sch_ptr->getTimeSlice());
-				sch_ptr->increase_TIMESTEP_RR();
+				while ((sch_ptr->get_TIMESTEP() - RUN->get_starttime()))
+					RUN->incrementCountsteps(sch_ptr->getTimeSlice());
+
 				if (RDY.enqueue(RUN))
 					RUN = NULL;
 			}
@@ -37,15 +38,4 @@ void RR::ScheduleAlgo()
 
 
 
-}
-
-int RR::getRSIZE()
-{
-	return RDY.getlength();
-}
-
-
-string RR::gettype()
-{
-	return type;
 }
