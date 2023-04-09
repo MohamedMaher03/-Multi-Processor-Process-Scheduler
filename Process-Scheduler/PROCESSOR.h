@@ -9,6 +9,8 @@ protected:
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
+	int ProcessorLoad;
+	int ProcessorUtilization;
 public:
 	PROCESSOR(string type);
 	~PROCESSOR();
