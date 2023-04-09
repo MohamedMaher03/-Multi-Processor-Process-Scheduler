@@ -9,7 +9,7 @@ private:
 public:
 	SJF();
 	void ScheduleAlgo();
-	void Set_RDYLIST(PROCESS*process);  //Schedular class will set RDYLIST
+	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
 	void PrintMyReady();
 };
 

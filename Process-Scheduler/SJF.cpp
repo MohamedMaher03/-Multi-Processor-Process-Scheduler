@@ -46,7 +46,7 @@ void SJF::ScheduleAlgo()
 	}
 }
 
-void SJF::Set_RDYLIST(PROCESS* process)
+void SJF::addToMyRdy(PROCESS* process)
 {
 	RDY.enqueue(process);
 }
