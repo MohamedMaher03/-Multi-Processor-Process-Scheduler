@@ -56,7 +56,7 @@ public:
 	Scheduler();
 	void UpdateRunningProcesses(); //Iterates over all processors and adds Currently Running Processes
 	void SIMULATE();
-	void CheckNewArrivals(); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
+	void CheckNewArrivals(int& count, int& new_curindx); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
 	bool PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
 	int Randomizer(); //Generates Random numbers from 1 to 100
 	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly

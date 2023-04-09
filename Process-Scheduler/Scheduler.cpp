@@ -126,18 +126,21 @@ void Scheduler::UpdateRunningProcesses()
 
 void Scheduler::SIMULATE()
 {
+	int count = 0; //count to randomize process in the processors
+	int new_curindx = 0;
+	LoadData(); //Step 1 Load Data from Input File
 	while (!AllDone()) 
 	{
-		LoadData(); //Step 1 Load Data from Input File
-		CheckNewArrivals(); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
+		CheckNewArrivals(count, new_curindx); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running
 		Print('B'); // Print in Step-By-Step Mode
 		TIMESTEP++;
 	}
 }
 
-void Scheduler::CheckNewArrivals()
+void Scheduler::CheckNewArrivals(int&count,int& new_curindx)
 {
+	/*
 	int count = 0;
 	for (int i = 0; i < ProcessesCount; i++)
 	{
@@ -147,6 +150,20 @@ void Scheduler::CheckNewArrivals()
 		{
 			ListOfProcessors[count++]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
 			NEW.dequeue(tmp);
+		}
+	}
+	*/
+	for (int i = new_curindx;i < ProcessesCount;i++) {
+		PROCESS* tmp;
+		NEW.peek(tmp);
+		if (tmp->get_AT() == TIMESTEP) {
+			ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
+			count = (count + 1) % ProcessesCount;
+			new_curindx++;
+			NEW.dequeue(tmp);
+		}
+		else {
+			break;
 		}
 	}
 }
@@ -168,12 +185,7 @@ bool Scheduler::PromoteRdyToRun()
 
 bool Scheduler::AllDone()
 {
-	for (int i = 0; i < ProcessesCount; i++)
-	{
-		if (ListOfProcessors[i]->getCurrentlyRunning())
-			return false;
-	}
-	return true;
+	return TRM_Count == ProcessesCount;
 }
 
 Scheduler::~Scheduler()
