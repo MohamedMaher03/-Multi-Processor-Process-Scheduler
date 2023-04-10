@@ -158,7 +158,7 @@ void Scheduler::CheckNewArrivals(int&count,int& new_curindx)
 		NEW.peek(tmp);
 		if (tmp->get_AT() == TIMESTEP) {
 			ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
-			count = (count + 1) % ProcessesCount;
+			count = (count + 1) % totalProcessors;
 			new_curindx++;
 			NEW.dequeue(tmp);
 		}

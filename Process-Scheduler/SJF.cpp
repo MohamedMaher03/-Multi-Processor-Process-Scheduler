@@ -1,7 +1,7 @@
 #include "SJF.h"
 #include "Scheduler.h"
 
-SJF::SJF() : PROCESSOR("SJF")
+SJF::SJF():PROCESSOR("SJF")
 {
 	RUN = nullptr;
 }
