@@ -147,25 +147,11 @@ enum PROCESS::STATES
 	 return IsOrphan;
  }
 
- void PROCESS::set_IO(int IO_R, int IO_D)
+ void PROCESS::set_IO(int IO_R, int IO_D, int ind)
  {
-	 IO->first= IO_R;
-	 IO->second = IO_D;
+	 IO[ind].setfirst(IO_R);
+	 IO[ind].setsecond(IO_D);
  }
-
- int PROCESS::get_IO_R()
- {
-	 return IO->getfirst();
- }
-
- int PROCESS::get_IO_D()
- {
-	 return IO->second;
- }
- void PROCESS::printIO_D() {
-	 IO->printsecond();
- }
-
  bool PROCESS::get_IsKilled()
  {
 	 return IsKilled;
