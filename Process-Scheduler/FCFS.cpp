@@ -5,6 +5,10 @@ FCFS::FCFS(string T): PROCESSOR(T)
 	RUN = NULL;
 }
 
+void FCFS::ScheduleAlgo()
+{
+}
+
 /*void FCFS::ScheduleAlgo()
 {
 
@@ -23,6 +27,7 @@ FCFS::FCFS(string T): PROCESSOR(T)
     }
 }*/
 
+
 void FCFS::addToMyRdy(PROCESS *P)
 { 
 	RDY.InsertEnd(P);
@@ -31,4 +36,8 @@ void FCFS::addToMyRdy(PROCESS *P)
 void FCFS::PrintMyReady()
 {
     RDY.PrintList();
+}
+
+void FCFS::PromoteProcess()
+{
 }
