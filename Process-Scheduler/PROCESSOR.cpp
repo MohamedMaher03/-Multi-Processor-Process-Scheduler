@@ -1,15 +1,6 @@
 #include "PROCESSOR.h"
-#include <iostream>
 
-void PROCESSOR::PrintMyReady()
-{
-	RDY.printContents();
-}
 
-void PROCESSOR::addToMyRdy(PROCESS*add)
-{
-	RDY.enqueue(add);
-}
 
 int PROCESSOR::getRSIZE()
 {

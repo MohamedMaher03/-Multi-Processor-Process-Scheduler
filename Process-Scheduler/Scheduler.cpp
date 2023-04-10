@@ -32,10 +32,7 @@ void Scheduler::LoadData()
 			int x, y;
 			char c1, c2, c3;
 			ss >> c1 >> x >> c2 >> y >> c3;
-			//Creator of class process is expected to create 2 arrays of size N
-			//First array ==> IO_R, Second array ==> IO_D
-			tmp->set_IO_R(x, j);
-			tmp->set_IO_D(y, j);
+			tmp->set_IO(x, y, j);
 		}
 		string ignore1, ignore2;
 		myFile >> ignore1 >> ignore2;
