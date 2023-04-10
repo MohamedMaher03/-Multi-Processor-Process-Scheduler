@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include"Pair.h"
 using namespace std;
 class PROCESS
 {
@@ -15,8 +16,7 @@ class PROCESS
 	int StartTime; //added 
 	int Countsteps; //added
 	int CountN; //added
-	int* IO_R;
-	int* IO_D;
+	Pair*IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;
@@ -47,9 +47,10 @@ public:
 	void incrementcountN();     //added
 	int get_N();                //added
 	bool get_IsOrphan();
-	void set_IO_R(int val, int index);
-	void set_IO_D(int val, int index);
-	int get_IO_R(int index);    //added
+	void set_IO(int IO_R, int IO_D);
+	int get_IO_D();
+	int get_IO_R(); 
+	void printIO_D();
 	bool get_IsKilled();
 	bool get_IsParent();
 	void set_state(string x);

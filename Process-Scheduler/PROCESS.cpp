@@ -11,8 +11,9 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	StartTime = -1; //added
 	if (!N)
 	{
-		IO_R = new int[N];
-		IO_D = new int[N];
+		IO = new Pair[N]; // array of pairs 
+						  //IO.first->IO-R
+						  //IO.second->IO-D
 	}
 	IsKilled = false;
 	IsOrphan = false;
@@ -145,22 +146,24 @@ enum PROCESS::STATES
 	 return IsOrphan;
  }
 
- void PROCESS::set_IO_R(int val, int index)
+ void PROCESS::set_IO(int IO_R, int IO_D)
  {
-	 IO_R[index] = val;
+	 IO->first= IO_R;
+	 IO->second = IO_D;
  }
 
- void PROCESS::set_IO_D(int val, int index)
+ int PROCESS::get_IO_R()
  {
-	 IO_D[index] = val;
+	 return IO->getfirst();
  }
 
- int PROCESS::get_IO_R(int index)
+ int PROCESS::get_IO_D()
  {
-	 return IO_R[index];
+	 return IO->second;
  }
-
-
+ void PROCESS::printIO_D() {
+	 IO->printsecond();
+ }
 
  bool PROCESS::get_IsKilled()
  {

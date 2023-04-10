@@ -132,6 +132,7 @@
     <ClInclude Include="LinkedPriorityQueue.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Pair.h" />
     <ClInclude Include="PROCESS.h" />
     <ClInclude Include="PROCESSOR.h" />
     <ClInclude Include="QueueADT.h" />
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FCFS.cpp" />
+    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="PROCESS.cpp" />
     <ClCompile Include="PROCESSOR.cpp" />
     <ClCompile Include="RR.cpp" />
