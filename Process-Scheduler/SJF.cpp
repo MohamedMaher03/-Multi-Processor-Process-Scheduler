@@ -8,6 +8,7 @@ SJF::SJF() : PROCESSOR("SJF")
 
 void SJF::ScheduleAlgo()
 {
+	/*
 	while (!RDY.isEmpty()) {
 		if (!STATE)  //if the processor is IDLE 
 		{
@@ -44,11 +45,23 @@ void SJF::ScheduleAlgo()
 				RUN->incrementCountsteps(1);
 			}
 	}
+	*/
 }
 
 void SJF::addToMyRdy(PROCESS* process)
 {
 	RDY.enqueue(process);
+}
+
+void SJF::PromoteProcess()
+{
+	if (!STATE)// the processor is IDLE
+	{
+		PROCESS* toberun;
+		if (RDY.dequeue(toberun))
+			RUN = toberun;
+
+	}
 }
 
 void  SJF::PrintMyReady() {

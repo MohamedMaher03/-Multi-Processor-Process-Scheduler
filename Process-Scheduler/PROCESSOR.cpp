@@ -29,16 +29,7 @@ bool PROCESSOR::getState()
 {
 	return STATE;
 }
-void PROCESSOR::PromoteProcess()
-{
-	if (!STATE)// the processor is IDLE
-	{
-		PROCESS* toberun;
-		if (RDY.dequeue(toberun))
-			RUN = toberun;
-		
-	}
-}
+
 PROCESSOR::PROCESSOR(string type)
 {
 	RUN = NULL; //Initially no processes are running. 
