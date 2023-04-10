@@ -5,7 +5,7 @@ class PROCESSOR
 {
 protected:
 	LinkedQueue<PROCESS*> RDY;
-	PROCESS* RUN;
+	PROCESS* RUN; 
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY

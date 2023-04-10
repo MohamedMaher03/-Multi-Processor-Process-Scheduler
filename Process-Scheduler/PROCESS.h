@@ -20,6 +20,7 @@ class PROCESS
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;
+	PROCESS* child;
 	enum STATES;
 	STATES state;
 public:

@@ -16,6 +16,7 @@ public:
 	LinkedList()
 	{
 		Head = nullptr;
+
 	}
 
 	//List is being desturcted ==> delete all items in the list
@@ -40,6 +41,20 @@ public:
 			p = p->getNext();
 		}
 		cout << "NULL\n";
+	}
+
+	///////////////////////////////////////////////////////////////////////
+	/*
+	*function: IsEmpty.
+	* that checks if the list is empty or not.
+	*/
+	bool IsEmpty() {
+		if (Head == nullptr) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	////////////////////////////////////////////////////////////////////////
 	/*
@@ -72,6 +87,11 @@ public:
 		}
 	}
 
+	/////function that returns the head
+	Node* get_Head() 
+	{
+		return Head;
+	}
 
 
 	//inserts a new node at end if the list
