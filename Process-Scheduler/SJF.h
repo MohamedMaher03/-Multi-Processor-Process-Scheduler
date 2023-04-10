@@ -5,7 +5,7 @@
 class SJF : public PROCESSOR
 {
 private:
-	Scheduler*schedulerptr;
+	Scheduler* schedulerptr;
 public:
 	SJF();
 	void ScheduleAlgo();

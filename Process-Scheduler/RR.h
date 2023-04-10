@@ -6,8 +6,6 @@
 class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;
-
-
 	Scheduler* sch_ptr;
 
 public:
