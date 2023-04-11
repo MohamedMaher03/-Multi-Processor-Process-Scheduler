@@ -1,4 +1,6 @@
-#pragma once
+#include <iostream>
+#include "Scheduler.h"
+using namespace std;
 
 
 int main()
@@ -28,5 +30,7 @@ int main()
 	}
 	return 0;
 	*/
+	Scheduler* Maestro = new Scheduler();
+	Maestro->SIMULATE();
 	return 0;
 }
