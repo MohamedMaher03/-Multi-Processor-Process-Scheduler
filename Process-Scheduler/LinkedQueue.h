@@ -171,6 +171,21 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 
 }
 
+template<typename T>
+inline void LinkedQueue<T>::printContents()
+{
+	cout << "\nprinting list contents:\n\n";
+	Node<T>* temp = frontPtr;
+
+	while (temp)
+	{
+		cout << "[ " << temp->getItem() << " ]";
+		cout << "--->";
+		temp= temp->getNext();
+	}
+	cout << endl;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 /*
 Function: destructor

@@ -40,4 +40,11 @@ void FCFS::PrintMyReady()
 
 void FCFS::PromoteProcess()
 {
+    if (!STATE)
+    {
+        PROCESS* TOBERUN;
+   
+        if (!RDY.IsEmpty())
+            RUN = TOBERUN;
+    }
 }
