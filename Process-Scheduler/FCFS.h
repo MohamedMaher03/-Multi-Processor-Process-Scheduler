@@ -8,7 +8,6 @@ class FCFS :public PROCESSOR
 private:
 	LinkedList <PROCESS*> RDY;
 	PROCESS* RUN;
-	Scheduler* SCH_ptr;
 
 public: 
 	FCFS(); //FCFS class has default constructor

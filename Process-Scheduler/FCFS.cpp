@@ -1,8 +1,10 @@
 #include "FCFS.h"
+using namespace std;
 
-FCFS::FCFS(): PROCESSOR("FCFS")
+FCFS::FCFS()
 {  
 	RUN = NULL;
+    TYPE = "FCFS";
 }
 
 void FCFS::ScheduleAlgo()

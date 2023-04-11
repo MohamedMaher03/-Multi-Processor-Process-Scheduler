@@ -1,4 +1,5 @@
 #include "PROCESS.h"
+using namespace std;
 PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	int Number)
 {

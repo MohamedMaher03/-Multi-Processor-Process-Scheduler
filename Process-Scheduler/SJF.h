@@ -1,11 +1,12 @@
 #pragma once
 #include "PROCESSOR.h"
 #include "LinkedPriorityQueue.h"
+#include "Scheduler.h"
 #include "PROCESS.h"
 class SJF : public PROCESSOR
 {
 private:
-	Scheduler* schedulerptr;
+	LinkedPriorityQueue<PROCESS*>RDY;
 public:
 	SJF();
 	void ScheduleAlgo();

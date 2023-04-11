@@ -2,40 +2,52 @@
 #include"PROCESS.h"
 
 
-RR::RR() :PROCESSOR("RR")
+RR::RR()
 {
-
+	TYPE = "RR";
 }
 
 void RR::ScheduleAlgo()
 {
 
-	PROCESS* front;
+	//PROCESS* front;
 
-	while (!(RDY.isEmpty()))
-	{
-		if (!STATE)//the processor is IDLE
-		{
+	//while (!(RDY.isEmpty()))
+	//{
+	//	if (!STATE)//the processor is IDLE
+	//	{
 
-			RUN = front;
-			RUN->set_starttime(sch_ptr->get_TIMESTEP());
-			if ((RUN->get_CT() - RUN->get_countsteps()) > sch_ptr->getRTF())
-			{
-				while ((sch_ptr->get_TIMESTEP() - RUN->get_starttime()))
-					RUN->incrementCountsteps(sch_ptr->getTimeSlice());
+	//		RUN = front;
+	//		RUN->set_starttime(sch_ptr->get_TIMESTEP());
+	//		if ((RUN->get_CT() - RUN->get_countsteps()) > sch_ptr->getRTF())
+	//		{
+	//			while ((sch_ptr->get_TIMESTEP() - RUN->get_starttime()))
+	//				RUN->incrementCountsteps(sch_ptr->getTimeSlice());
 
-				if (RDY.enqueue(RUN))
-					RUN = NULL;
-			}
-			else
-			{
-				//send to scheduler to migrate it to FCFS
+	//			if (RDY.enqueue(RUN))
+	//				RUN = NULL;
+	//		}
+	//		else
+	//		{
+	//			//send to scheduler to migrate it to FCFS
 
-			}
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 
 
+}
+
+void RR::PrintMyReady()
+{
+}
+
+void RR::addToMyRdy(PROCESS*)
+{
+}
+
+void RR::PromoteProcess()
+{
 }

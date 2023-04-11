@@ -1,7 +1,8 @@
 #pragma once
-#include"LinkedQueue.h"
 #include "PROCESS.h"
+#include "Scheduler.h"
 #include <iostream>
+#include "LinkedQueue.h"
 class PROCESSOR
 {
 protected:
@@ -11,8 +12,9 @@ protected:
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
 	int ProcessorLoad;
 	int ProcessorUtilization;
+	Scheduler* SchedPtr;
 public:
-	PROCESSOR(string type);
+	PROCESSOR();
 	~PROCESSOR();
 	virtual void ScheduleAlgo() = 0;//function moving process from RDY to RUN differ for each processor type
 	virtual void PrintMyReady() = 0;

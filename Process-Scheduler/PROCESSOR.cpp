@@ -1,6 +1,6 @@
 #include "PROCESSOR.h"
 
-
+using namespace std;
 
 int PROCESSOR::getRSIZE()
 {
@@ -21,9 +21,8 @@ bool PROCESSOR::getState()
 	return STATE;
 }
 
-PROCESSOR::PROCESSOR(string type)
+PROCESSOR::PROCESSOR()
 {
 	RUN = NULL; //Initially no processes are running. 
 	STATE = 0;
-	TYPE = type; // assign processor type to given type
 }

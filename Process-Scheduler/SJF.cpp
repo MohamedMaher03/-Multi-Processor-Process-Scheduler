@@ -1,9 +1,9 @@
 #include "SJF.h"
 #include "Scheduler.h"
-
-SJF::SJF():PROCESSOR("SJF")
+SJF::SJF()
 {
 	RUN = nullptr;
+	TYPE = "SJF";
 }
 
 void SJF::ScheduleAlgo()
