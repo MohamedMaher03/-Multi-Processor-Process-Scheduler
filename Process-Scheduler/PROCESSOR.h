@@ -1,8 +1,7 @@
 #pragma once
 #include "PROCESS.h"
 
-class Scheduler; //FORWARD DECLARARTION!!!!!! YAAA BASHNMOHNDESA 3LSHAN T3BNAAAAA
-
+class Scheduler; //FORWARD DECLARARTION!!!!!! 
 
 class PROCESSOR
 {
@@ -11,9 +10,9 @@ protected:
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
-	int ProcessorLoad;
-	int ProcessorUtilization;
-	Scheduler* SchedPtr;
+	int ProcessorLoad; //Statistic for phase 2
+	int ProcessorUtilization;  //Statistic for phase 2
+	Scheduler* SchedPtr; //Pointer to Scheduler
 public:
 	PROCESSOR();
 	~PROCESSOR();
@@ -24,7 +23,7 @@ public:
 	string getType(); //get type of processor
 	PROCESS* getCurrentlyRunning(); //returns address of currently running process for each processor, null otherwise
 	bool getState();
-	virtual void PromoteProcess() = 0; //Makes the process AS running, and removes it from RDY queue
+	virtual bool PromoteProcess() = 0; //Makes the process AS running, and removes it from RDY queue
 
 };
 

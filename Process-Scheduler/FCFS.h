@@ -13,6 +13,6 @@ public:
 	void ScheduleAlgo();
 	void addToMyRdy(PROCESS *P);
 	void PrintMyReady();
-	void PromoteProcess();
+	bool PromoteProcess();
 };
 

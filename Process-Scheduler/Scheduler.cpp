@@ -1,6 +1,7 @@
 #include "Scheduler.h"
 #include <fstream>
 #include <sstream>
+#include<cstdlib>
 using namespace std;
 
 void Scheduler::LoadData()
@@ -105,12 +106,18 @@ int Scheduler::getRTF()
 }
 Scheduler::Scheduler()
 {
-	Running = new int[totalProcessors];
+	Running = new PROCESS*[totalProcessors];
+	BLK_Count = 0;
+	FCFS_Count = 0;
+	SJF_Count = 0;
+	RR_Count = 0;
+	ProcessesCount = 0;
+	RunningCount = 0;
 }
 
 void Scheduler::UpdateRunningProcesses()
 {
-	int count = 0;
+	/*int count = 0;
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i]->getCurrentlyRunning())
@@ -118,71 +125,91 @@ void Scheduler::UpdateRunningProcesses()
 			Running[count++] = ListOfProcessors[i]->getCurrentlyRunning()->get_PID();
 		}
 	}
-	RUN_Count = count;
+	RUN_Count = count;*/
 }
 
 void Scheduler::SIMULATE()
 {
 	int count = 0; //count to randomize process in the processors
-	int new_curindx = 0;
 	LoadData(); //Step 1 Load Data from Input File
 	while (!AllDone()) 
 	{
-		CheckNewArrivals(count, new_curindx); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
-		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running
+		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
+		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
+		AllocatingProcesses();
 		Print('B'); // Print in Step-By-Step Mode
 		TIMESTEP++;
 	}
 }
 
-void Scheduler::CheckNewArrivals(int&count,int& new_curindx)
+void Scheduler::CheckNewArrivals(int&count)
 {
-	/*
+	
 	int count = 0;
-	for (int i = 0; i < ProcessesCount; i++)
+	PROCESS* tmp;
+	NEW.peek(tmp);
+	while(tmp->get_AT() == TIMESTEP)
 	{
-		PROCESS* tmp;
+		ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
+		count = (count + 1) % totalProcessors;
+		NEW.dequeue(tmp);
 		NEW.peek(tmp);
-		if (tmp->get_AT() == TIMESTEP)
-		{
-			ListOfProcessors[count++]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
-			NEW.dequeue(tmp);
-		}
-	}
-	*/
-	for (int i = new_curindx;i < ProcessesCount;i++) {
-		PROCESS* tmp;
-		NEW.peek(tmp);
-		if (tmp->get_AT() == TIMESTEP) {
-			ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
-			count = (count + 1) % totalProcessors;
-			new_curindx++;
-			NEW.dequeue(tmp);
-		}
-		else {
-			break;
-		}
 	}
 }
 
-bool Scheduler::PromoteRdyToRun()
+void Scheduler::PromoteRdyToRun()
 {
 	PROCESS* tmp;
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		if (!ListOfProcessors[i]->getState()) //If getState == false, means the processor is idle
+		ListOfProcessors[i]->PromoteProcess();
+	}
+}
+
+int Scheduler::Randomize()
+{
+	// Providing a seed value
+	srand((unsigned)time(NULL));
+
+	// Get a random number
+	int random = (rand() % 100) + 1;
+
+	// Print the random number
+	return random;
+}
+
+void Scheduler::AllocatingProcesses()
+{
+	for (int i = 0; i < RunningCount; i++)
+	{
+		int random = Randomize();
+		if (random >= 1 && random <= 15)
 		{
-			ListOfProcessors[i]->PromoteProcess();
-			return true;
+			//MOVE Running[i] to BLK
+		}
+		else if (random >= 20 && random <= 30)
+		{
+			//MOVE Running[i] to RDY list
+		}
+		else if (random >= 50 && random <= 60)
+		{
+			//MOVE Running[i] to TRM list
+		}
+		else if (random <= 10)
+		{
+			//Move BLK[i] to RDY
 		}
 	}
-	
-	return false;
 }
 
 bool Scheduler::AllDone()
 {
-	return TRM_Count == ProcessesCount;
+	return TRM_Count == LiveTotalProcesses;
+}
+
+void Scheduler::AddToRunning(PROCESS* tmp)
+{
+	Running[RunningCount++] = tmp;
 }
 
 Scheduler::~Scheduler()

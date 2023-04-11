@@ -1,7 +1,4 @@
 #include "PROCESSOR.h"
-#include <iostream>
-
-using namespace std;
 
 int PROCESSOR::getRSIZE()
 {
@@ -26,4 +23,7 @@ PROCESSOR::PROCESSOR()
 {
 	RUN = NULL; //Initially no processes are running. 
 	STATE = 0;
+	ProcessorLoad = 0;
+	ProcessorUtilization = 0;
+	RSIZE = 0;
 }

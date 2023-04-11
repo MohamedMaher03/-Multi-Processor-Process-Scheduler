@@ -53,15 +53,20 @@ void SJF::addToMyRdy(PROCESS* process)
 	RDY.enqueue(process);
 }
 
-void SJF::PromoteProcess()
+bool SJF::PromoteProcess()
 {
 	if (!STATE)// the processor is IDLE
 	{
 		PROCESS* toberun;
 		if (RDY.dequeue(toberun))
+		{
 			RUN = toberun;
+			SchedPtr->AddToRunning(toberun); //Add process to queue of running processes in scheduler
+			return true;
+		}
 
 	}
+	return false;
 }
 
 void  SJF::PrintMyReady() {

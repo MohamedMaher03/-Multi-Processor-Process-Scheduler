@@ -3,7 +3,7 @@ using namespace std;
 
 FCFS::FCFS()
 {  
-	RUN = NULL;
+	RUN = nullptr;
     TYPE = "FCFS";
 }
 
@@ -40,17 +40,17 @@ void FCFS::PrintMyReady()
     RDY.PrintList();
 }
 
-void FCFS::PromoteProcess()
+bool FCFS::PromoteProcess()
 {
-    if (!STATE)
+    if (!STATE && !RDY.IsEmpty())
     {
          
         PROCESS* TEMP;
-        if (!RDY.IsEmpty())
-        {
-            TEMP = RDY.get_Head()->getItem();
-            RUN = TEMP;
-            STATE = 1;
-        }
+        TEMP = RDY.get_Head()->getItem();
+        RUN = TEMP;
+        STATE = 1;
+        SchedPtr->AddToRunning(TEMP); //Add process to queue of running processes in scheduler
+        return true;
     }
+    return false;
 }

@@ -5,6 +5,7 @@ using namespace std;
 RR::RR()
 {
 	TYPE = "RR";
+	RUN = nullptr;
 }
 
 void RR::ScheduleAlgo()
@@ -42,12 +43,25 @@ void RR::ScheduleAlgo()
 
 void RR::PrintMyReady()
 {
+	RDY.printContents();
 }
 
-void RR::addToMyRdy(PROCESS*)
+void RR::addToMyRdy(PROCESS* TMP)
 {
+	RDY.enqueue(TMP);
 }
 
-void RR::PromoteProcess()
+bool RR::PromoteProcess()
 {
+	if (!STATE)// the processor is IDLE
+	{
+		PROCESS* toberun;
+		if (RDY.dequeue(toberun))
+		{
+			RUN = toberun;
+			SchedPtr->AddToRunning(toberun); //Add process to queue of running processes in scheduler
+			return true;
+		}
+	}
+	return false;
 }
