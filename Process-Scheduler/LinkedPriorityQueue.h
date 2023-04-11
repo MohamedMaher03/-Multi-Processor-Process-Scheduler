@@ -18,6 +18,7 @@ public:
 	void insert_end(const T& newEntry);
 	void insert_front(const T& newEntry);
 	int get_length();
+	void printContents();
 	~LinkedPriorityQueue();
 
 	//copy constructor
@@ -52,6 +53,23 @@ template<typename T>
 inline int LinkedPriorityQueue<T>::get_length()
 {
 	return length;
+}
+template<>
+void LinkedPriorityQueue<PROCESS*>::printContents()
+{
+
+	Node<PROCESS*>* curr = frontPtr;
+
+	while (curr)
+	{
+		if (!curr->getNext())
+		{
+			cout << curr->getItem()->get_PID();
+			return;
+		}
+		cout << curr->getItem()->get_PID() << ",  ";
+		curr = curr->getNext();
+	}
 }
 template <typename T>
 LinkedPriorityQueue<T>::LinkedPriorityQueue()
