@@ -1,8 +1,7 @@
 #pragma once
 #include "PROCESSOR.h"
 #include "LinkedList.h"
-#include "PROCESS.h"
-#include "Scheduler.h"
+
 class FCFS :public PROCESSOR
 {
 private:

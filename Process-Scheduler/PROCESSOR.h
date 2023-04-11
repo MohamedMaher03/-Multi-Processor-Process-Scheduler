@@ -1,8 +1,9 @@
 #pragma once
 #include "PROCESS.h"
-#include "Scheduler.h"
-#include <iostream>
-#include "LinkedQueue.h"
+
+class Scheduler; //FORWARD DECLARARTION!!!!!! YAAA BASHNMOHNDESA 3LSHAN T3BNAAAAA
+
+
 class PROCESSOR
 {
 protected:
@@ -26,4 +27,5 @@ public:
 	virtual void PromoteProcess() = 0; //Makes the process AS running, and removes it from RDY queue
 
 };
+
 

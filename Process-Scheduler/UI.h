@@ -3,6 +3,7 @@
 #include "PROCESSOR.h"
 #include "LinkedQueue.h"
 #include <string>
+class PROCESSOR;
 class UI
 {
 	enum MODE;

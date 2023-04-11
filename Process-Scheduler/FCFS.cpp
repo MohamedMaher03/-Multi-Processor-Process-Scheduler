@@ -48,7 +48,7 @@ void FCFS::PromoteProcess()
         PROCESS* TEMP;
         if (!RDY.IsEmpty())
         {
-            TEMP = RDY.get_Head();
+            TEMP = RDY.get_Head()->getItem();
             RUN = TEMP;
             STATE = 1;
         }

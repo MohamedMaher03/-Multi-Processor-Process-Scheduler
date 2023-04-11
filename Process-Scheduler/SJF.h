@@ -1,8 +1,7 @@
 #pragma once
 #include "PROCESSOR.h"
 #include "LinkedPriorityQueue.h"
-#include "Scheduler.h"
-#include "PROCESS.h"
+class PROCESSOR;
 class SJF : public PROCESSOR
 {
 private:

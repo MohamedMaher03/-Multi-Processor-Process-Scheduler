@@ -1,5 +1,5 @@
 #include "SJF.h"
-#include "Scheduler.h"
+using namespace std;
 SJF::SJF()
 {
 	RUN = nullptr;

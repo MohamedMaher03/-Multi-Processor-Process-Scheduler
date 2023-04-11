@@ -1,8 +1,7 @@
 #include "PROCESSOR.h"
-#include"PROCESS.h"
 #include"LinkedQueue.h"
-#include"Scheduler.h"
 
+class PROCESSOR;
 class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;

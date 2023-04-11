@@ -1,5 +1,5 @@
  #include "RR.h"
-#include"PROCESS.h"
+using namespace std;
 
 
 RR::RR()

@@ -77,12 +77,9 @@ public:
 			Head = P;
 		}
 	}
-
+	Node<PROCESS*>* get_Head();
 	/////function that returns the head
-	Node* get_Head() 
-	{
-		return Head;
-	}
+	
 
 
 	//inserts a new node at end if the list
@@ -240,4 +237,9 @@ void LinkedList<PROCESS*>::PrintList()
 		p = p->getNext();
 	}
 	
-	}
+}
+template<>
+Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
+{
+	return Head;
+}
