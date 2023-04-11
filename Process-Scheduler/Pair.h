@@ -6,7 +6,7 @@ private:
     int first;
     int second;
 public:
-    Pair() {};
+    Pair() { first = -1; second = -1; };
 
     Pair(int first, int second) {
         setfirst(first);
