@@ -77,8 +77,8 @@ void Scheduler::Print(char z)
 		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
 	else if (z == 'B')
 		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
-	else if (z == 'S')
-		UIptr->printSilent();
+	//else if (z == 'S')
+		//UIptr->printSilent();
 }
 
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)

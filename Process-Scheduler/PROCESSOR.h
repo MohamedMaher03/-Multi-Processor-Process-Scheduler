@@ -15,7 +15,6 @@ protected:
 	Scheduler* SchedPtr; //Pointer to Scheduler
 public:
 	PROCESSOR();
-	~PROCESSOR();
 	virtual void ScheduleAlgo() = 0;//function moving process from RDY to RUN differ for each processor type
 	virtual void PrintMyReady() = 0;
 	virtual void addToMyRdy(PROCESS*) = 0;

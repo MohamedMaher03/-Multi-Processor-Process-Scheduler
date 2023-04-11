@@ -31,7 +31,7 @@ public:
 	* Function: PrintList.
 	* prints the values of all nodes in a linked list.
 	*/
-	void PrintList();
+	 void PrintList();
 	
 
 	///////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ public:
 
 };
 template<>
-void LinkedList<PROCESS*>::PrintList()
+inline void LinkedList<PROCESS*>::PrintList()
 {
 	Node<PROCESS*>* p = Head;
 
@@ -239,7 +239,7 @@ void LinkedList<PROCESS*>::PrintList()
 	
 }
 template<>
-Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
+inline Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
 {
 	return Head;
 }

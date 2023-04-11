@@ -60,7 +60,7 @@ public:
 	bool enqueue(const T& newEntry);
 	bool dequeue(T& frntEntry);
 	bool peek(T& frntEntry)  const;
-	void printContents();
+    void printContents();
 	int getlength();
 	~LinkedQueue();
 
@@ -172,7 +172,7 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 }
 
 template<>
-void LinkedQueue<PROCESS*>::printContents()
+inline void LinkedQueue<PROCESS*>::printContents()
 {
 
 	Node<PROCESS*>* curr = frontPtr;

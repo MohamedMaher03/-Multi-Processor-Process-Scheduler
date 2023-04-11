@@ -10,7 +10,7 @@ class UI
 public:
 	void printInteractive(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int);
 	void printStepByStep(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int);
-	void printSilent();
+	//void printSilent();
 	void PrintProcessorReadies(PROCESSOR*); //Prints either RDY queue of processors
 	void PrintQueue(LinkedQueue<PROCESS*> Q);
 	void PrintRunning(PROCESS**, int); //Prints Running processes
