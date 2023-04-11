@@ -16,7 +16,7 @@ class PROCESS
 	int StartTime; //added 
 	int Countsteps; //added
 	int CountN; //added
-	Pair*IO;      //IO.first->IO-R   ,  IO.second->IO-D
+	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;
@@ -48,10 +48,7 @@ public:
 	void incrementcountN();     //added
 	int get_N();                //added
 	bool get_IsOrphan();
-	void set_IO(int IO_R, int IO_D);
-	int get_IO_D();
-	int get_IO_R(); 
-	void printIO_D();
+	void set_IO(int IO_R, int IO_D, int ind);
 	bool get_IsKilled();
 	bool get_IsParent();
 	void set_state(string x);

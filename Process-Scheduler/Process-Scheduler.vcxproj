@@ -143,7 +143,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FCFS.cpp" />
-    <ClCompile Include="Pair.cpp" />
     <ClCompile Include="PROCESS.cpp" />
     <ClCompile Include="PROCESSOR.cpp" />
     <ClCompile Include="RR.cpp" />

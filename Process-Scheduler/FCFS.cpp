@@ -1,6 +1,6 @@
 #include "FCFS.h"
 
-FCFS::FCFS(string T): PROCESSOR(T)
+FCFS::FCFS(): PROCESSOR("FCFS")
 {  
 	RUN = NULL;
 }

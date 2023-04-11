@@ -11,7 +11,7 @@ private:
 	Scheduler* SCH_ptr;
 
 public: 
-	FCFS(string T);
+	FCFS(); //FCFS class has default constructor
 	void ScheduleAlgo();
 	void addToMyRdy(PROCESS *P);
 	void PrintMyReady();

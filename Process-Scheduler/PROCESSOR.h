@@ -1,10 +1,10 @@
 #pragma once
 #include"LinkedQueue.h"
 #include "PROCESS.h"
+#include <iostream>
 class PROCESSOR
 {
 protected:
-	LinkedQueue<PROCESS*> RDY;
 	PROCESS* RUN; 
 	string TYPE;
 	int RSIZE;
