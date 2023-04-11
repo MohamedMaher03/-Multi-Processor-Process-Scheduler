@@ -150,8 +150,7 @@ enum PROCESS::STATES
 
  void PROCESS::set_IO(int IO_R, int IO_D, int ind)
  {
-	 IO[ind].setfirst(IO_R);
-	 IO[ind].setsecond(IO_D);
+	 IO[ind] = Pair(IO_R, IO_D);
  }
  bool PROCESS::get_IsKilled()
  {

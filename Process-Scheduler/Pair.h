@@ -8,15 +8,15 @@ private:
 public:
     Pair() { first = -1; second = -1; };
 
-    Pair(int first, int second) {
-        setfirst(first);
-        setsecond(second);
+    Pair(int f, int s) {
+        setfirst(f);
+        setsecond(s);
     }
-    void setfirst(int first) {
-        this->first = first;
+    void setfirst(int f) {
+        first = f;
     }
-    void setsecond(int second) {
-        this->second = second;
+    void setsecond(int sec) {
+        second = sec;
     }
     int getfirst() {
         return first;
