@@ -54,7 +54,7 @@ inline int LinkedPriorityQueue<T>::get_length()
 	return length;
 }
 template<>
-void LinkedPriorityQueue<PROCESS*>::printContents()
+inline void LinkedPriorityQueue<PROCESS*>::printContents()
 {
 
 	Node<PROCESS*>* curr = frontPtr;

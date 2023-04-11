@@ -172,7 +172,7 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 }
 
 template<>
-void LinkedQueue<PROCESS*>::printContents()
+inline void LinkedQueue<PROCESS*>::printContents()
 {
 
 	Node<PROCESS*>* curr = frontPtr;
