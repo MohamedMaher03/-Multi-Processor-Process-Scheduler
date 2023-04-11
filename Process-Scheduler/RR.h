@@ -1,5 +1,7 @@
+#pragma once
 #include "PROCESSOR.h"
 #include"LinkedQueue.h"
+class Scheduler;
 
 class PROCESSOR;
 
