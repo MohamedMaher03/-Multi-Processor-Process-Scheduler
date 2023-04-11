@@ -117,17 +117,11 @@ Scheduler::Scheduler()
 
 void Scheduler::UpdateRunningProcesses()
 {
-	/*int count = 0;
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		if (ListOfProcessors[i]->getCurrentlyRunning())
-		{
-			Running[count++] = ListOfProcessors[i]->getCurrentlyRunning()->get_PID();
-		}
+		ListOfProcessors[i]->ResetRunningProcess();
 	}
-	RUN_Count = count;*/
 }
-
 void Scheduler::SIMULATE()
 {
 	int count = 0; //count to randomize process in the processors
@@ -136,7 +130,8 @@ void Scheduler::SIMULATE()
 	{
 		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
-		AllocatingProcesses();
+		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
+		UpdateRunningProcesses(); //Updates current processors' states
 		Print('B'); // Print in Step-By-Step Mode
 		TIMESTEP++;
 	}
@@ -144,8 +139,6 @@ void Scheduler::SIMULATE()
 
 void Scheduler::CheckNewArrivals(int&count)
 {
-	
-	int count = 0;
 	PROCESS* tmp;
 	NEW.peek(tmp);
 	while(tmp->get_AT() == TIMESTEP)
@@ -180,24 +173,40 @@ int Scheduler::Randomize()
 
 void Scheduler::AllocatingProcesses()
 {
+	int count = 0; //Counter that iterates over processors to add to their readies evenly
 	for (int i = 0; i < RunningCount; i++)
 	{
 		int random = Randomize();
 		if (random >= 1 && random <= 15)
 		{
-			//MOVE Running[i] to BLK
+			//MOVE Running[i] to BLK list
+			BLK.enqueue(Running[i]);
+			Running[i] = nullptr;
+			RunningCount--;
 		}
 		else if (random >= 20 && random <= 30)
 		{
-			//MOVE Running[i] to RDY list
+			//MOVE Running[i] to RDY list of any processor
+			ListOfProcessors[count]->addToMyRdy(Running[i]);
+			count = (count + 1) % totalProcessors;
+			Running[i] = nullptr;
+			RunningCount--;
 		}
 		else if (random >= 50 && random <= 60)
 		{
 			//MOVE Running[i] to TRM list
+			TRM.enqueue(Running[i]);
+			Running[i] = nullptr;
+			RunningCount--;
 		}
-		else if (random <= 10)
+		else if (random <= 10 && !BLK.isEmpty())
 		{
 			//Move BLK[i] to RDY
+			
+			PROCESS* tmp;
+			BLK.dequeue(tmp);
+			ListOfProcessors[count]->addToMyRdy(tmp);
+			count = (count + 1) % totalProcessors;
 		}
 	}
 }

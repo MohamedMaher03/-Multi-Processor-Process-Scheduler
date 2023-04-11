@@ -2,6 +2,7 @@
 #include"LinkedQueue.h"
 
 class PROCESSOR;
+
 class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;

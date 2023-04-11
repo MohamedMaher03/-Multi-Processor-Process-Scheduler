@@ -19,6 +19,12 @@ bool PROCESSOR::getState()
 	return STATE;
 }
 
+void PROCESSOR::ResetRunningProcess()
+{
+	RUN = nullptr;
+	STATE = 0;
+}
+
 PROCESSOR::PROCESSOR()
 {
 	RUN = NULL; //Initially no processes are running. 

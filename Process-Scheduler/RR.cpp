@@ -1,6 +1,4 @@
  #include "RR.h"
-using namespace std;
-
 
 RR::RR()
 {

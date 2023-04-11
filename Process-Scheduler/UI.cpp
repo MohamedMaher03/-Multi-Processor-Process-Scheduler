@@ -1,7 +1,7 @@
 #include "UI.h"
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS* RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -25,7 +25,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << TSize << " TRM: "; PrintQueue(TRM);
 	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
 }
-void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -76,11 +76,11 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	Q = Q2;
 }
 
-void UI::PrintRunning(int* Run, int Size)
+void UI::PrintRunning(PROCESS** Run, int Size)
 {
 	for (int i = 0; i < Size; i++)
 	{
-		cout << Run[i] << ", ";
+		cout << Run[i]->get_PID() << ", ";
 	}
 }
 

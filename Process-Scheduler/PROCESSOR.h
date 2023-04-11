@@ -24,7 +24,7 @@ public:
 	PROCESS* getCurrentlyRunning(); //returns address of currently running process for each processor, null otherwise
 	bool getState();
 	virtual bool PromoteProcess() = 0; //Makes the process AS running, and removes it from RDY queue
+    void ResetRunningProcess(); // Gets rid of currently running process and resets processor state to idle
 
 };
-
 
