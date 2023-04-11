@@ -6,7 +6,7 @@ private:
     int first;
     int second;
 public:
-    Pair() {}
+    Pair() {};
 
     Pair(int first, int second) {
         setfirst(first);
@@ -15,7 +15,7 @@ public:
     void setfirst(int first) {
         this->first = first;
     }
-    int setsecond(int second) {
+    void setsecond(int second) {
         this->second = second;
     }
     int getfirst() {

@@ -19,7 +19,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	IsKilled = false;
 	IsOrphan = false;
 	child = nullptr; 
-	state = _NEW;
+	set_state("NEW");
 
 }
 PROCESS::~PROCESS()

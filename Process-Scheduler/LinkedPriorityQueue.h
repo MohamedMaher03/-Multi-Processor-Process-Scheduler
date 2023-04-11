@@ -1,5 +1,4 @@
-#ifndef LINKED_PRIORITY_QUEUE_
-#define LINKED_PRIORITY_QUEUE_
+#pragma once
 #include"Node.h"
 #include "QueueADT.h"
 template <typename T>
@@ -24,7 +23,7 @@ public:
 	//copy constructor
 	LinkedPriorityQueue(const LinkedPriorityQueue<T>& LQ);
 };
-#endif
+
 template <typename T>
 void LinkedPriorityQueue<T>::insert_end(const T& newEntry) {
 	Node<T>* item = new Node<T>(newEntry);
