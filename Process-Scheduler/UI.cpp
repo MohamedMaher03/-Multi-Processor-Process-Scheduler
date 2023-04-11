@@ -49,6 +49,9 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	cout << TSize << " TRM: "; PrintQueue(TRM);
 	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
 }
+void UI::printSilent()
+{
+}
 enum UI::MODE
 {
 	INTERACTIVE,
