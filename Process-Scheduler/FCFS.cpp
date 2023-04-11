@@ -42,9 +42,13 @@ void FCFS::PromoteProcess()
 {
     if (!STATE)
     {
-        PROCESS* TOBERUN;
-   
+         
+        PROCESS* TEMP;
         if (!RDY.IsEmpty())
-            RUN = TOBERUN;
+        {
+            TEMP = RDY.get_Head();
+            RUN = TEMP;
+            STATE = 1;
+        }
     }
 }
