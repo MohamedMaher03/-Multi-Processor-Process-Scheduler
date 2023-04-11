@@ -171,19 +171,22 @@ bool LinkedQueue<T>::peek(T& frntEntry) const
 
 }
 
-template<typename T>
-inline void LinkedQueue<T>::printContents()
+template<>
+void LinkedQueue<PROCESS*>::printContents()
 {
-	cout << "\nprinting list contents:\n\n";
-	Node<T>* temp = frontPtr;
 
-	while (temp)
+	Node<PROCESS*>* curr = frontPtr;
+
+	while (curr)
 	{
-		cout << "[ " << temp->getItem() << " ]";
-		cout << "--->";
-		temp= temp->getNext();
+		if (!curr->getNext())
+		{
+			cout << curr->getItem()->get_PID();
+			return;
+		}
+		cout << curr->getItem()->get_PID() << ",  ";
+		curr = curr->getNext();
 	}
-	cout << endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

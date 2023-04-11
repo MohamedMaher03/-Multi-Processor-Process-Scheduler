@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Node.h"
+#include"PROCESS.h"
+
 #include<iostream>
 using namespace std;
 
@@ -29,19 +31,8 @@ public:
 	* Function: PrintList.
 	* prints the values of all nodes in a linked list.
 	*/
-	void PrintList()	const
-	{
-		cout << "\nprinting list contents:\n\n";
-		Node<T>* p = Head;
-
-		while (p)
-		{
-			cout << "[ " << p->getItem() << " ]";
-			cout << "--->";
-			p = p->getNext();
-		}
-		cout << "NULL\n";
-	}
+	void PrintList();
+	
 
 	///////////////////////////////////////////////////////////////////////
 	/*
@@ -233,3 +224,20 @@ public:
 
 
 };
+template<>
+void LinkedList<PROCESS*>::PrintList()
+{
+	Node<PROCESS*>* p = Head;
+
+	if (!p->getNext())
+	{
+		cout << p->getItem()->get_PID();
+		return;
+	}
+	while (p)
+	{
+		cout << p->getItem()->get_PID() << ",  ";
+		p = p->getNext();
+	}
+	
+	}
