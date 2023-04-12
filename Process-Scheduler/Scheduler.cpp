@@ -35,16 +35,16 @@ void Scheduler::LoadData()
 			ss >> c1 >> x >> c2 >> y >> c3;
 			tmp->set_IO(x, y, j);
 		}
-		string ignore1, ignore2;
-		myFile >> ignore1 >> ignore2;
-		int a, b;
-		while (myFile >> a)
-		{
-			myFile >> b;
-			TimeOfDeath.enqueue(a);
-			ProcessesToBeKilled.enqueue(b);
-		}
 		
+	}
+	string ignore1, ignore2;
+	myFile >> ignore1 >> ignore2;
+	int a, b;
+	while (myFile >> a)
+	{
+		myFile >> b;
+		TimeOfDeath.enqueue(a);
+		ProcessesToBeKilled.enqueue(b);
 	}
 }
 void Scheduler::SaveData()
