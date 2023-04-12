@@ -135,7 +135,7 @@ void Scheduler::SIMULATE()
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
 		UpdateRunningProcesses(); //Updates current processors' states
-		Print('B'); // Print in Step-By-Step Mode
+		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
 }
@@ -190,10 +190,13 @@ void Scheduler::AllocatingProcesses()
 		else if (random >= 20 && random <= 30)
 		{
 			//MOVE Running[i] to RDY list of any processor
-			ListOfProcessors[count]->addToMyRdy(Running[i]);
-			count = (count + 1) % totalProcessors;
-			Running[i] = nullptr;
-			RunningCount--;
+			if (Running[i])
+			{
+				ListOfProcessors[count]->addToMyRdy(Running[i]);
+				count = (count + 1) % totalProcessors;
+				Running[i] = nullptr;
+				RunningCount--;
+			}
 		}
 		else if (random >= 50 && random <= 60)
 		{

@@ -23,7 +23,12 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << RSize << " RUN: "; PrintRunning(RUN, RSize);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM);
-	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
+	cout << "PRESS ENTER KEY TO MOVE TO NEXT STEP !" << endl;
+	while (1)
+	{
+		if (cin.get() == '\n')
+			break;
+	}
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
