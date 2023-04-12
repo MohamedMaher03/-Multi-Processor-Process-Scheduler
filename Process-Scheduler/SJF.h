@@ -6,6 +6,7 @@ class SJF : public PROCESSOR
 {
 private:
 	LinkedPriorityQueue<PROCESS*>RDY;
+	PROCESS* RUN;
 public:
 	SJF();
 	void ScheduleAlgo();
