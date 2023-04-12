@@ -6,17 +6,15 @@ private:
     int first;
     int second;
 public:
-    Pair() { first = -1; second = -1; };
-
-    Pair(int first, int second) {
+    Pair(int first=-1, int second=-1)  {
         setfirst(first);
         setsecond(second);
     }
-    void setfirst(int first) {
-        this->first = first;
+    void setfirst(int frst) {
+        first = frst;
     }
-    void setsecond(int second) {
-        this->second = second;
+    void setsecond(int scnd) {
+        second = scnd;
     }
     int getfirst() {
         return first;

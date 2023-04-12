@@ -16,11 +16,11 @@ class PROCESS
 	int StartTime; //added 
 	int Countsteps; //added
 	int CountN; //added
-	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;
 	PROCESS* child;
+	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	enum STATES;
 	STATES state;
 public:
