@@ -1,5 +1,4 @@
 #include "SJF.h"
-#include "Scheduler.h"
 
 SJF::SJF()
 {
@@ -56,15 +55,13 @@ void SJF::addToMyRdy(PROCESS* process)
 
 bool SJF::PromoteProcess()
 {
-	if (!STATE && !RDY.isEmpty())// the processor is IDLE
+	if (!STATE && !RDY.isEmpty())
 	{
-		PROCESS* toberun;
-		if (RDY.dequeue(toberun))
-		{
-			RUN = toberun;
-			return true;
-		}
-
+		PROCESS* TEMP;
+		RDY.dequeue(TEMP);
+		RUN = TEMP;
+		STATE = 1;
+		return true;
 	}
 	return false;
 }

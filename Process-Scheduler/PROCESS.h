@@ -53,8 +53,8 @@ public:
 	bool get_IsParent();
 	void set_state(string x);
 	string get_state();
-	bool operator >= (PROCESS another_process);
-	bool operator <= (PROCESS another_process);
+	bool operator >= (PROCESS &another_process);
+	bool operator <= (PROCESS &another_process);
 	~PROCESS();
 
 

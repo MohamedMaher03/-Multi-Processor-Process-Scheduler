@@ -1,11 +1,19 @@
 #include <iostream>
 #include "Scheduler.h"
-#include"Pair.h"
 using namespace std;
 
 
 int main()
 {
+	/*
+	PROCESS* f = new PROCESS(1, 2, 3, 4);
+	PROCESS* s = new PROCESS(1, 1, 3, 4);
+	LinkedPriorityQueue<PROCESS*>RDY;
+	RDY.enqueue(f);
+	RDY.enqueue(s);
+	RDY.printContents();
+	RDY.dequeue(f);
+	*/
 	/*
 	int n = 5;
 	Pair* io;
@@ -18,4 +26,5 @@ int main()
 	Scheduler* Maestro = new Scheduler();
 	Maestro->SIMULATE();
 	return 0;
+	
 }
