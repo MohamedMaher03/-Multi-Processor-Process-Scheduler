@@ -52,7 +52,7 @@ void RR::addToMyRdy(PROCESS* TMP)
 
 bool RR::PromoteProcess()
 {
-	if (!STATE)// the processor is IDLE
+	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
 		if (RDY.dequeue(toberun))
