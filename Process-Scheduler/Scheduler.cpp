@@ -18,7 +18,7 @@ void Scheduler::LoadData()
 	myFile >> TimeSlice;
 	myFile >> RTF >> MaxW >> STL >> Forkability;
 	myFile >> ProcessesCount;
-	
+	LiveTotalProcesses = ProcessesCount; //updated 
 	for (int i = 0; i < ProcessesCount; i++)
 	{
 		int AT, PID, CT, N;
@@ -213,8 +213,7 @@ void Scheduler::AllocatingProcesses()
 
 bool Scheduler::AllDone()
 {
-	if (TRM_Count == 0 && LiveTotalProcesses == 0)
-		return false;
+	
 	return TRM_Count == LiveTotalProcesses;
 }
 
