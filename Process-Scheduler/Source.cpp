@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-	
+	/*
 	int n = 5;
 	Pair* io;
 	io = new Pair[n];
@@ -14,7 +14,7 @@ int main()
 	io->setsecond(4);
 	cout << io[1].getfirst();
 	cout << io[0].getsecond();
-	
+	*/
 	Scheduler* Maestro = new Scheduler();
 	Maestro->SIMULATE();
 	return 0;

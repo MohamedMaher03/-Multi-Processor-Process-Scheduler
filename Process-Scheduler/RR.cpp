@@ -59,6 +59,7 @@ bool RR::PromoteProcess()
 		{
 			RUN = toberun;
 			SchedPtr->AddToRunning(toberun); //Add process to queue of running processes in scheduler
+			STATE = 1;
 			return true;
 		}
 	}

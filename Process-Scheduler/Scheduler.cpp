@@ -213,6 +213,8 @@ void Scheduler::AllocatingProcesses()
 
 bool Scheduler::AllDone()
 {
+	if (TRM_Count == 0 && LiveTotalProcesses == 0)
+		return false;
 	return TRM_Count == LiveTotalProcesses;
 }
 
