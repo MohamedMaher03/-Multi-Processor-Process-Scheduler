@@ -37,8 +37,8 @@ void Scheduler::LoadData()
 		}
 		
 	}
-	string ignore1, ignore2;
-	myFile >> ignore1 >> ignore2;
+	//string ignore1, ignore2;
+	//myFile >> ignore1 >> ignore2;
 	int a, b;
 	while (myFile >> a)
 	{
@@ -54,20 +54,21 @@ void Scheduler::SaveData()
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
+	ListOfProcessors = new PROCESSOR* [FC + SJ + R];
 	for (int i = 0; i < FC; i++)
 	{
 		FCFS tmp;
-		ListOfProcessors[counter] = &tmp;
+		ListOfProcessors[counter++] = &tmp;
 	}
 	for (int i = 0; i < SJ; i++)
 	{
 		SJF tmp;
-		ListOfProcessors[counter] = &tmp;
+		ListOfProcessors[counter++] = &tmp;
 	}
 	for (int i = 0; i < R; i++)
 	{
 		RR tmp;
-		ListOfProcessors[counter] = &tmp;
+		ListOfProcessors[counter++] = &tmp;
 	}
 }
 
@@ -126,10 +127,12 @@ void Scheduler::SIMULATE()
 {
 	int count = 0; //count to randomize process in the processors
 	LoadData(); //Step 1 Load Data from Input File
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
 	while (!AllDone()) 
 	{
 		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
+		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
 		UpdateRunningProcesses(); //Updates current processors' states
 		Print('B'); // Print in Step-By-Step Mode
@@ -217,9 +220,13 @@ bool Scheduler::AllDone()
 	return TRM_Count == LiveTotalProcesses;
 }
 
-void Scheduler::AddToRunning(PROCESS* tmp)
+void Scheduler::AddToRunning()
 {
-	Running[RunningCount++] = tmp;
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		Running[RunningCount++] = ListOfProcessors[i]->getCurrentlyRunning();
+	}
+	
 }
 
 Scheduler::~Scheduler()

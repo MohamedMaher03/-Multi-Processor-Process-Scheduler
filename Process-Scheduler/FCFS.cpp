@@ -50,7 +50,6 @@ bool FCFS::PromoteProcess()
 		TEMP = RDY.get_Head()->getItem();
 		RUN = TEMP;
 		STATE = 1;
-		SchedPtr->AddToRunning(TEMP); //Add process to queue of running processes in scheduler
 		return true;
 	}
 	return false;

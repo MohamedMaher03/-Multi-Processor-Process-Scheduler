@@ -62,7 +62,6 @@ bool SJF::PromoteProcess()
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;
-			SchedPtr->AddToRunning(toberun); //Add process to queue of running processes in scheduler
 			return true;
 		}
 

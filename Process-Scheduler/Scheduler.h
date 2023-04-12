@@ -62,7 +62,7 @@ public:
 	int Randomize(); //Generates Random numbers from 1 to 100
 	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
-	void AddToRunning(PROCESS*);
+	void AddToRunning();
 	~Scheduler();
 };
 
