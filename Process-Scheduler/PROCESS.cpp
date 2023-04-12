@@ -10,7 +10,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	Countsteps = 0;//added
 	CountN = 0;    //added
 	StartTime = -1; //added
-	if (!N)
+	if (N)
 	{
 		IO = new Pair[N]; // array of pairs 
 						  //IO.first->IO-R
