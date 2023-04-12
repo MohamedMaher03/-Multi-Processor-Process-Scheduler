@@ -54,3 +54,7 @@ bool FCFS::PromoteProcess()
 	}
 	return false;
 }
+
+void FCFS::KillRandomly(int index)
+{
+}
