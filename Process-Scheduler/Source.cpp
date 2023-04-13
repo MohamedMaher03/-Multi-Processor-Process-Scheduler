@@ -9,11 +9,13 @@ int main()
 	PROCESS* f = new PROCESS(1, 2, 3, 4);
 	PROCESS* s = new PROCESS(1, 1, 3, 4);
 	LinkedPriorityQueue<PROCESS*>RDY;
+	PROCESS* RUN;
 	RDY.enqueue(f);
 	RDY.enqueue(s);
 	RDY.printContents();
-	RDY.dequeue(f);
-	*/
+	RDY.dequeue(s);
+	RUN = s;
+	cout << endl<<RUN->get_CT();
 	/*
 	int n = 5;
 	Pair* io;

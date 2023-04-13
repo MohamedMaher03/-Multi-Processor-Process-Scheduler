@@ -2,6 +2,7 @@
 
 SJF::SJF()
 {
+	STATE = 0;
 	RUN = nullptr;
 	TYPE = "SJF";
 }
@@ -55,14 +56,17 @@ void SJF::addToMyRdy(PROCESS* process)
 
 bool SJF::PromoteProcess()
 {
-	if (!STATE && !RDY.isEmpty())
+
+	if (!STATE)
 	{
-		PROCESS* TEMP;
-		RDY.dequeue(TEMP);
-		RUN = TEMP;
-		STATE = 1;
-		return true;
-	}
+		PROCESS* TEMP=nullptr;
+			if (!RDY.isEmpty()) {
+				RDY.dequeue(TEMP);
+				RUN = TEMP;
+				STATE = 1;
+				return true;
+			}
+		}
 	return false;
 }
 

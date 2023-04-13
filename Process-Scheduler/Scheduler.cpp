@@ -107,6 +107,7 @@ int Scheduler::getRTF()
 }
 Scheduler::Scheduler()
 {
+	TIMESTEP = 1;
 	Running = new PROCESS*[totalProcessors];
 	BLK_Count = 0;
 	FCFS_Count = 0;

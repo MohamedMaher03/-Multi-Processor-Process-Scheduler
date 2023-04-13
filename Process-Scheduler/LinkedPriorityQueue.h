@@ -89,13 +89,18 @@ bool LinkedPriorityQueue<T>::enqueue(const T& newEntry)
 {
 	if (!length || newEntry <= frontPtr->getItem()) {
 		insert_front(newEntry);
+		length++;
+		return true;
 	}
-	else if (backPtr->getItem() <= newEntry) {
+	else if (newEntry <= backPtr->getItem()) {
 		insert_end(newEntry);
+		length++;
+		return true;
 	}
 	else {
-		for (Node<T>* cur = frontPtr, *prv = nullptr;cur;prv = cur, cur = cur->getNext()) {
-			if ((cur->getItem()) >= newEntry) {
+		Node<T>* curr = frontPtr->getNext();
+		for (Node<T>* cur = curr, *prv = frontPtr;cur;prv = cur, cur = cur->getNext()) {
+			if ((newEntry <= cur->getItem())) {
 				Node<T>* item = new Node<T>(newEntry);
 				prv->setNext(item);
 				item->setNext(cur);
@@ -104,6 +109,7 @@ bool LinkedPriorityQueue<T>::enqueue(const T& newEntry)
 			}
 		}
 	}
+	return false;
 } // end enqueue
 template <typename T>
 bool LinkedPriorityQueue<T>::dequeue(T& frntEntry)
