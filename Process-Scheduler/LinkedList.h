@@ -67,6 +67,7 @@ public:
 	* Function: DeleteAll.
 	* Deletes all nodes of the list.
 	*/
+
 	void DeleteAll()
 	{
 		Node<T>* P = Head;

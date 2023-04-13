@@ -4,6 +4,7 @@ using namespace std;
 
 FCFS::FCFS()
 {  
+	STATE = false;
 	RUN = nullptr;
 	TYPE = "FCFS";
 }
@@ -44,8 +45,7 @@ void FCFS::PrintMyReady()
 bool FCFS::PromoteProcess()
 {
 	if (!STATE && !RDY.IsEmpty())
-	{
-		 
+	{	 
 		PROCESS* TEMP;
 		TEMP = RDY.get_Head()->getItem();
 		RUN = TEMP;

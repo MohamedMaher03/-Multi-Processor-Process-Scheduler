@@ -14,6 +14,7 @@ PROCESS* PROCESSOR::getCurrentlyRunning()
 {
 	return RUN;
 }
+
 bool PROCESSOR::getState()
 {
 	return STATE;
@@ -21,14 +22,11 @@ bool PROCESSOR::getState()
 
 void PROCESSOR::ResetRunningProcess()
 {
-	RUN = nullptr;
 	STATE = 0;
 }
 
 PROCESSOR::PROCESSOR()
-{
-	RUN = NULL; //Initially no processes are running. 
-	STATE = 0;
+{ 
 	ProcessorLoad = 0;
 	ProcessorUtilization = 0;
 	RSIZE = 0;

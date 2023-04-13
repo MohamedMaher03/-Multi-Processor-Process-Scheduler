@@ -56,17 +56,16 @@ void SJF::addToMyRdy(PROCESS* process)
 
 bool SJF::PromoteProcess()
 {
-
-	if (!STATE)
+	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
-		PROCESS* TEMP=nullptr;
-			if (!RDY.isEmpty()) {
-				RDY.dequeue(TEMP);
-				RUN = TEMP;
-				STATE = 1;
-				return true;
-			}
+		PROCESS* toberun;
+		if (RDY.dequeue(toberun))
+		{
+			RUN = toberun;
+			STATE = 1;
+			return true;
 		}
+	}
 	return false;
 }
 

@@ -1,8 +1,8 @@
 #pragma once
 #include"Node.h"
-#include "QueueADT.h"
+
 template <typename T>
-class LinkedPriorityQueue :public QueueADT<T>
+class LinkedPriorityQueue 
 {
 private:
 	Node<T>* backPtr;

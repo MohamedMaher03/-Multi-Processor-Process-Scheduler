@@ -3,6 +3,7 @@
 
 RR::RR()
 {
+	
 	TYPE = "RR";
 	RUN = nullptr;
 }
