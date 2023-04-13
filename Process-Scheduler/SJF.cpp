@@ -69,7 +69,8 @@ bool SJF::PromoteProcess()
 	return false;
 }
 
-void  SJF::PrintMyReady() {
+void  SJF::PrintMyReady() 
+{
 	RDY.printContents();
 }
 

@@ -25,21 +25,25 @@ void Scheduler::LoadData()
 		myFile >> AT >> PID >> CT >> N;
 		PROCESS* tmp = new PROCESS(AT, PID, CT, N); //I assume the constructor to take these values
 		NEW.enqueue(tmp);//Processes are first added to NEW queue
-		string IO;
-		myFile >> IO;
-		stringstream ss(IO);
-		for (int j = 0; j < N; j++)
-		{
-			int x, y;
-			char c1, c2, c3;
-			ss >> c1 >> x >> c2 >> y >> c3;
-			tmp->set_IO(x, y, j);
-			if (j + 1 < N)
+		if (N > 0)
+		{ 
+			string IO;
+			myFile >> IO;
+			stringstream ss(IO);
+			for (int j = 0; j < N; j++)
 			{
-				char c4;
-				ss >> c4;
+				int x, y;
+				char c1, c2, c3;
+				ss >> c1 >> x >> c2 >> y >> c3;
+				tmp->set_IO(x, y, j);
+				if (j + 1 < N)
+				{
+					char c4;
+					ss >> c4;
+				}
 			}
 		}
+		
 		
 	}
 	//string ignore1, ignore2;

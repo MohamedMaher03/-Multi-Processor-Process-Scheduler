@@ -3,9 +3,9 @@
 
 RR::RR()
 {
-	
-	TYPE = "RR";
+	STATE = 0;
 	RUN = nullptr;
+	TYPE = "SJF";
 }
 
 void RR::ScheduleAlgo()
