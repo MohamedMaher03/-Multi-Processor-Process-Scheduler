@@ -3,7 +3,7 @@
 #include <sstream>
 #include<cstdlib>
 using namespace std;
-
+class FCFS;
 void Scheduler::LoadData()
 {
 	string FileName = UIptr->ReadFileName();
@@ -34,6 +34,11 @@ void Scheduler::LoadData()
 			char c1, c2, c3;
 			ss >> c1 >> x >> c2 >> y >> c3;
 			tmp->set_IO(x, y, j);
+			if (j + 1 < N)
+			{
+				char c4;
+				ss >> c4;
+			}
 		}
 		
 	}
@@ -215,6 +220,11 @@ void Scheduler::AllocatingProcesses()
 			ListOfProcessors[count]->addToMyRdy(tmp);
 			count = (count + 1) % totalProcessors;
 		}
+	}
+	for (int i = 0; i < FCFS_Count; i++)
+	{
+		int random = Randomize();
+		dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(random);
 	}
 }
 
