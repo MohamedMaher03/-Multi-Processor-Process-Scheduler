@@ -133,10 +133,11 @@ Scheduler::Scheduler()
 
 void Scheduler::UpdateRunningProcesses()
 {
-	for (int i = 0; i < totalProcessors; i++)
+	/*for (int i = 0; i < totalProcessors; i++)
 	{
 		ListOfProcessors[i]->ResetRunningProcess();
 	}
+	*/
 }
 void Scheduler::SIMULATE()
 {
@@ -149,7 +150,7 @@ void Scheduler::SIMULATE()
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
-		UpdateRunningProcesses(); //Updates current processors' states
+		//UpdateRunningProcesses(); //Updates current processors' states
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
@@ -174,6 +175,7 @@ void Scheduler::PromoteRdyToRun()
 {
 	for (int i = 0; i < totalProcessors; i++)
 	{
+		if (ListOfProcessors[i]->getRSIZE() > 0)
 		ListOfProcessors[i]->PromoteProcess(TIMESTEP);
 	}
 }
@@ -200,6 +202,10 @@ void Scheduler::AllocatingProcesses()
 		{
 			//MOVE Running[i] to BLK list
 			BLK.enqueue(Running[i]);
+			for (int j = 0; j < totalProcessors; j++) //Remove running process from it's original processor RUN*
+			{
+				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+			}
 			Running[i] = nullptr;
 			RunningCount--;
 		}
@@ -210,6 +216,10 @@ void Scheduler::AllocatingProcesses()
 			{
 				ListOfProcessors[count]->addToMyRdy(Running[i]);
 				count = (count + 1) % totalProcessors;
+				for (int j = 0; j < totalProcessors; j++)
+				{
+					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				}
 				Running[i] = nullptr;
 				RunningCount--;
 			}
@@ -220,6 +230,10 @@ void Scheduler::AllocatingProcesses()
 			if (Running[i]) {
 				TRM.enqueue(Running[i]);
 				TRM_Count++;
+				for (int j = 0; j < totalProcessors; j++)
+				{
+					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				}
 				Running[i] = nullptr;
 				RunningCount--;
 			}
@@ -251,12 +265,11 @@ void Scheduler::AddToRunning()
 {
 	for (int i = 0; i < totalProcessors; i++)
 	{
+		if(ListOfProcessors[i]->getState())
 		Running[RunningCount++] = ListOfProcessors[i]->getCurrentlyRunning();
 	}
 	
 }
-
-
 
 Scheduler::~Scheduler()
 {

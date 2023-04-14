@@ -55,6 +55,7 @@ bool FCFS::PromoteProcess(int x)
 		RUN = TEMP;
 		STATE = 1;
 		RDY.DeleteFirst();
+		RSIZE--;
 		return true;
 	}
 	return false;

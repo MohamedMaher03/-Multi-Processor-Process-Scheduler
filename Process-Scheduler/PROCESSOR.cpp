@@ -20,9 +20,14 @@ bool PROCESSOR::getState()
 	return STATE;
 }
 
-void PROCESSOR::ResetRunningProcess()
+void PROCESSOR::ResetRunningProcess(int x)
 {
-	STATE = 0;
+	if (RUN)
+	{
+		if(RUN->get_PID() == x)
+			STATE = 0;
+	}
+	
 }
 
 PROCESSOR::PROCESSOR()

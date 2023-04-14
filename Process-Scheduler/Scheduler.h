@@ -29,7 +29,6 @@ class Scheduler
 	LinkedQueue<int>ProcessesToBeKilled;
 	LinkedQueue<int>TimeOfDeath;
 	int BLK_Count;
-	int RUN_Count;
 	int TRM_Count;
 	int RunningCount; // Total number of currently running processes
 	int LiveTotalProcesses;

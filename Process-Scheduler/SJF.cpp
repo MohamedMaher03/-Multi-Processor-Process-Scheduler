@@ -69,6 +69,7 @@ bool SJF::PromoteProcess(int x)
 		{
 			RUN = toberun;
 			STATE = 1;
+			RSIZE--;
 			return true;
 		}
 	}
