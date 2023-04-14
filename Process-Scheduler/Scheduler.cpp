@@ -122,6 +122,7 @@ Scheduler::Scheduler()
 	{
 		Running[i] = nullptr;
 	}
+	TRM_Count = 0;
 	BLK_Count = 0;
 	FCFS_Count = 0;
 	SJF_Count = 0;
@@ -216,6 +217,7 @@ void Scheduler::AllocatingProcesses()
 		{
 			//MOVE Running[i] to TRM list
 			TRM.enqueue(Running[i]);
+			TRM_Count++;
 			Running[i] = nullptr;
 			RunningCount--;
 		}
