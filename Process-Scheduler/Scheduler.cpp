@@ -216,10 +216,12 @@ void Scheduler::AllocatingProcesses()
 		else if (random >= 50 && random <= 60)
 		{
 			//MOVE Running[i] to TRM list
-			TRM.enqueue(Running[i]);
-			TRM_Count++;
-			Running[i] = nullptr;
-			RunningCount--;
+			if (Running[i]) {
+				TRM.enqueue(Running[i]);
+				TRM_Count++;
+				Running[i] = nullptr;
+				RunningCount--;
+			}
 		}
 		else if (random <= 10 && !BLK.isEmpty())
 		{
