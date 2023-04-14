@@ -13,7 +13,7 @@ public:
 	void ScheduleAlgo();
 	void addToMyRdy(PROCESS *P);
 	void PrintMyReady();
-	bool PromoteProcess();
+	bool PromoteProcess(int);
 	void KillRandomly(int index); //Iterate over your RDY list and kill the process with given index
 };
 

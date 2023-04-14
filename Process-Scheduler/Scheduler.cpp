@@ -158,24 +158,23 @@ void Scheduler::SIMULATE()
 void Scheduler::CheckNewArrivals(int&count)
 {
 	PROCESS* tmp;
-	NEW.peek(tmp);
+	if(NEW.peek(tmp))
 	while(tmp->get_AT() == TIMESTEP)
 	{
-		ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
-		count = (count + 1) % totalProcessors;
 		if (!NEW.dequeue(tmp)) {
 			break;
 		}
+		ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
+		count = (count + 1) % totalProcessors;
 		NEW.peek(tmp);
 	}
 }
 
 void Scheduler::PromoteRdyToRun()
 {
-	PROCESS* tmp;
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		ListOfProcessors[i]->PromoteProcess();
+		ListOfProcessors[i]->PromoteProcess(TIMESTEP);
 	}
 }
 
@@ -256,6 +255,8 @@ void Scheduler::AddToRunning()
 	}
 	
 }
+
+
 
 Scheduler::~Scheduler()
 {

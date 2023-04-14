@@ -27,6 +27,7 @@ PROCESS::~PROCESS()
 
 }
 
+
 enum PROCESS::STATES
 {
 	_NEW,

@@ -118,8 +118,8 @@ bool LinkedQueue<T>::enqueue(const T& newEntry)
 		backPtr->setNext(newNodePtr); // The queue was not empty
 
 	backPtr = newNodePtr; // New node is the last node now
-	return true;
 	length++;
+	return true;
 } // end enqueue
 
 

@@ -37,10 +37,11 @@ void LinkedPriorityQueue<T>::insert_end(const T& newEntry) {
 	++length;
 }
 template <typename T>
-void LinkedPriorityQueue<T>::insert_front(const T& newEntry) {
+inline void LinkedPriorityQueue<T>::insert_front(const T& newEntry) {
 	Node<T>* item = new Node<T>(newEntry);
 	if (!frontPtr) {
-		frontPtr = backPtr = item;
+		frontPtr = item;
+		backPtr = item;
 	}
 	else {
 		item->setNext(frontPtr);

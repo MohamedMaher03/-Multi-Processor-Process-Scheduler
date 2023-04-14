@@ -15,6 +15,6 @@ public:
 	void ScheduleAlgo();//function moving process from RDY to RUN differ for each processor type
 	void PrintMyReady();
 	void addToMyRdy(PROCESS*);
-	bool PromoteProcess(); //Makes the process AS running, and removes it from RDY queue
+	bool PromoteProcess(int); //Makes the process AS running, and removes it from RDY queue
 
 };

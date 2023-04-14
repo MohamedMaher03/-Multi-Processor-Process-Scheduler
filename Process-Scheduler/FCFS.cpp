@@ -36,6 +36,7 @@ void FCFS::ScheduleAlgo()
 void FCFS::addToMyRdy(PROCESS *P)
 { 
 	RDY.InsertEnd(P);
+	RSIZE++;
 }
 
 void FCFS::PrintMyReady()
@@ -43,14 +44,17 @@ void FCFS::PrintMyReady()
 	RDY.PrintList();
 }
 
-bool FCFS::PromoteProcess()
+bool FCFS::PromoteProcess(int x)
 {
 	if (!STATE && !RDY.IsEmpty())
 	{	 
 		PROCESS* TEMP;
 		TEMP = RDY.get_Head()->getItem();
+		if (x == TEMP->get_AT())
+			return false;
 		RUN = TEMP;
 		STATE = 1;
+		RDY.DeleteFirst();
 		return true;
 	}
 	return false;

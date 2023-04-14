@@ -11,7 +11,7 @@ private:
 public:
 	SJF();
 	void ScheduleAlgo();
-	bool PromoteProcess();
+	bool PromoteProcess(int x);
 	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
 	void PrintMyReady();
 };

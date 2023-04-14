@@ -23,7 +23,9 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << RSize << " RUN: "; PrintRunning(RUN, RSize); cout << endl;
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
+	cout << "\n";
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
+	cout << "\n \n";
 	/*while (1)
 	{
 		char x;
