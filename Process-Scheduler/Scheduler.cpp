@@ -66,18 +66,18 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 	ListOfProcessors = new PROCESSOR* [FC + SJ + R];
 	for (int i = 0; i < FC; i++)
 	{
-		FCFS tmp;
-		ListOfProcessors[counter++] = &tmp;
+		FCFS* tmp = new FCFS();
+		ListOfProcessors[counter++] = tmp;
 	}
 	for (int i = 0; i < SJ; i++)
 	{
-		SJF tmp;
-		ListOfProcessors[counter++] = &tmp;
+		SJF* tmp = new SJF();
+		ListOfProcessors[counter++] = tmp;
 	}
 	for (int i = 0; i < R; i++)
 	{
-		RR tmp;
-		ListOfProcessors[counter++] = &tmp;
+		RR* tmp = new RR();
+		ListOfProcessors[counter++] = tmp;
 	}
 }
 
@@ -118,6 +118,10 @@ Scheduler::Scheduler()
 {
 	TIMESTEP = 1;
 	Running = new PROCESS*[totalProcessors];
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		Running[i] = nullptr;
+	}
 	BLK_Count = 0;
 	FCFS_Count = 0;
 	SJF_Count = 0;
@@ -225,11 +229,11 @@ void Scheduler::AllocatingProcesses()
 			count = (count + 1) % totalProcessors;
 		}
 	}
-	for (int i = 0; i < FCFS_Count; i++)
+	/*for (int i = 0; i < FCFS_Count; i++)
 	{
 		int random = Randomize();
 		dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(random);
-	}
+	}*/
 }
 
 bool Scheduler::AllDone()

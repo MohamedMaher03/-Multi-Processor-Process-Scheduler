@@ -5,6 +5,7 @@ SJF::SJF()
 	STATE = 0;
 	RUN = nullptr;
 	TYPE = "SJF";
+	RSIZE = 0;
 }
 
 void SJF::ScheduleAlgo()

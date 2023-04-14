@@ -225,6 +225,7 @@ public:
 template<>
 inline void LinkedList<PROCESS*>::PrintList()
 {
+	if (!Head) return;
 	Node<PROCESS*>* p = Head;
 
 	if (!p->getNext())

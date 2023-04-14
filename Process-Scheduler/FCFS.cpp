@@ -7,6 +7,7 @@ FCFS::FCFS()
 	STATE = false;
 	RUN = nullptr;
 	TYPE = "FCFS";
+	RSIZE = 0;
 }
 
 void FCFS::ScheduleAlgo()

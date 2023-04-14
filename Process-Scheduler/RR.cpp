@@ -5,7 +5,8 @@ RR::RR()
 {
 	STATE = 0;
 	RUN = nullptr;
-	TYPE = "SJF";
+	TYPE = "RR";
+	RSIZE = 0;
 }
 
 void RR::ScheduleAlgo()

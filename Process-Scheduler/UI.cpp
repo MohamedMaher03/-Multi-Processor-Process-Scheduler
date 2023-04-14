@@ -17,18 +17,20 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 		ProccessorList[i]->PrintMyReady();
 		cout << endl;
 	}
-	cout << "------------ - BLK processes------------ - " << endl;
-	cout << BSize << " BLK: "; PrintQueue(BLK);
-	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RSize << " RUN: "; PrintRunning(RUN, RSize);
-	cout << "\n------------ - TRM processes------------ - " << endl;
-	cout << TSize << " TRM: "; PrintQueue(TRM);
-	cout << "PRESS ENTER KEY TO MOVE TO NEXT STEP !" << endl;
-	while (1)
+	cout << "------------ - BLK processes  ------------ - " << endl;
+	cout << BSize << " BLK: "; PrintQueue(BLK); cout << endl;
+	cout << "\n------------ - RUN processes  ------------ - " << endl;
+	cout << RSize << " RUN: "; PrintRunning(RUN, RSize); cout << endl;
+	cout << "\n------------ - TRM processes  ------------ - " << endl;
+	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
+	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
+	/*while (1)
 	{
-		if (cin.get() == '\n')
+		char x;
+		cin >> x;
+		if (x == 'E' || x == 'e')
 			break;
-	}
+	}*/
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
 {
@@ -76,11 +78,12 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	PROCESS* tmp;
 	while (!Q.isEmpty())
 	{
-		Q.dequeue(tmp);
-		cout << tmp->get_PID() << " ,";
-		Q2.enqueue(tmp);
+		if (Q.dequeue(tmp))
+		{
+			cout << tmp->get_PID() << ", ";
+			Q2.enqueue(tmp);
+		}
 	}
-	cout << endl;
 	Q = Q2;
 }
 
@@ -88,6 +91,7 @@ void UI::PrintRunning(PROCESS** Run, int Size)
 {
 	for (int i = 0; i < Size; i++)
 	{
+		if(Run[i])
 		cout << Run[i]->get_PID() << ", ";
 	}
 }
