@@ -163,7 +163,9 @@ void Scheduler::CheckNewArrivals(int&count)
 	{
 		ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
 		count = (count + 1) % totalProcessors;
-		NEW.dequeue(tmp);
+		if (!NEW.dequeue(tmp)) {
+			break;
+		}
 		NEW.peek(tmp);
 	}
 }
