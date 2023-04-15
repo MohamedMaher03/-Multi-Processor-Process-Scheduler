@@ -5,9 +5,7 @@ class PROCESSOR;
 class SJF : public PROCESSOR
 {
 private:
-	bool STATE;
 	LinkedPriorityQueue<PROCESS*>RDY;
-	PROCESS* RUN;
 public:
 	SJF();
 	void ScheduleAlgo();

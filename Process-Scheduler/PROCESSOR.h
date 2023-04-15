@@ -13,6 +13,7 @@ protected:
 	int ProcessorLoad; //Statistic for phase 2
 	int ProcessorUtilization;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
+	bool RunningInSched;
 public:
 	PROCESSOR();
 	virtual void ScheduleAlgo() = 0;//function moving process from RDY to RUN differ for each processor type
@@ -24,6 +25,8 @@ public:
 	bool getState();
 	virtual bool PromoteProcess(int) = 0; //Makes the process AS running, and removes it from RDY queue
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
+	void setRunningInSched(int);
+	bool getRunningInSched();
 
 };
 

@@ -30,9 +30,26 @@ void PROCESSOR::ResetRunningProcess(int x)
 	
 }
 
+void PROCESSOR::setRunningInSched(int x)
+{
+	if (!x)
+	{
+		RunningInSched = false;
+		return;
+	}
+	RunningInSched = true;
+}
+
+bool PROCESSOR::getRunningInSched()
+{
+	return RunningInSched;
+}
+
 PROCESSOR::PROCESSOR()
 { 
 	ProcessorLoad = 0;
 	ProcessorUtilization = 0;
 	RSIZE = 0;
+	RUN = nullptr;
+	RunningInSched = false;
 }

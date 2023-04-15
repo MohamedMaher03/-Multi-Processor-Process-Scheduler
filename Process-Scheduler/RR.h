@@ -7,8 +7,6 @@ class PROCESSOR;
 class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;
-	bool STATE;
-	PROCESS* RUN;
 
 public:
 	RR();

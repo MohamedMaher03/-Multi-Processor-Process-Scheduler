@@ -6,8 +6,7 @@ class FCFS :public PROCESSOR
 {
 private:
 	LinkedList <PROCESS*> RDY;
-	PROCESS* RUN;
-
+	
 public: 
 	FCFS(); //FCFS class has default constructor
 	void ScheduleAlgo();

@@ -129,6 +129,7 @@ Scheduler::Scheduler()
 	RR_Count = 0;
 	ProcessesCount = 0;
 	RunningCount = 0;
+	LiveTotalProcesses = 0;
 }
 
 void Scheduler::UpdateRunningProcesses()
@@ -265,8 +266,11 @@ void Scheduler::AddToRunning()
 {
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		if(ListOfProcessors[i]->getState())
-		Running[RunningCount++] = ListOfProcessors[i]->getCurrentlyRunning();
+		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
+		{
+			Running[RunningCount++] = ListOfProcessors[i]->getCurrentlyRunning();
+			ListOfProcessors[i]->setRunningInSched(1);
+		}
 	}
 	
 }
