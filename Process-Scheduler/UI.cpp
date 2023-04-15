@@ -1,7 +1,7 @@
 #include "UI.h"
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -20,7 +20,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "------------ - BLK processes  ------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK); cout << endl;
 	cout << "\n------------ - RUN processes  ------------ - " << endl;
-	cout << RSize << " RUN: "; PrintRunning(RUN, RSize); cout << endl;
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex); cout << endl;
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
 	cout << "\n";
@@ -34,7 +34,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 			break;
 	}*/
 }
-void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RSize, LinkedQueue<PROCESS*> TRM, int TSize)
+void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -53,7 +53,7 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	cout << "------------ - BLK processes------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK);
 	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RSize << " RUN: "; PrintRunning(RUN, RSize);
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM);
 	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;

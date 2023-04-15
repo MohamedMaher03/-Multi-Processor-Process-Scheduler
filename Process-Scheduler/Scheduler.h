@@ -31,6 +31,7 @@ class Scheduler
 	int BLK_Count;
 	int TRM_Count;
 	int RunningCount; // Total number of currently running processes
+	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
 	PROCESS** Running; //This is an arry containg of pointers of Running processes from each processor
 	//--------- STATISTICS -------------

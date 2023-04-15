@@ -8,8 +8,8 @@ class UI
 {
 	enum MODE;
 public:
-	void printInteractive(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int);
-	void printStepByStep(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int);
+	void printInteractive(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int, int);
+	void printStepByStep(int Time, PROCESSOR**, int ProcessorsCount, LinkedQueue<PROCESS*>, int, PROCESS**, int, LinkedQueue<PROCESS*>, int, int);
 	void printSilent();
 	void PrintProcessorReadies(PROCESSOR*); //Prints either RDY queue of processors
 	void PrintQueue(LinkedQueue<PROCESS*> Q);

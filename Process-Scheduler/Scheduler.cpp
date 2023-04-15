@@ -84,9 +84,9 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 void Scheduler::Print(char z)
 {
 	if (z == 'I')
-		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
+		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
 	else if (z == 'B')
-		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCount, TRM, TRM_Count);
+		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
 	else if (z == 'S')
 		UIptr->printSilent();
 }
@@ -129,6 +129,7 @@ Scheduler::Scheduler()
 	RR_Count = 0;
 	ProcessesCount = 0;
 	RunningCount = 0;
+	RunningCountIndex = 0;
 	LiveTotalProcesses = 0;
 }
 
@@ -145,7 +146,7 @@ void Scheduler::SIMULATE()
 	int count = 0; //count to randomize process in the processors
 	LoadData(); //Step 1 Load Data from Input File
 	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
-	while (TIMESTEP!=30) 
+	while (!AllDone())
 	{
 		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
@@ -196,8 +197,10 @@ int Scheduler::Randomize()
 void Scheduler::AllocatingProcesses()
 {
 	int count = 0; //Counter that iterates over processors to add to their readies evenly
-	for (int i = 0; i < RunningCount; i++)
+	for (int i = 0; i < RunningCountIndex; i++)
 	{
+		if (!Running[i])
+			continue;
 		int random = Randomize();
 		if (random >= 1 && random <= 15)
 		{
@@ -210,42 +213,44 @@ void Scheduler::AllocatingProcesses()
 			}
 			Running[i] = nullptr;
 			RunningCount--;
+			
 		}
 		else if (random >= 20 && random <= 30)
 		{
 			//MOVE Running[i] to RDY list of any processor
-			if (Running[i])
+			
+			ListOfProcessors[count]->addToMyRdy(Running[i]);
+			count = (count + 1) % totalProcessors;
+			for (int j = 0; j < totalProcessors; j++)
 			{
-				ListOfProcessors[count]->addToMyRdy(Running[i]);
-				count = (count + 1) % totalProcessors;
-				for (int j = 0; j < totalProcessors; j++)
-				{
-					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
-				}
-				Running[i] = nullptr;
-				RunningCount--;
+				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
 			}
+			Running[i] = nullptr;
+			RunningCount--;
+			
 		}
 		else if (random >= 50 && random <= 60)
 		{
 			//MOVE Running[i] to TRM list
-			if (Running[i]) {
-				TRM.enqueue(Running[i]);
-				TRM_Count++;
-				for (int j = 0; j < totalProcessors; j++)
-				{
-					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
-				}
-				Running[i] = nullptr;
-				RunningCount--;
+			
+			TRM.enqueue(Running[i]);
+			TRM_Count++;
+			for (int j = 0; j < totalProcessors; j++)
+			{
+				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
 			}
+			Running[i] = nullptr;
+			RunningCount--;
+			
 		}
-		else if (random <= 10 && !BLK.isEmpty())
+		else if (random <= 10)
 		{
 			//Move BLK[i] to RDY
-			
+			if (BLK.isEmpty())
+				return;
 			PROCESS* tmp;
 			BLK.dequeue(tmp);
+			BLK_Count--;
 			ListOfProcessors[count]->addToMyRdy(tmp);
 			count = (count + 1) % totalProcessors;
 		}
@@ -261,7 +266,7 @@ void Scheduler::AllocatingProcesses()
 bool Scheduler::AllDone()
 {
 	
-	return TRM_Count == LiveTotalProcesses;
+	return TRM_Count == ProcessesCount;
 }
 
 void Scheduler::AddToRunning()
@@ -270,7 +275,7 @@ void Scheduler::AddToRunning()
 	{
 		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
 		{
-			Running[RunningCount++] = ListOfProcessors[i]->getCurrentlyRunning();
+			Running[RunningCountIndex++] = ListOfProcessors[i]->getCurrentlyRunning();
 			ListOfProcessors[i]->setRunningInSched(1);
 		}
 	}
