@@ -253,6 +253,7 @@ void Scheduler::AllocatingProcesses()
 	/*for (int i = 0; i < FCFS_Count; i++)
 	{
 		int random = Randomize();
+		random %= LiveTotalProcesses;
 		dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(random);
 	}*/
 }
