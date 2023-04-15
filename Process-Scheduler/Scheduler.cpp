@@ -156,6 +156,7 @@ void Scheduler::SIMULATE()
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
+	Print('I'); // Print in Interactive Mode
 }
 
 void Scheduler::CheckNewArrivals(int&count)
@@ -212,6 +213,7 @@ void Scheduler::AllocatingProcesses()
 				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
 			}
 			Running[i] = nullptr;
+			if (RunningCount > 0)
 			RunningCount--;
 			
 		}
@@ -226,6 +228,7 @@ void Scheduler::AllocatingProcesses()
 				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
 			}
 			Running[i] = nullptr;
+			if (RunningCount > 0)
 			RunningCount--;
 			
 		}
@@ -240,10 +243,11 @@ void Scheduler::AllocatingProcesses()
 				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
 			}
 			Running[i] = nullptr;
+			if(RunningCount > 0)
 			RunningCount--;
 			
 		}
-		else if (random <= 10)
+		if (random <= 10)
 		{
 			//Move BLK[i] to RDY
 			if (BLK.isEmpty())

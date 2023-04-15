@@ -24,8 +24,11 @@ void PROCESSOR::ResetRunningProcess(int x)
 {
 	if (RUN)
 	{
-		if(RUN->get_PID() == x)
+		if (RUN->get_PID() == x)
+		{
 			STATE = 0;
+			RUN = nullptr;
+		}
 	}
 	
 }

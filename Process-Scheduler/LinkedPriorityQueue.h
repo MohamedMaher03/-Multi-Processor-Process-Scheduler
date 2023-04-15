@@ -88,7 +88,7 @@ bool LinkedPriorityQueue<T>::isEmpty() const
 template <typename T>
 bool LinkedPriorityQueue<T>::enqueue(const T& newEntry)
 {
-	if (length == 0)
+	if (!frontPtr)
 	{
 		insert_front(newEntry);
 		length++;

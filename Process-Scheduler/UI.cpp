@@ -76,17 +76,7 @@ void UI::PrintProcessorReadies(PROCESSOR* K)
 
 void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 {
-	LinkedQueue<PROCESS*> Q2 = Q;
-	PROCESS* tmp;
-	while (!Q.isEmpty())
-	{
-		if (Q.dequeue(tmp))
-		{
-			cout << tmp->get_PID() << ", ";
-			Q2.enqueue(tmp);
-		}
-	}
-	Q = Q2;
+	Q.printContents();
 }
 
 void UI::PrintRunning(PROCESS** Run, int Size)
