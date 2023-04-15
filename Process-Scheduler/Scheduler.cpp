@@ -145,7 +145,7 @@ void Scheduler::SIMULATE()
 	int count = 0; //count to randomize process in the processors
 	LoadData(); //Step 1 Load Data from Input File
 	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
-	while (!AllDone()) 
+	while (TIMESTEP!=30) 
 	{
 		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
@@ -203,6 +203,7 @@ void Scheduler::AllocatingProcesses()
 		{
 			//MOVE Running[i] to BLK list
 			BLK.enqueue(Running[i]);
+			BLK_Count++;
 			for (int j = 0; j < totalProcessors; j++) //Remove running process from it's original processor RUN*
 			{
 				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
