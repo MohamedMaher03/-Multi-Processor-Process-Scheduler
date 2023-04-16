@@ -203,7 +203,6 @@ void Scheduler::AllocatingProcesses()
 	for (int i = 0; i < RunningCountIndex; i++)
 	{
 		int random = Randomize();
-
 		if (RunningCount > 0)
 		{
 			if (random >= 1 && random <= 15)
@@ -251,6 +250,10 @@ void Scheduler::AllocatingProcesses()
 
 			}
 		}
+	}
+	for (int i = 0; i < BLK_Count; i++)
+	{
+		int random = Randomize();
 		if (random <= 10 && BLK_Count > 0)
 		{
 			//Move BLK[i] to RDY
