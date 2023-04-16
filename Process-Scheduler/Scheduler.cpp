@@ -179,7 +179,9 @@ void Scheduler::PromoteRdyToRun()
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i]->getRSIZE() > 0)
-		ListOfProcessors[i]->PromoteProcess(TIMESTEP);
+			if (ListOfProcessors[i]->PromoteProcess(TIMESTEP))
+				RunningCount++;
+				
 	}
 }
 
@@ -200,54 +202,56 @@ void Scheduler::AllocatingProcesses()
 	int count = 0; //Counter that iterates over processors to add to their readies evenly
 	for (int i = 0; i < RunningCountIndex; i++)
 	{
-		if (!Running[i])
-			continue;
 		int random = Randomize();
-		if (random >= 1 && random <= 15)
+
+		if (RunningCount > 0)
 		{
-			//MOVE Running[i] to BLK list
-			BLK.enqueue(Running[i]);
-			BLK_Count++;
-			for (int j = 0; j < totalProcessors; j++) //Remove running process from it's original processor RUN*
+			if (random >= 1 && random <= 15)
 			{
-				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				//MOVE Running[i] to BLK list
+				BLK.enqueue(Running[i]);
+				BLK_Count++;
+				for (int j = 0; j < totalProcessors; j++) //Remove running process from it's original processor RUN*
+				{
+					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				}
+				Running[i] = nullptr;
+				if (RunningCount > 0)
+					RunningCount--;
+
 			}
-			Running[i] = nullptr;
-			if (RunningCount > 0)
-			RunningCount--;
-			
-		}
-		else if (random >= 20 && random <= 30)
-		{
-			//MOVE Running[i] to RDY list of any processor
-			
-			ListOfProcessors[count]->addToMyRdy(Running[i]);
-			count = (count + 1) % totalProcessors;
-			for (int j = 0; j < totalProcessors; j++)
+			else if (random >= 20 && random <= 30)
 			{
-				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				//MOVE Running[i] to RDY list of any processor
+
+				ListOfProcessors[count]->addToMyRdy(Running[i]);
+				count = (count + 1) % totalProcessors;
+				for (int j = 0; j < totalProcessors; j++)
+				{
+					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				}
+				Running[i] = nullptr;
+				if (RunningCount > 0)
+					RunningCount--;
+
 			}
-			Running[i] = nullptr;
-			if (RunningCount > 0)
-			RunningCount--;
-			
-		}
-		else if (random >= 50 && random <= 60)
-		{
-			//MOVE Running[i] to TRM list
-			
-			TRM.enqueue(Running[i]);
-			TRM_Count++;
-			for (int j = 0; j < totalProcessors; j++)
+			else if (random >= 50 && random <= 60)
 			{
-				ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				//MOVE Running[i] to TRM list
+
+				TRM.enqueue(Running[i]);
+				TRM_Count++;
+				for (int j = 0; j < totalProcessors; j++)
+				{
+					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
+				}
+				Running[i] = nullptr;
+				if (RunningCount > 0)
+					RunningCount--;
+
 			}
-			Running[i] = nullptr;
-			if(RunningCount > 0)
-			RunningCount--;
-			
 		}
-		if (random <= 10)
+		if (random <= 10 && BLK_Count > 0)
 		{
 			//Move BLK[i] to RDY
 			if (BLK.isEmpty())
