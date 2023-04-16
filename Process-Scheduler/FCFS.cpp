@@ -74,15 +74,10 @@ PROCESS* FCFS::KillRandomly(int index)
 			return;
 		}
 	}*/
-	if (!RDY.IsEmpty())
-	{
-		PROCESS* temp = RDY.KILL(index);
-	
-				if ( temp)
-				{
-					RSIZE--;
-					return temp;
-				}
-
-	}
+	if (RDY.IsEmpty())
+		return nullptr;
+	PROCESS* temp = RDY.KILL(index);
+	if (temp)
+		RSIZE--;
+	return temp;
 }

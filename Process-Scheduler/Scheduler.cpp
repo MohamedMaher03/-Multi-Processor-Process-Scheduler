@@ -266,12 +266,19 @@ void Scheduler::AllocatingProcesses()
 			count = (count + 1) % totalProcessors;
 		}
 	}
-	/*for (int i = 0; i < FCFS_Count; i++)
+	int FCFS_random = Randomize();
+	FCFS_random %= LiveTotalProcesses;
+	FCFS_random++;
+	for (int i = 0; i < FCFS_Count; i++)
 	{
-		int random = Randomize();
-		random %= LiveTotalProcesses;
-		dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(random);
-	}*/
+		PROCESS* KILLED = dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(FCFS_random);
+		if (KILLED)
+		{
+			TRM.enqueue(KILLED);
+			TRM_Count++;
+		}
+		
+	}
 }
 
 bool Scheduler::AllDone()
