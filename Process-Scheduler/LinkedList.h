@@ -32,7 +32,7 @@ public:
 	* prints the values of all nodes in a linked list.
 	*/
 	 void PrintList();
-	 PROCESS* KILL(int index);
+	 PROCESS* KILL(int index, PROCESS* &);
 
 	///////////////////////////////////////////////////////////////////////
 	/*
@@ -247,7 +247,7 @@ inline Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
 	return Head;
 }
 template<>
-inline PROCESS* LinkedList<PROCESS*>::KILL(int index)
+inline PROCESS* LinkedList<PROCESS*>::KILL(int index, PROCESS* &T)
 {
 	Node<PROCESS*>* current = Head;
 
@@ -258,9 +258,12 @@ inline PROCESS* LinkedList<PROCESS*>::KILL(int index)
 	{
 		if (index == current->getItem()->get_PID())
 		{
-			PROCESS temp = *Head->getItem();
+			T->set_PID(Head->getItem()->get_PID());
+			T->set_AT(Head->getItem()->get_AT());
+			T->set_N(Head->getItem()->get_N());
+			T->set_CT(Head->getItem()->get_CT());
 			DeleteFirst();
-			return &temp;
+			return T;
 		}
 	}
 	//puts the value of the head in the node we want to delete
@@ -269,12 +272,16 @@ inline PROCESS* LinkedList<PROCESS*>::KILL(int index)
 	{
 		if (current->getItem()->get_PID() == index)
 		{
-			PROCESS temp = *current->getItem();
+			T->set_PID(Head->getItem()->get_PID());
+			T->set_AT(Head->getItem()->get_AT());
+			T->set_N(Head->getItem()->get_N());
+			T->set_CT(Head->getItem()->get_CT());
 			current->setItem(Head->getItem());
 			DeleteFirst();
-			return &temp;
+			return T;
 		}
 		current = current->getNext();
 	}
-	return nullptr;
+	T = nullptr;
+	return T;
 }

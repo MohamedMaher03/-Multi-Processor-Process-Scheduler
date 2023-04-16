@@ -55,6 +55,10 @@ public:
 	string get_state();
 	bool operator >= (PROCESS &another_process);
 	bool operator <= (PROCESS &another_process);
+	void set_PID(int);
+	void set_AT(int);
+	void set_CT(int);
+	void set_N(int);
 	~PROCESS();
 
 

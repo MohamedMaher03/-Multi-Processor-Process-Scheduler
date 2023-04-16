@@ -28,6 +28,7 @@ void PROCESSOR::ResetRunningProcess(int x)
 		{
 			STATE = 0;
 			RUN = nullptr;
+			RunningInSched = 0;
 		}
 	}
 	

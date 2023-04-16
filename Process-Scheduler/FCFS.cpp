@@ -76,7 +76,8 @@ PROCESS* FCFS::KillRandomly(int index)
 	}*/
 	if (RDY.IsEmpty())
 		return nullptr;
-	PROCESS* temp = RDY.KILL(index);
+	PROCESS* temp = new PROCESS(0, 0, 0, 0);
+	RDY.KILL(index, temp);
 	if (temp)
 		RSIZE--;
 	return temp;

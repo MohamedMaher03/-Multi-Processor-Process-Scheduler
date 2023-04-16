@@ -211,4 +211,24 @@ enum PROCESS::STATES
 	 return false;
  }
 
+ void PROCESS::set_PID(int x)
+ {
+	 PID = x;
+ }
+
+ void PROCESS::set_AT(int x)
+ {
+	 AT = x;
+ }
+
+ void PROCESS::set_CT(int x)
+ {
+	 CT = x;
+ }
+
+ void PROCESS::set_N(int x)
+ {
+	 N = x;
+ }
+
  
