@@ -203,7 +203,7 @@ void Scheduler::AllocatingProcesses()
 	for (int i = 0; i < RunningCountIndex; i++)
 	{
 		int random = Randomize();
-		if (RunningCount > 0)
+		if (RunningCount > 0 && Running[i])
 		{
 			if (random >= 1 && random <= 15)
 			{
