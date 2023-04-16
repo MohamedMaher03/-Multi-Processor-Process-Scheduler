@@ -32,7 +32,7 @@ public:
 	* prints the values of all nodes in a linked list.
 	*/
 	 void PrintList();
-	
+	 PROCESS* KILL(int index);
 
 	///////////////////////////////////////////////////////////////////////
 	/*
@@ -182,6 +182,7 @@ public:
 	}
 
 
+
 	//[8]Merge
 	//Merges the current list to another list L by making the last Node in the current list 
 	//point to the first Node in list L
@@ -244,4 +245,36 @@ template<>
 inline Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
 {
 	return Head;
+}
+template<>
+inline PROCESS* LinkedList<PROCESS*>::KILL(int index)
+{
+	Node<PROCESS*>* current = Head;
+
+	if (!Head) //list is empty
+		return nullptr;
+
+	if (!Head->getNext())
+	{
+		if (index == current->getItem()->get_PID())
+		{
+			PROCESS temp = *Head->getItem();
+			DeleteFirst();
+			return &temp;
+		}
+	}
+	//puts the value of the head in the node we want to delete
+	//then delets the head and the second node becomes the head
+	while (current != NULL)
+	{
+		if (current->getItem()->get_PID() == index)
+		{
+			PROCESS temp = *current->getItem();
+			current->setItem(Head->getItem());
+			DeleteFirst();
+			return &temp;
+		}
+		current = current->getNext();
+	}
+	return nullptr;
 }

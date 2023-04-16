@@ -61,6 +61,28 @@ bool FCFS::PromoteProcess(int x)
 	return false;
 }
 
-void FCFS::KillRandomly(int index)
+PROCESS* FCFS::KillRandomly(int index)
 {
+	/*if (RUN)
+	{
+		if (index == RUN->get_PID())
+		{
+			PROCESS* temp = RUN;
+			SchedPtr->Add_toterminatedlist(temp);
+			STATE = 0;
+			RUN = nullptr;
+			return;
+		}
+	}*/
+	if (!RDY.IsEmpty())
+	{
+		PROCESS* temp = RDY.KILL(index);
+	
+				if ( temp)
+				{
+					RSIZE--;
+					return temp;
+				}
+
+	}
 }
