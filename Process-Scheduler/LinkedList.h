@@ -135,50 +135,66 @@ public:
 
 
 	//Deletes the last node in the list
-	void DeleteLast() {
-		Node<T>* tmpPtr = Head;
-		if (!Head)
-			return;
-		if (!Head->getNext()) {
-			DeleteFirst();
-			return;
+	void DeleteLast() 
+	{
+		if (!Head || !Head->getNext()) {
+			// Empty list or only one node in the list
+			delete Head;
+			Head = nullptr;
 		}
-
-		while (tmpPtr->getNext()->getNext())
-			tmpPtr = tmpPtr->getNext();
-
-		delete tmpPtr->getNext();
-		tmpPtr->setNext(NULL);
+		else 
+		{
+			Node<T>* prev = nullptr;
+			Node<T>* current = Head;
+			while (current->getNext()) {
+				prev = current;
+				current = current->getNext();
+			}
+			prev->setNext(nullptr);
+			delete current;
+		}
 	}
 
 
 	//deletes the first node with the given value (if found) and returns true
 	//if not found, returns false
 	//Note: List is not sorted
-	bool DeleteNode(const T& value) {
-
-		Node<T>* current = Head;
-
-		if (!Head) //list is empty
+	bool DeleteNode(const T& value) 
+	{
+		if (!Head)
+			// Empty list
 			return false;
 
-		if (!Head->getNext()) {
-			DeleteFirst();
+		else if (Head->getItem() == value)
+		{
+			// Node to be deleted is the head node
+			Node<T>* temp = Head;
+			Head = Head->getNext();
+			delete temp;
 			return true;
 		}
-		//puts the value of the head in the node we want to delete
-		//then delets the head and the second node becomes the head
-		while (current != NULL)
+		else 
 		{
-			if (current->getItem() == value)
+			Node<T>* prev = nullptr;
+			Node<T>* current = Head;
+			while (current && current->getItem() != value) 
 			{
-				current->setItem(Head->getItem());
-				DeleteFirst();
+				prev = current;
+				current = current->getNext();
+			}
+			if (current)
+			{
+				// Node with the given value found
+				prev->setNext(current->getNext());
+				delete current;
 				return true;
 			}
-			current = current->getNext();
+			else 
+			{
+				// Node with the given value not found
+				return false;
+			}
 		}
-		return false;
 	}
 
 

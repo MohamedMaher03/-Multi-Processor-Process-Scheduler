@@ -47,8 +47,9 @@ void Scheduler::LoadData()
 		
 		
 	}
-	//string ignore1, ignore2;
-	//myFile >> ignore1 >> ignore2;
+	string ignore1;
+	string ignore2;
+	myFile >> ignore1 >> ignore2;
 	int a, b;
 	while (myFile >> a)
 	{
@@ -134,14 +135,7 @@ Scheduler::Scheduler()
 	LiveTotalProcesses = 0;
 }
 
-void Scheduler::UpdateRunningProcesses()
-{
-	/*for (int i = 0; i < totalProcessors; i++)
-	{
-		ListOfProcessors[i]->ResetRunningProcess();
-	}
-	*/
-}
+
 void Scheduler::SIMULATE()
 {
 	int count = 0; //count to randomize process in the processors
@@ -153,7 +147,6 @@ void Scheduler::SIMULATE()
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		AllocatingProcesses(count); //Iterates over all processes and move them based on randomizer result
-		//UpdateRunningProcesses(); //Updates current processors' states
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
@@ -326,4 +319,10 @@ void Scheduler::AddToRunning()
 Scheduler::~Scheduler()
 {
 	delete[] Running;
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		delete ListOfProcessors[i];
+		ListOfProcessors[i] = nullptr;
+	}
+	delete[] ListOfProcessors;
 }

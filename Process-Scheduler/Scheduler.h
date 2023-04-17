@@ -55,7 +55,6 @@ public:
 	int getTimeSlice();
 	int getRTF();
 	Scheduler();
-	void UpdateRunningProcesses(); //Iterates over all processors and adds Currently Running Processes
 	void SIMULATE();
 	void CheckNewArrivals(int& count); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
 	void PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
