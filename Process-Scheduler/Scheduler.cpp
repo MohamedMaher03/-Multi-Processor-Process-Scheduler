@@ -1,7 +1,8 @@
 #include "Scheduler.h"
 #include <fstream>
 #include <sstream>
-#include<cstdlib>
+#include <cstdlib>
+#include <random>
 using namespace std;
 class FCFS;
 void Scheduler::LoadData()
@@ -187,21 +188,18 @@ void Scheduler::PromoteRdyToRun()
 
 int Scheduler::Randomize()
 {
-	// Providing a seed value
-	srand((unsigned)time(NULL));
+	random_device rd;
+	mt19937 gen(rd());
 
-	// Get a random number
-	int random = (rand() % 100) + 1;
+	// Define the distribution for the random number
+	uniform_int_distribution<> dis(1, 100);
 
-	// Print the random number
-	return random;
+	// Generate and return the random number
+	return dis(gen);
 }
 
 void Scheduler::AllocatingProcesses(int&count)
 {
-	//int count = 0; //Counter that iterates over processors to add to their readies evenly
-// i comment it as we have count doing the same task as this count will always begin from 0 and will always put in the first processors
-
 	for (int i = 0; i < RunningCountIndex; i++) 
 		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
 	{
