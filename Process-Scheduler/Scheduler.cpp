@@ -57,6 +57,7 @@ void Scheduler::LoadData()
 		TimeOfDeath.enqueue(a);
 		ProcessesToBeKilled.enqueue(b);
 	}
+	myFile.close();
 }
 void Scheduler::SaveData()
 {
@@ -318,7 +319,8 @@ void Scheduler::AddToRunning()
 
 Scheduler::~Scheduler()
 {
-	//delete[] Running;
+	Running = nullptr;
+	delete[] Running;
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		delete ListOfProcessors[i];
