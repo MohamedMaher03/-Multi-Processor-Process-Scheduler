@@ -203,7 +203,7 @@ void Scheduler::AllocatingProcesses()
 	for (int i = 0; i < RunningCountIndex; i++)
 	{
 		int random = Randomize();
-		if (RunningCount > 0 && Running[i])
+		if (RunningCount > 0 && i<totalProcessors &&Running[i])
 		{
 			if (random >= 1 && random <= 15)
 			{
@@ -294,7 +294,7 @@ void Scheduler::AddToRunning()
 	{
 		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
 		{
-			if (RunningCountIndex > totalProcessors)
+			if (RunningCountIndex >= totalProcessors)
 			{
 				int newRunningCountIndex = RunningCountIndex % totalProcessors;
 				Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
