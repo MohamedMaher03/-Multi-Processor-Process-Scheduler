@@ -151,7 +151,7 @@ void Scheduler::SIMULATE()
 		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
-		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
+		AllocatingProcesses(count); //Iterates over all processes and move them based on randomizer result
 		//UpdateRunningProcesses(); //Updates current processors' states
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
@@ -197,9 +197,11 @@ int Scheduler::Randomize()
 	return random;
 }
 
-void Scheduler::AllocatingProcesses()
+void Scheduler::AllocatingProcesses(int&count)
 {
-	int count = 0; //Counter that iterates over processors to add to their readies evenly
+	//int count = 0; //Counter that iterates over processors to add to their readies evenly
+// i comment it as we have count doing the same task as this count will always begin from 0 and will always put in the first processors
+
 	for (int i = 0; i < RunningCountIndex; i++) 
 		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
 	{

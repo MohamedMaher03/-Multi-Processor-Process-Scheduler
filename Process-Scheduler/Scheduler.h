@@ -60,7 +60,7 @@ public:
 	void CheckNewArrivals(int& count); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
 	void PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
 	int Randomize(); //Generates Random numbers from 1 to 100
-	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
+	void AllocatingProcesses(int&count); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
 	
