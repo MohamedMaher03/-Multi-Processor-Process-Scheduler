@@ -8,6 +8,10 @@ SJF::SJF()
 	RSIZE = 0;
 }
 
+SJF::~SJF()
+{
+}
+
 void SJF::ScheduleAlgo()
 {
 	/*

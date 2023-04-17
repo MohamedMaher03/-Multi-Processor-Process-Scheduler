@@ -9,6 +9,7 @@ private:
 	
 public: 
 	FCFS(); //FCFS class has default constructor
+	~FCFS();
 	void ScheduleAlgo();
 	void addToMyRdy(PROCESS *P);
 	void PrintMyReady();

@@ -57,3 +57,7 @@ PROCESSOR::PROCESSOR()
 	RUN = nullptr;
 	RunningInSched = false;
 }
+
+PROCESSOR::~PROCESSOR()
+{
+}

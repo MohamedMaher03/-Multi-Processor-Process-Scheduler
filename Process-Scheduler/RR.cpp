@@ -9,6 +9,10 @@ RR::RR()
 	RSIZE = 0;
 }
 
+RR::~RR()
+{
+}
+
 void RR::ScheduleAlgo()
 {
 

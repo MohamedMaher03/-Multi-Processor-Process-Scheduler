@@ -318,7 +318,7 @@ void Scheduler::AddToRunning()
 
 Scheduler::~Scheduler()
 {
-	delete[] Running;
+	//delete[] Running;
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		delete ListOfProcessors[i];

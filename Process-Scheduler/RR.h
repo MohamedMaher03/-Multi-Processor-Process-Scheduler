@@ -10,6 +10,7 @@ class RR : public PROCESSOR
 
 public:
 	RR();
+	~RR();
 	void ScheduleAlgo();//function moving process from RDY to RUN differ for each processor type
 	void PrintMyReady();
 	void addToMyRdy(PROCESS*);

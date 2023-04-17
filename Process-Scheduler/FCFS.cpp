@@ -10,6 +10,10 @@ FCFS::FCFS()
 	RSIZE = 0;
 }
 
+FCFS::~FCFS()
+{
+}
+
 void FCFS::ScheduleAlgo()
 {
 }

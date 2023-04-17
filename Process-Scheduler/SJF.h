@@ -8,6 +8,7 @@ private:
 	LinkedPriorityQueue<PROCESS*>RDY;
 public:
 	SJF();
+	~SJF();
 	void ScheduleAlgo();
 	bool PromoteProcess(int x);
 	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
