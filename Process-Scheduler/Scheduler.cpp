@@ -298,9 +298,20 @@ void Scheduler::AddToRunning()
 			if (RunningCountIndex >= totalProcessors)
 			{
 				int newRunningCountIndex = RunningCountIndex % totalProcessors;
-				Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-				RunningCountIndex++;
-				ListOfProcessors[i]->setRunningInSched(1);
+				if (Running[newRunningCountIndex] == nullptr) {
+					Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
+					RunningCountIndex++;
+					ListOfProcessors[i]->setRunningInSched(1);
+				}
+				else {
+					RunningCountIndex++;
+					newRunningCountIndex = RunningCountIndex % totalProcessors;
+					if (Running[newRunningCountIndex] == nullptr) {
+						Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
+						RunningCountIndex++;
+						ListOfProcessors[i]->setRunningInSched(1);
+					}
+				}
 			}
 			else
 			{
