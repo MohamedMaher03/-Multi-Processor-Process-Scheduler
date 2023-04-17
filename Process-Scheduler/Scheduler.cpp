@@ -269,7 +269,7 @@ void Scheduler::AllocatingProcesses(int&count)
 			tmp = nullptr;
 		}
 	}
-	/*int FCFS_random = Randomize();
+	int FCFS_random = Randomize();
 	FCFS_random %= LiveTotalProcesses;
 	FCFS_random++;
 	for (int i = 0; i < FCFS_Count; i++)
@@ -280,7 +280,7 @@ void Scheduler::AllocatingProcesses(int&count)
 			TRM.enqueue(KILLED);
 			TRM_Count++;
 		}
-	}*/
+	}
 }
 
 bool Scheduler::AllDone()
