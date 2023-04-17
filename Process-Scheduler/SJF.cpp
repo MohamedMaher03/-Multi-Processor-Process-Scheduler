@@ -56,7 +56,7 @@ void SJF::ScheduleAlgo()
 
 void SJF::addToMyRdy(PROCESS* process)
 {
-	RDY.enqueue(process);
+	RDY.enqueue(process, process->get_CT());
 	RSIZE++;
 }
 
