@@ -254,16 +254,17 @@ void Scheduler::AllocatingProcesses()
 	for (int i = 0; i < BLK_Count; i++)
 	{
 		int random = Randomize();
-		if (random <= 10 && BLK_Count > 0)
+		if (random <= 10)
 		{
 			//Move BLK[i] to RDY
-			if (BLK.isEmpty())
-				return;
+			/*if (BLK.isEmpty())
+				return;*/
 			PROCESS* tmp;
 			BLK.dequeue(tmp);
 			BLK_Count--;
 			ListOfProcessors[count]->addToMyRdy(tmp);
 			count = (count + 1) % totalProcessors;
+			tmp = nullptr;
 		}
 	}
 	/*int FCFS_random = Randomize();
