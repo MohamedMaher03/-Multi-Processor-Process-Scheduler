@@ -251,7 +251,8 @@ void Scheduler::AllocatingProcesses()
 			}
 		}
 	}
-	for (int i = 0; i < BLK_Count; i++)
+	int LiveBlkCount = BLK_Count;
+	for (int i = 0; i < LiveBlkCount; i++)
 	{
 		int random = Randomize();
 		if (random <= 10)
