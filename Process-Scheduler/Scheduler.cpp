@@ -188,7 +188,7 @@ void Scheduler::PromoteRdyToRun()
 int Scheduler::Randomize()
 {
 	// Providing a seed value
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 
 	// Get a random number
 	int random = (rand() % 100) + 1;
