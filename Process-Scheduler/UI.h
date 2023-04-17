@@ -13,7 +13,7 @@ public:
 	void printSilent();
 	void PrintProcessorReadies(PROCESSOR*); //Prints either RDY queue of processors
 	void PrintQueue(LinkedQueue<PROCESS*> Q);
-	void PrintRunning(PROCESS**, int); //Prints Running processes
+	void PrintRunning(PROCESS**, int, int); //Prints Running processes
 	string ReadFileName();
 	void PrintMessage(string);
 	

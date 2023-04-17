@@ -20,7 +20,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "------------ - BLK processes  ------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK); cout << endl;
 	cout << "\n------------ - RUN processes  ------------ - " << endl;
-	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex); cout << endl;
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount); cout << endl;
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
 	cout << "\n";
@@ -53,7 +53,7 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	cout << "------------ - BLK processes------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK);
 	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex);
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM);
 	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
@@ -79,8 +79,10 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	Q.printContents();
 }
 
-void UI::PrintRunning(PROCESS** Run, int Size)
+void UI::PrintRunning(PROCESS** Run, int Size, int TotalCPUs)
 {
+	if (Size > TotalCPUs)
+		Size = TotalCPUs;
 	for (int i = 0; i < Size; i++)
 	{
 		if(Run[i])

@@ -266,7 +266,7 @@ void Scheduler::AllocatingProcesses()
 			count = (count + 1) % totalProcessors;
 		}
 	}
-	int FCFS_random = Randomize();
+	/*int FCFS_random = Randomize();
 	FCFS_random %= LiveTotalProcesses;
 	FCFS_random++;
 	for (int i = 0; i < FCFS_Count; i++)
@@ -277,8 +277,7 @@ void Scheduler::AllocatingProcesses()
 			TRM.enqueue(KILLED);
 			TRM_Count++;
 		}
-		
-	}
+	}*/
 }
 
 bool Scheduler::AllDone()
@@ -293,9 +292,18 @@ void Scheduler::AddToRunning()
 	{
 		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
 		{
-			Running[RunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-			RunningCountIndex = (RunningCountIndex + 1) % totalProcessors;
-			ListOfProcessors[i]->setRunningInSched(1);
+			if (RunningCountIndex > totalProcessors)
+			{
+				int newRunningCountIndex = RunningCountIndex % totalProcessors;
+				Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
+				RunningCountIndex++;
+				ListOfProcessors[i]->setRunningInSched(1);
+			}
+			else
+			{
+				Running[RunningCountIndex++] = ListOfProcessors[i]->getCurrentlyRunning();
+				ListOfProcessors[i]->setRunningInSched(1);
+			}
 		}
 	}
 	
