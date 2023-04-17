@@ -198,7 +198,9 @@ void Scheduler::AllocatingProcesses(int&count)
 		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
 	{
 		int random = Randomize();
-		if (RunningCount > 0 && i<totalProcessors &&Running[i])
+		if (!Running[i])
+			continue;
+		if (RunningCount > 0 && i<totalProcessors)
 		{
 			if (random >= 1 && random <= 15)
 			{
