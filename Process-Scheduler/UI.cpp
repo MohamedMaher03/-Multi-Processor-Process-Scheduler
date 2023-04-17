@@ -86,7 +86,7 @@ void UI::PrintRunning(PROCESS** Run, int Size, int TotalCPUs)
 		Size = TotalCPUs;
 	for (int i = 0; i < Size; i++)
 	{
-		if(Run[i])
+		if (Run[i])
 		cout << Run[i]->get_PID() << ", ";
 	}
 }
