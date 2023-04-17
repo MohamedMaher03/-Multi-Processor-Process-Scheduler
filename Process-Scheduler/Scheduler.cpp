@@ -200,7 +200,8 @@ int Scheduler::Randomize()
 void Scheduler::AllocatingProcesses()
 {
 	int count = 0; //Counter that iterates over processors to add to their readies evenly
-	for (int i = 0; i < RunningCountIndex; i++)
+	for (int i = 0; i < RunningCountIndex; i++) 
+		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
 	{
 		int random = Randomize();
 		if (RunningCount > 0 && i<totalProcessors &&Running[i])
@@ -290,7 +291,7 @@ bool Scheduler::AllDone()
 
 void Scheduler::AddToRunning()
 {
-	for (int i = 0; i < totalProcessors; i++)
+	for (int i = 0; i < totalProcessors; i++)  
 	{
 		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
 		{
