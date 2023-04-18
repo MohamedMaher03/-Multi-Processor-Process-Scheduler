@@ -1,7 +1,7 @@
 #include "UI.h"
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount,int ProcessesCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -24,16 +24,17 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
 	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
 	cout << "\n";
+	if(ProcessesCount!=TSize)
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
 	cout << "\n \n";
-	while (1)
+	/*while (1)
 	{
 		char x;
 		cin >> x;
 		if (x == 'e' || x == 'E')
 			break;
 	}
-	
+	*/
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
