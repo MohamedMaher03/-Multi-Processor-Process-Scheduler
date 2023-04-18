@@ -321,8 +321,11 @@ Scheduler::~Scheduler()
 	delete[] Running;
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		delete ListOfProcessors[i];
-		ListOfProcessors[i] = nullptr;
+		if (ListOfProcessors[i])
+		{
+			delete ListOfProcessors[i];
+			ListOfProcessors[i] = nullptr;
+		}
 	}
 	delete[] ListOfProcessors;
 	TRM.~LinkedQueue();
