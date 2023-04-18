@@ -53,7 +53,7 @@ bool FCFS::PromoteProcess(int x)
 	if (!STATE && !RDY.IsEmpty())
 	{	 
 		PROCESS* TEMP;
-		TEMP = RDY.peek()->getItem();
+		TEMP = RDY.get_Head()->getItem();
 		if (x == TEMP->get_AT())
 			return false;
 		RUN = TEMP;

@@ -43,7 +43,7 @@ void Scheduler::LoadData()
 				}
 			}
 		}
-
+		
 		
 	}
 	string ignore1;
@@ -86,7 +86,7 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 void Scheduler::Print(char z)
 {
 	if (z == 'I')
-		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
+		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount, ProcessesCount);
 	else if (z == 'B')
 		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
 	else if (z == 'S')
@@ -150,7 +150,7 @@ void Scheduler::SIMULATE()
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
-	Print('I'); // Print in Interactive Mode
+	
 }
 
 void Scheduler::CheckNewArrivals(int&count)
@@ -326,4 +326,3 @@ Scheduler::~Scheduler()
 	}
 	delete[] ListOfProcessors;
 	TRM.~LinkedQueue();
-}

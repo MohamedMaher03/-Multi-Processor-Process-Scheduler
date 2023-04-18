@@ -78,7 +78,7 @@ public:
 			Head = P;
 		}
 	}
-	Node<PROCESS*>* peek();
+	Node<PROCESS*>* get_Head();
 	/////function that returns the head
 	
 
@@ -258,7 +258,7 @@ inline void LinkedList<PROCESS*>::PrintList()
 	
 }
 template<>
-inline Node<PROCESS*>* LinkedList<PROCESS*>::peek()
+inline Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
 {
 	return Head;
 }
