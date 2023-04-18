@@ -325,4 +325,5 @@ Scheduler::~Scheduler()
 		ListOfProcessors[i] = nullptr;
 	}
 	delete[] ListOfProcessors;
+	TRM.~LinkedQueue();
 }

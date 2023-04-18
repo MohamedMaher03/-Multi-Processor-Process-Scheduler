@@ -24,7 +24,8 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 }
 PROCESS::~PROCESS()
 {
-
+	if(N)
+		delete [] IO;
 }
 
 
@@ -197,7 +198,7 @@ enum PROCESS::STATES
 	 }
  }
 
- bool PROCESS::operator>=(PROCESS&another_process)
+ /*bool PROCESS::operator>=(PROCESS&another_process)
  {
 	 if (CT >= another_process.get_CT())
 		 return true;
@@ -209,7 +210,7 @@ enum PROCESS::STATES
 	 if (CT <= another_process.get_CT())
 		 return true;
 	 return false;
- }
+ }*/
 
  void PROCESS::set_PID(int x)
  {

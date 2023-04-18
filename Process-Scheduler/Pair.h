@@ -6,7 +6,7 @@ private:
     int first;
     int second;
 public:
-    Pair(int first=-1, int second=-1)  {
+    Pair(int first = -1, int second = -1)  {
         setfirst(first);
         setsecond(second);
     }
@@ -30,6 +30,9 @@ public:
     }
     void printsecond() {
         cout << second;
+    }
+    ~Pair()
+    {
     }
 };
 
