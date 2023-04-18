@@ -78,7 +78,10 @@ public:
 			Head = P;
 		}
 	}
-	Node<PROCESS*>* get_Head();
+	Node<PROCESS*>* peek()
+	{
+		return Head;
+	}
 	/////function that returns the head
 	
 
@@ -256,11 +259,6 @@ inline void LinkedList<PROCESS*>::PrintList()
 		p = p->getNext();
 	}
 	
-}
-template<>
-inline Node<PROCESS*>* LinkedList<PROCESS*>:: get_Head()
-{
-	return Head;
 }
 template<>
 inline PROCESS* LinkedList<PROCESS*>::KILL(int index, PROCESS* &T)
