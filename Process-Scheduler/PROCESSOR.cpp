@@ -51,8 +51,8 @@ bool PROCESSOR::getRunningInSched()
 
 PROCESSOR::PROCESSOR()
 { 
-	ProcessorLoad = 0;
-	ProcessorUtilization = 0;
+	PLoad = 0;
+	PUtil = 0;
 	RSIZE = 0;
 	RUN = nullptr;
 	RunningInSched = false;

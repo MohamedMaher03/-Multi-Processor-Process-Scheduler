@@ -10,8 +10,8 @@ protected:
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
-	int ProcessorLoad; //Statistic for phase 2
-	int ProcessorUtilization;  //Statistic for phase 2
+	int PLoad; //Statistic for phase 2
+	int PUtil;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
 	bool RunningInSched;
 public:
