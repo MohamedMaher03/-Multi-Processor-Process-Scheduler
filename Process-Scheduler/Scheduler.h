@@ -43,6 +43,9 @@ class Scheduler
 	int ForkPercent; //Percentage of process fork
 	int KillPercent; //Percentage of process kill
 	int AvgUtilization; //Average utilization for all processors
+	int AvgRTF; //Average threshold (Average RTF)
+	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
+	//Don't forget PLoad and PUtil for each processor
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
