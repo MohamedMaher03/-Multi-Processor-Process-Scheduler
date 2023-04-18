@@ -14,6 +14,10 @@ protected:
 	int ProcessorUtilization;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
 	bool RunningInSched;
+	int PLoad;
+	int PUtil; //TOTALBUSY / (TotalBusy + TotalIdle)
+	int TotalBusyTime; //Count of timesteps where a process is running in the processor
+	int TotalIdleTime; //Count of timesteps where a process is free
 public:
 	PROCESSOR();
 	~PROCESSOR();
