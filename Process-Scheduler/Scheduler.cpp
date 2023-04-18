@@ -247,22 +247,19 @@ void Scheduler::AllocatingProcesses(int&count)
 			}
 		}
 	}
-	int LiveBlkCount = BLK_Count;
-	for (int i = 0; i < LiveBlkCount; i++)
+	
+	int random = Randomize();
+	if (BLK_Count > 0 && random <= 10)
 	{
-		int random = Randomize();
-		if (random <= 10)
-		{
-			//Move BLK[i] to RDY
-			/*if (BLK.isEmpty())
-				return;*/
-			PROCESS* tmp;
-			BLK.dequeue(tmp);
-			BLK_Count--;
-			ListOfProcessors[count]->addToMyRdy(tmp);
-			count = (count + 1) % totalProcessors;
-			tmp = nullptr;
-		}
+		//Move BLK_Front to RDY
+		/*if (BLK.isEmpty())
+			return;*/
+		PROCESS* Tmp;
+		BLK.dequeue(Tmp);
+		BLK_Count--;
+		ListOfProcessors[count]->addToMyRdy(Tmp);
+		count = (count + 1) % totalProcessors;
+		Tmp = nullptr;
 	}
 	int FCFS_random = Randomize();
 	FCFS_random %= LiveTotalProcesses;
