@@ -38,14 +38,13 @@ class Scheduler
 	int AvgWaitingTime; //Average waiting time for all processes
 	int AvgResponseTime; //Average Response time for all processes
 	int AvgTRT; //Average Turnaround time for all processes
-	int MigPercent; //Percentage of process migration due to RTF and MaxW
+	int MigPercent_RTF; //Percentage of process migration due to RTF
+	int MigPercent_MaxW; //Percentage of process migration due to MaxW
 	int StealPercent; //Percentages of processes moved by works steal
 	int ForkPercent; //Percentage of process fork
 	int KillPercent; //Percentage of process kill
 	int AvgUtilization; //Average utilization for all processors
-	int AvgRTF; //Average threshold (Average RTF)
 	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
-	//Don't forget PLoad and PUtil for each processor
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
