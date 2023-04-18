@@ -30,7 +30,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	{
 		char x;
 		cin >> x;
-		if (x == 'E' || x == 'e')
+		if (x == 'e' || x == 'E')
 			break;
 	}
 	
