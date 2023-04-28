@@ -13,9 +13,9 @@ class PROCESS
 	int TRT;
 	int WT;
 	int  N;
-	int StartTime; //added 
-	int Countsteps; //added
-	int CountN; //added
+	int StartTime; //the time at which process first enter in any processor
+	int Countsteps;// counter for the time steps that process take till now 
+	int CountN;	   //number of times process use IO till now 
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;

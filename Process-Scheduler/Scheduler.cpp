@@ -144,19 +144,16 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 			RUN->incrementCountsteps(1);
 			RUN->incrementcountN();
 			Add_toblocklist(RUN);
+			RunningCount--;
+			return true;
 		}
-		else {
-			RUN->incrementCountsteps(1);
-		}
-		RunningCount--;
-		return true;
 	}
 	return false;
 }
 
 bool Scheduler::Process_completion(PROCESS* RUN)
 {
-	if (RUN->get_countsteps() > RUN->get_CT())
+	if (RUN->get_countsteps() >= RUN->get_CT())
 	{
 		Add_toterminatedlist(RUN);
 		RunningCount--;
