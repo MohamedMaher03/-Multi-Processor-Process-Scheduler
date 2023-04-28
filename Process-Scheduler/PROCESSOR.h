@@ -14,6 +14,8 @@ protected:
 	int PUtil;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
 	bool RunningInSched;
+	int ExpectedFinishTime; //inc with CT when any process added to RDY
+							//dec with CT when any process removed from RDY(as in case of kill)
 public:
 	PROCESSOR();
 	~PROCESSOR();

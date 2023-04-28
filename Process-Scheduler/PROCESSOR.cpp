@@ -53,6 +53,7 @@ bool PROCESSOR::getRunningInSched()
 
 PROCESSOR::PROCESSOR()
 { 
+	ExpectedFinishTime = 0;
 	PLoad = 0;
 	PUtil = 0;
 	RSIZE = 0;
