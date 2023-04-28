@@ -155,6 +155,9 @@ enum PROCESS::STATES
 	 (IO + ind)->setfirst(IO_R);  
 	 (IO + ind)->setsecond(IO_D);
  }
+ int PROCESS::get_IO_R(int indx) {
+	 return (IO + indx)->getfirst();
+ }
  bool PROCESS::get_IsKilled()
  {
 	 return IsKilled;

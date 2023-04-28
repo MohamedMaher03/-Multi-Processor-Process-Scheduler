@@ -51,6 +51,7 @@ public:
 	void set_IO(int IO_R, int IO_D, int ind);
 	bool get_IsKilled();
 	bool get_IsParent();
+	int get_IO_R(int indx);
 	void set_state(string x);
 	string get_state();
 	bool operator >= (PROCESS &another_process);
