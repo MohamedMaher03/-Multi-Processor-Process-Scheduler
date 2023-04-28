@@ -27,16 +27,15 @@ void SJF::ScheduleAlgo()
 	else {
 		// if there is a process running in the CPU
 
-		if (RUN->get_countsteps() > RUN->get_CT())
+		if (SchedPtr->Process_completion(RUN))
 		{
-			SchedPtr->Add_toterminatedlist(RUN);
 			RUN = nullptr;
 			STATE = 0;
 		}
 		else if (SchedPtr->IO_requesthandling(RUN))
 		{
-				RUN = nullptr;
-				STATE = 0;
+			RUN = nullptr;
+			STATE = 0;
 		}
 		else {
 			RUN->incrementCountsteps(1);

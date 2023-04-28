@@ -148,6 +148,18 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 		else {
 			RUN->incrementCountsteps(1);
 		}
+		RunningCount--;
+		return true;
+	}
+	return false;
+}
+
+bool Scheduler::Process_completion(PROCESS* RUN)
+{
+	if (RUN->get_countsteps() > RUN->get_CT())
+	{
+		Add_toterminatedlist(RUN);
+		RunningCount--;
 		return true;
 	}
 	return false;

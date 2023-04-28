@@ -54,6 +54,7 @@ public:
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
 	bool IO_requesthandling(PROCESS* RUN);
+	bool Process_completion(PROCESS* RUN);
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
