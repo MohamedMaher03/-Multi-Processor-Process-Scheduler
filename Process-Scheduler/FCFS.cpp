@@ -48,6 +48,7 @@ void FCFS::ScheduleAlgo()
 void FCFS::addToMyRdy(PROCESS *P)
 { 
 	RDY.InsertEnd(P);
+	ExpectedFinishTime += P->get_CT();
 	RSIZE++;
 }
 

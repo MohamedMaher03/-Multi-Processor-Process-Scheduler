@@ -341,6 +341,36 @@ void Scheduler::AddToRunning()
 	
 }
 
+void Scheduler::WorkStealing()
+{
+	if (TIMESTEP % STL == 0) //every STL timestep
+	{
+		int LQF=-1;
+		int SQF=1e9;
+		int indxProcessorOfSQF;
+		int indxProcessorOfLQF;
+		for (int i = 0;i < totalProcessors;i++) {
+			int cur = ListOfProcessors[i]->getExpectedFinishTime();
+			if (cur >= LQF) {
+				LQF = cur;
+				indxProcessorOfLQF = i;
+			}
+			if (cur <= SQF) {
+				SQF = cur;
+				indxProcessorOfSQF = i;
+			}
+		}
+		StealLimit = (LQF - SQF) / LQF;
+		while (StealLimit > 0.4) {
+			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
+			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
+			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
+			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
+			StealLimit = (LQF - SQF) / LQF;
+		}
+	}
+}
+
 Scheduler::~Scheduler()
 {
 	Running = nullptr;

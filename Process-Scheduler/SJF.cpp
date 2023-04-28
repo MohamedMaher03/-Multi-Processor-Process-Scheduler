@@ -46,6 +46,7 @@ void SJF::ScheduleAlgo()
 void SJF::addToMyRdy(PROCESS* process)
 {
 	RDY.enqueue(process, process->get_CT());
+	ExpectedFinishTime += process->get_CT();
 	RSIZE++;
 }
 
@@ -67,6 +68,14 @@ bool SJF::PromoteProcess(int x)
 		}
 	}
 	return false;
+}
+
+PROCESS* SJF::removeTopOfMyRDY()
+{
+	PROCESS* top;
+	RDY.dequeue(top);
+	ExpectedFinishTime -= top->get_CT();
+	return top;
 }
 
 void  SJF::PrintMyReady() 

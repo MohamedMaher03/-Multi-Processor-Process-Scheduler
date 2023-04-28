@@ -51,6 +51,11 @@ bool PROCESSOR::getRunningInSched()
 	return RunningInSched;
 }
 
+int PROCESSOR::getExpectedFinishTime()
+{
+	return ExpectedFinishTime;
+}
+
 PROCESSOR::PROCESSOR()
 { 
 	ExpectedFinishTime = 0;

@@ -31,6 +31,7 @@ public:
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
 	void setRunningInSched(int);
 	bool getRunningInSched();
-
+	int getExpectedFinishTime();
+	virtual PROCESS* removeTopOfMyRDY()=0; //remove top of RDY queue and return it (update it in all processors) 
 };
 
