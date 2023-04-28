@@ -73,7 +73,7 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 	}
 	for (int i = 0; i < SJ; i++)
 	{
-		SJF* tmp = new SJF();
+		SJF* tmp = new SJF(this);
 		ListOfProcessors[counter++] = tmp;
 	}
 	for (int i = 0; i < R; i++)
