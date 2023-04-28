@@ -18,7 +18,7 @@ void FCFS::ScheduleAlgo()
 {
 }
 
-/*void FCFS::ScheduleAlgo()
+void FCFS::ScheduleAlgo()
 {
 
 
@@ -26,15 +26,23 @@ void FCFS::ScheduleAlgo()
 	{
 		if (!RUN)
 		{
-			RUN = RDY.get_Head();
+			RUN = RDY.peek();
 			RDY.DeleteFirst();
-			RUN->set_starttime(SCH_ptr->get_TIMESTEP());
-			
-
-
+			RUN->set_starttime(SchedPtr->get_TIMESTEP());
+			STATE = 1;
 		}
+ 
+		if (RUN->get_CT() <= RUN->get_countsteps())
+			
+		{
+					SchedPtr->Add_toterminatedlist(RUN);
+					RUN = nullptr;
+					STATE = 0;
+		}
+	
 	}
-}*/
+	// lesa lazem a check al incrementation of the time step emta
+}
 
 
 void FCFS::addToMyRdy(PROCESS *P)

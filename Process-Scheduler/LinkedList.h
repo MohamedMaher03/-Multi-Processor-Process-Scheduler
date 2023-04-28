@@ -78,7 +78,7 @@ public:
 			Head = P;
 		}
 	}
-	Node<PROCESS*>* peek()
+	(Node<PROCESS*>)* peek()
 	{
 		return Head;
 	}
