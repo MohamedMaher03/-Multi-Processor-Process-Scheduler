@@ -33,19 +33,10 @@ void SJF::ScheduleAlgo()
 			RUN = nullptr;
 			STATE = 0;
 		}
-		else if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
+		else if (SchedPtr->IO_requesthandling(RUN))
 		{
-			if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
-			{
-				RUN->incrementCountsteps(1);
-				RUN->incrementcountN();
-				SchedPtr->Add_toblocklist(RUN);
 				RUN = nullptr;
 				STATE = 0;
-			}
-			else {
-				RUN->incrementCountsteps(1);
-			}
 		}
 		else {
 			RUN->incrementCountsteps(1);

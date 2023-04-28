@@ -24,6 +24,7 @@ public:
 	string getType(); //get type of processor
 	PROCESS* getCurrentlyRunning(); //returns address of currently running process for each processor, null otherwise
 	bool getState();
+	void setState(bool s);
 	virtual bool PromoteProcess(int) = 0; //Makes the process AS running, and removes it from RDY queue
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
 	void setRunningInSched(int);

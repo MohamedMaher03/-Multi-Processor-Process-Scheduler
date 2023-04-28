@@ -14,7 +14,9 @@ PROCESS* PROCESSOR::getCurrentlyRunning()
 {
 	return RUN;
 }
-
+void PROCESSOR:: setState(bool s) {
+	STATE = s;
+}
 bool PROCESSOR::getState()
 {
 	return STATE;

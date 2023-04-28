@@ -96,11 +96,13 @@ void Scheduler::Print(char z)
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 {
 	BLK.enqueue(blockedprocess);
+	BLK_Count++;
 }
 
 void Scheduler::Add_toterminatedlist(PROCESS* terminatedprocess)
 {
 	TRM.enqueue(terminatedprocess);
+	TRM_Count++;
 }
 
 int Scheduler::get_TIMESTEP()
@@ -134,7 +136,22 @@ Scheduler::Scheduler()
 	RunningCountIndex = 0;
 	LiveTotalProcesses = 0;
 }
-
+bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
+	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
+	{
+		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
+		{
+			RUN->incrementCountsteps(1);
+			RUN->incrementcountN();
+			Add_toblocklist(RUN);
+		}
+		else {
+			RUN->incrementCountsteps(1);
+		}
+		return true;
+	}
+	return false;
+}
 
 void Scheduler::SIMULATE()
 {

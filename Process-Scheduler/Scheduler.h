@@ -53,6 +53,7 @@ public:
 	void Print(char); //Decides which mode ([I]nteractive - [S]ilent - Step[B]yStep) 
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
+	bool IO_requesthandling(PROCESS* RUN);
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
