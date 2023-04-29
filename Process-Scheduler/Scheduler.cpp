@@ -13,6 +13,7 @@ void Scheduler::LoadData()
 		UIptr->PrintMessage("File Not Found!");
 		return;
 	}
+	File = FileName;
 	myFile >> FCFS_Count >> SJF_Count >> RR_Count;
 	totalProcessors = FCFS_Count + SJF_Count + RR_Count;
 	myFile >> TimeSlice;
@@ -43,8 +44,6 @@ void Scheduler::LoadData()
 				}
 			}
 		}
-		
-		
 	}
 	string ignore1;
 	string ignore2;
@@ -60,6 +59,42 @@ void Scheduler::LoadData()
 }
 void Scheduler::SaveData()
 {
+	File = "Output_" + File;
+	ofstream OutputFile;
+	OutputFile.open(File, ios::out);
+	if (OutputFile.is_open())
+	{
+		OutputFile << "TT    PID    AT    CT    IO_D        WT    RT    TRT" << endl;
+		while (!TRM.isEmpty())
+		{
+			PROCESS* temp = TRM.dequeue(temp);
+			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT()
+				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_TRT() << endl;
+		}
+		OutputFile << "Processes: " << LiveTotalProcesses << endl;
+		OutputFile << "Avg WT = " << AvgWaitingTime << ",      Avg RT = " << AvgResponseTime << ",      Avg TRT = " << AvgTRT << endl;
+		OutputFile << "Migration % :        RTF = " << RTF << "%,      MaxW = " << MaxW << "%" << endl;
+		OutputFile << "Forked Processes: " << ForkPercent << "%" << endl;
+		OutputFile << "Killed Processes: " << KillPercent << "%" << endl;
+		OutputFile << endl;
+		OutputFile << "Processors: " << totalProcessors << " [" << FCFS_Count << " FCFS, " << SJF_Count << " SJF, "
+			<< RR_Count << " RR]" << endl;
+		OutputFile << "Processors Load" << endl;
+		for (int i = 1; i < totalProcessors; i++)
+		{
+			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPLoad() << "%,  ";
+		}
+		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPLoad() << "%\n";
+		OutputFile << endl;
+		OutputFile << "Processors Utiliz" << endl;
+		for (int i = 1; i < totalProcessors; i++)
+		{
+			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPUtil() << "%,  ";
+		}
+		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
+		OutputFile << "Avg utilization = " << AvgUtilization << "%";
+		OutputFile.close();
+	}
 
 }
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
@@ -90,7 +125,10 @@ void Scheduler::Print(char z)
 	else if (z == 'B')
 		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
 	else if (z == 'S')
+	{
 		UIptr->printSilent();
+		SaveData();
+	}
 }
 
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
@@ -99,9 +137,9 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 	BLK_Count++;
 }
 
-void Scheduler::Add_toterminatedlist(PROCESS* terminatedprocess)
+void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
-	TRM.enqueue(terminatedprocess);
+	TRM.enqueue(temp, temp->get_TT());
 	TRM_Count++;
 }
 
@@ -260,7 +298,7 @@ void Scheduler::AllocatingProcesses(int&count)
 			{
 				//MOVE Running[i] to TRM list
 
-				TRM.enqueue(Running[i]);
+				TRM.enqueue(Running[i], Running[i]->get_TT());
 				TRM_Count++;
 				for (int j = 0; j < totalProcessors; j++)
 				{
@@ -295,7 +333,7 @@ void Scheduler::AllocatingProcesses(int&count)
 		PROCESS* KILLED = dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(FCFS_random);
 		if (KILLED)
 		{
-			TRM.enqueue(KILLED);
+			TRM.enqueue(KILLED, KILLED->get_TT());
 			TRM_Count++;
 		}
 	}
@@ -354,5 +392,5 @@ Scheduler::~Scheduler()
 		}
 	}
 	delete[] ListOfProcessors;
-	TRM.~LinkedQueue();
+	TRM.~LinkedPriorityQueue();
 }

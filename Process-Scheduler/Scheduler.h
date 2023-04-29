@@ -15,7 +15,7 @@ class Scheduler
 	//These 3 queues are common across all processes
 	LinkedQueue<PROCESS*> NEW;
 	LinkedQueue<PROCESS*> BLK;
-	LinkedQueue<PROCESS*> TRM;
+	LinkedPriorityQueue<PROCESS*> TRM;
 	UI* UIptr;
 	int FCFS_Count;
 	int SJF_Count;
@@ -34,6 +34,7 @@ class Scheduler
 	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
 	PROCESS** Running; //This is an arry containg of pointers of Running processes from each processor
+	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
 	int AvgWaitingTime; //Average waiting time for all processes
 	int AvgResponseTime; //Average Response time for all processes
