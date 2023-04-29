@@ -22,6 +22,7 @@ void SJF::ScheduleAlgo()
 			RUN = HighestPriorityPROCESS;
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());  //set start time if process didn't start CPU before 
 			STATE = 1;
+			RUN->incrementCountsteps(1);
 		}
 	}
 	else {

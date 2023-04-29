@@ -56,6 +56,8 @@ public:
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
 	bool IO_requesthandling(PROCESS* RUN);
 	bool Process_completion(PROCESS* RUN);
+	bool MIG_RR_SJF(PROCESS* run);
+	bool MIG_FCFS_RR(PROCESS* run);
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();

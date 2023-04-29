@@ -113,7 +113,7 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 	}
 	for (int i = 0; i < R; i++)
 	{
-		RR* tmp = new RR();
+		RR* tmp = new RR(this);
 		ListOfProcessors[counter++] = tmp;
 	}
 }
@@ -191,7 +191,7 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 
 bool Scheduler::Process_completion(PROCESS* RUN)
 {
-	if (RUN->get_countsteps() >= RUN->get_CT())
+	if (RUN->get_countsteps() > RUN->get_CT())
 	{
 		Add_toterminatedlist(RUN);
 		RunningCount--;
@@ -199,6 +199,41 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 	}
 	return false;
 }
+
+bool Scheduler::MIG_RR_SJF(PROCESS* run)
+{
+	int SJF_INDEX;
+	if ((run->get_CT() - run->get_countsteps()) < RTF)
+	{
+		for (int i = 0; i < totalProcessors; i++)
+			if (ListOfProcessors[i]->getType() == "SJF")
+			{
+				SJF_INDEX = i;
+				break;
+			}
+		ListOfProcessors[SJF_INDEX]->addToMyRdy(run);
+		return true;
+	}
+	return false;
+}
+
+bool Scheduler::MIG_FCFS_RR(PROCESS* run)
+{
+	int RR_INDEX;
+	if (run->get_WT()>MaxW)
+	{
+		for (int i = 0; i < totalProcessors; i++)
+			if (ListOfProcessors[i]->getType() == "RR")
+			{
+				RR_INDEX = i;
+				break;
+			}
+		ListOfProcessors[RR_INDEX]->addToMyRdy(run);
+		return true;
+	}
+	return false;
+}
+
 
 void Scheduler::SIMULATE()
 {

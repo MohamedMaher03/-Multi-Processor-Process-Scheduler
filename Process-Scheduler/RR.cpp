@@ -1,9 +1,10 @@
  #include "RR.h"
 #include "Scheduler.h"
 
-RR::RR()
+RR::RR(Scheduler*scheduler)
 {
 	STATE = 0;
+	SchedPtr = scheduler;
 	RUN = nullptr;
 	TYPE = "RR";
 	RSIZE = 0;
@@ -15,34 +16,56 @@ RR::~RR()
 
 void RR::ScheduleAlgo()
 {
+		if (!STATE)//the processor is IDLE
+		{
+			PROCESS* front;
+			if(RDY.dequeue(front))
+			{
+				RUN = front;
+				STATE = 1;
+				RUN->set_starttime(SchedPtr->get_TIMESTEP());
+				RUN->incrementCountsteps(1);
+			}
+			
+		}
+		else {
+			if (SchedPtr->Process_completion(RUN))
+			{
+				RUN = nullptr;
+				STATE = 0;
+			}
+			else if (SchedPtr->IO_requesthandling(RUN))
+			{
+				RUN = nullptr;
+				STATE = 0;
+			}
+			else {
+				if (RUN->get_countsteps() < SchedPtr->getTimeSlice())
+				{
+					if ((RUN->get_CT() - RUN->get_countsteps()) < SchedPtr->getRTF())
+					{
+						RUN->incrementCountsteps(1);
+					}
+					else
+					{
+						//migrate to SJF
+					}
+				}
+				else
+				{
+					if ((RUN->get_CT() - RUN->get_countsteps()) > SchedPtr->getRTF())
+					{
+						//migrate to SJF
+					}
+					else
+					{
+						RDY.enqueue(RUN);
+					}
 
-	//PROCESS* front;
+				}
+			}
 
-	//while (!(RDY.isEmpty()))
-	//{
-	//	if (!STATE)//the processor is IDLE
-	//	{
-
-	//		RUN = front;
-	//		RUN->set_starttime(sch_ptr->get_TIMESTEP());
-	//		if ((RUN->get_CT() - RUN->get_countsteps()) > sch_ptr->getRTF())
-	//		{
-	//			while ((sch_ptr->get_TIMESTEP() - RUN->get_starttime()))
-	//				RUN->incrementCountsteps(sch_ptr->getTimeSlice());
-
-	//			if (RDY.enqueue(RUN))
-	//				RUN = NULL;
-	//		}
-	//		else
-	//		{
-	//			//send to scheduler to migrate it to FCFS
-
-	//		}
-
-	//	}
-	//}
-
-
+		}
 
 }
 

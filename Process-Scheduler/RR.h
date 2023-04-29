@@ -9,7 +9,7 @@ class RR : public PROCESSOR
 	LinkedQueue<PROCESS*>RDY;
 
 public:
-	RR();
+	RR(Scheduler* scheduler);
 	~RR();
 	void ScheduleAlgo();//function moving process from RDY to RUN differ for each processor type
 	void PrintMyReady();
