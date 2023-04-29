@@ -40,7 +40,7 @@ public:
             return;
         }
 
-        if (priority < head->priority) {
+        if (priority > head->priority) {
             newNode->next = head;
             head = newNode;
             return;
@@ -48,7 +48,7 @@ public:
 
         Node* current = head;
 
-        while (current->next != nullptr && current->next->priority <= priority) {
+        while (current->next != nullptr && current->next->priority >= priority) {
             current = current->next;
         }
 
