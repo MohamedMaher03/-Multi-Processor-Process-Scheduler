@@ -31,8 +31,9 @@ public:
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
 	void setRunningInSched(int);
 	bool getRunningInSched();
+	int getExpectedFinishTime();
+	virtual PROCESS* removeTopOfMyRDY() = 0;
 	int getPLoad() const;
 	int getPUtil() const;
-
 };
 

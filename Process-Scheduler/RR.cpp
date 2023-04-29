@@ -54,6 +54,7 @@ void RR::PrintMyReady()
 void RR::addToMyRdy(PROCESS* TMP)
 {
 	RDY.enqueue(TMP);
+	ExpectedFinishTime += TMP->get_CT();
 	RSIZE++;
 }
 

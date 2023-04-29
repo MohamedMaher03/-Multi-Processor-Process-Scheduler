@@ -10,6 +10,7 @@ public:
 	SJF(Scheduler* scheduler);
 	void ScheduleAlgo();
 	bool PromoteProcess(int x);
+	PROCESS* removeTopOfMyRDY();
 	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
 	void PrintMyReady();
 };

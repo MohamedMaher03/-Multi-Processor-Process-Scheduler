@@ -67,7 +67,7 @@ public:
 	void AllocatingProcesses(int&count); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
-	
+	void WorkStealing();
 	~Scheduler();
 };
 
