@@ -14,9 +14,6 @@ FCFS::~FCFS()
 {
 }
 
-void FCFS::ScheduleAlgo()
-{
-}
 
 void FCFS::ScheduleAlgo()
 {
