@@ -1,7 +1,9 @@
 #include "UI.h"
+#include <chrono>  // for chrono::seconds
+#include <thread>  // for this_thread::sleep_for
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount,int ProcessesCount)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedPriorityQueue<PROCESS*> TRM, int TSize, int RunningCount,int ProcessesCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -22,7 +24,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "\n------------ - RUN processes  ------------ - " << endl;
 	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount, ProccessorList); cout << endl;
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
-	cout << TSize << " TRM: "; PrintQueue(TRM); cout << endl;
+	cout << TSize << " TRM: "; TRM.printContents(); cout << endl;
 	cout << "\n";
 	if(ProcessesCount!=TSize)
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
@@ -36,7 +38,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	}
 	
 }
-void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
+void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedPriorityQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -57,11 +59,17 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	cout << "\n------------ - RUN processes------------ - " << endl;
 	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount, ProccessorList);
 	cout << "\n------------ - TRM processes------------ - " << endl;
-	cout << TSize << " TRM: "; PrintQueue(TRM);
-	cout << "PRESS ANY KEY TO MOVE TO NEXT STEP !" << endl;
+	cout << TSize << " TRM: "; TRM.printContents();
+	cout << "\n *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
+	this_thread::sleep_for(chrono::seconds(1)); // waits for one second
 }
 void UI::printSilent()
 {
+	cout << "Silent Mode.........." << endl;
+	this_thread::sleep_for(chrono::seconds(2));
+	cout << "Simulation Starts..." << endl;
+	this_thread::sleep_for(chrono::seconds(2));
+	cout << "Simulation ends, Output file created" << endl;
 }
 enum UI::MODE
 {
