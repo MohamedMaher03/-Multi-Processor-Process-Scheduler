@@ -20,7 +20,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
 	IsOrphan = false;
 	child = nullptr; 
 	set_state("NEW");
-
+	totalIoD = 0;
 }
 PROCESS::~PROCESS()
 {
@@ -233,6 +233,19 @@ enum PROCESS::STATES
  void PROCESS::set_N(int x)
  {
 	 N = x;
+ }
+
+ int PROCESS::get_totalIoD() const
+ {
+	 return totalIoD;
+ }
+
+ int PROCESS::calculateTotalID()
+ {
+	 for (int i = 0; i < N; i++)
+	 {
+		 totalIoD += IO[i].getsecond();
+	 }
  }
 
  

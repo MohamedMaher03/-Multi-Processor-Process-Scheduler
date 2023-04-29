@@ -4,7 +4,6 @@
 using namespace std;
 class PROCESS
 {
-
 	int PID;
 	int AT;
 	int RT;
@@ -23,6 +22,7 @@ class PROCESS
 	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	enum STATES;
 	STATES state;
+	int totalIoD;
 public:
 
 	PROCESS(int ArrivalTime, int ID, int CPU_Time,	int Number);
@@ -54,12 +54,12 @@ public:
 	int get_IO_R(int indx);
 	void set_state(string x);
 	string get_state();
-	bool operator >= (PROCESS &another_process);
-	bool operator <= (PROCESS &another_process);
 	void set_PID(int);
 	void set_AT(int);
 	void set_CT(int);
 	void set_N(int);
+	int get_totalIoD() const;
+	int calculateTotalID();
 	~PROCESS();
 
 
