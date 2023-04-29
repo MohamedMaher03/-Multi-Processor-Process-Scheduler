@@ -51,6 +51,16 @@ bool PROCESSOR::getRunningInSched()
 	return RunningInSched;
 }
 
+int PROCESSOR::getPLoad() const
+{
+	return PLoad;
+}
+
+int PROCESSOR::getPUtil() const
+{
+	return PUtil;
+}
+
 PROCESSOR::PROCESSOR()
 { 
 	ExpectedFinishTime = 0;

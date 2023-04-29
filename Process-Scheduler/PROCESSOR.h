@@ -31,6 +31,8 @@ public:
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
 	void setRunningInSched(int);
 	bool getRunningInSched();
+	int getPLoad() const;
+	int getPUtil() const;
 
 };
 
