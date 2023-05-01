@@ -1,7 +1,6 @@
 #include "PROCESS.h"
 using namespace std;
-PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,
-	int Number)
+PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 {
 	AT = ArrivalTime;
 	PID = ID;
@@ -72,7 +71,6 @@ enum PROCESS::STATES
  {
 	 IsOrphan = true;
  }
-
 
  int PROCESS::get_PID()
  {

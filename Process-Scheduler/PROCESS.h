@@ -23,6 +23,8 @@ class PROCESS
 	enum STATES;
 	STATES state;
 	int totalIoD;
+	int RTF;
+	int MaxW;
 public:
 
 	PROCESS(int ArrivalTime, int ID, int CPU_Time,	int Number);

@@ -14,7 +14,7 @@ class Scheduler
 	int totalProcessors;
 	//These 3 queues are common across all processes
 	LinkedQueue<PROCESS*> NEW;
-	LinkedQueue<PROCESS*> BLK;
+	LinkedPriorityQueue<PROCESS*> BLK;
 	LinkedPriorityQueue<PROCESS*> TRM;
 	UI* UIptr;
 	int FCFS_Count;
@@ -63,13 +63,14 @@ public:
 	int getRTF();
 	Scheduler();
 	void SIMULATE();
-	void CheckNewArrivals(int& count); //Checks the NEW queue for processes arriving at current Timestep and add them to RDY
+	void CheckNewArrivals(); // Distributes processes from NEW queue to Shortest RDY 
 	void PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
-	int Randomize(); //Generates Random numbers from 1 to 100
-	void AllocatingProcesses(int&count); //Use the radnomizer to distribute processes ranadomly
+	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
 	void WorkStealing();
+	PROCESSOR* FindShortestProcessor(char); // This function if given a parameter 'S' OR 'R', finds the shortest SJF && RR respectively
+	void BLKtoRDY(); //Each timestep checks if the front of BLK (process with shortest IOD) has finished its IOD request, and moves it to shortest RDY
 	~Scheduler();
 };
 

@@ -24,7 +24,7 @@ void Scheduler::LoadData()
 	{
 		int AT, PID, CT, N;
 		myFile >> AT >> PID >> CT >> N;
-		PROCESS* tmp = new PROCESS(AT, PID, CT, N); //I assume the constructor to take these values
+		PROCESS* tmp = new PROCESS(AT, PID, CT, N); // The process constructor expects these values
 		NEW.enqueue(tmp);//Processes are first added to NEW queue
 		if (N > 0)
 		{ 
@@ -133,7 +133,7 @@ void Scheduler::Print(char z)
 
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 {
-	BLK.enqueue(blockedprocess);
+	BLK.enqueue(blockedprocess, blockedprocess->get_totalIoD() * - 1); // Priority queue ranks descending but here we want highest priority to be least IOD
 	BLK_Count++;
 }
 
@@ -181,7 +181,7 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 		{
 			RUN->incrementCountsteps(1);
 			RUN->incrementcountN();
-			Add_toblocklist(RUN);
+			//Add_toblocklist(RUN); The BLK is now priority queue. Highest priority is Least remaining IOD
 			RunningCount--;
 			return true;
 		}
@@ -202,16 +202,9 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 
 bool Scheduler::MIG_RR_SJF(PROCESS* run)
 {
-	int SJF_INDEX;
 	if ((run->get_CT() - run->get_countsteps()) < RTF)
 	{
-		for (int i = 0; i < totalProcessors; i++)
-			if (ListOfProcessors[i]->getType() == "SJF")
-			{
-				SJF_INDEX = i;
-				break;
-			}
-		ListOfProcessors[SJF_INDEX]->addToMyRdy(run);
+		FindShortestProcessor('S')->addToMyRdy(run);
 		return true;
 	}
 	return false;
@@ -219,16 +212,9 @@ bool Scheduler::MIG_RR_SJF(PROCESS* run)
 
 bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 {
-	int RR_INDEX;
 	if (run->get_WT()>MaxW)
 	{
-		for (int i = 0; i < totalProcessors; i++)
-			if (ListOfProcessors[i]->getType() == "RR")
-			{
-				RR_INDEX = i;
-				break;
-			}
-		ListOfProcessors[RR_INDEX]->addToMyRdy(run);
+		FindShortestProcessor('R')->addToMyRdy(run);
 		return true;
 	}
 	return false;
@@ -237,34 +223,28 @@ bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 
 void Scheduler::SIMULATE()
 {
-	int count = 0; //count to randomize process in the processors
 	LoadData(); //Step 1 Load Data from Input File
 	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
 	while (!AllDone())
 	{
-		CheckNewArrivals(count); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
+		CheckNewArrivals(); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
-		AllocatingProcesses(count); //Iterates over all processes and move them based on randomizer result
+		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
+		BLKtoRDY();
 		Print('I'); // Print in Interactive Mode
 		TIMESTEP++;
 	}
 	
 }
 
-void Scheduler::CheckNewArrivals(int&count)
+void Scheduler::CheckNewArrivals()
 {
-	PROCESS* tmp;
-	if(NEW.peek(tmp))
-	while(tmp->get_AT() == TIMESTEP)
-	{
-		if (!NEW.dequeue(tmp)) {
-			break;
-		}
-		ListOfProcessors[count]->addToMyRdy(tmp); //Adds process to ready of each processor (Randomly ofc)
-		count = (count + 1) % totalProcessors;
-		NEW.peek(tmp);
-	}
+	if (NEW.isEmpty())
+		return;
+	PROCESS* temp;
+	NEW.dequeue(temp);
+	FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
 }
 
 void Scheduler::PromoteRdyToRun()
@@ -273,29 +253,15 @@ void Scheduler::PromoteRdyToRun()
 	{
 		if (ListOfProcessors[i]->getRSIZE() > 0)
 			if (ListOfProcessors[i]->PromoteProcess(TIMESTEP))
-				RunningCount++;
-				
+				RunningCount++;	
 	}
 }
 
-int Scheduler::Randomize()
-{
-	random_device rd;
-	mt19937 gen(rd());
-
-	// Define the distribution for the random number
-	uniform_int_distribution<> dis(1, 100);
-
-	// Generate and return the random number
-	return dis(gen);
-}
-
-void Scheduler::AllocatingProcesses(int&count)
+void Scheduler::AllocatingProcesses() //Do NOT delete it just yet, we need the same conditions in phase 2, so keep it till we're DONE.
 {
 	for (int i = 0; i < RunningCountIndex; i++) 
 		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
 	{
-		int random = Randomize();
 		if (!Running[i])
 			continue;
 		if (RunningCount > 0 && i<totalProcessors)
@@ -347,22 +313,6 @@ void Scheduler::AllocatingProcesses(int&count)
 		}
 	}
 	
-	int random = Randomize();
-	if (BLK_Count > 0 && random <= 10)
-	{
-		//Move BLK_Front to RDY
-		/*if (BLK.isEmpty())
-			return;*/
-		PROCESS* Tmp;
-		BLK.dequeue(Tmp);
-		BLK_Count--;
-		ListOfProcessors[count]->addToMyRdy(Tmp);
-		count = (count + 1) % totalProcessors;
-		Tmp = nullptr;
-	}
-	int FCFS_random = Randomize();
-	FCFS_random %= LiveTotalProcesses;
-	FCFS_random++;
 	for (int i = 0; i < FCFS_Count; i++)
 	{
 		PROCESS* KILLED = dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(FCFS_random);
@@ -440,6 +390,67 @@ void Scheduler::WorkStealing()
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
 			StealLimit = (LQF - SQF) / LQF;
+		}
+	}
+}
+
+PROCESSOR* Scheduler::FindShortestProcessor(char x = 'N')
+{
+	/*
+	This function is supposed to return the first to finish SJF and RR processors if given 'S' and 'R' respectively.
+	Else it finds the overall first to finish processor
+	*/
+	if (x == 'S')
+	{
+		int shortestProcessor = INT_MAX; // Keeps track of the first SJF processor to finish
+		int shortestProcessorIndex = 0; // Index of the shortest SJF
+		for (int i = 1; i < totalProcessors; i++)
+		{
+			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "SJF")
+			{
+				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
+				shortestProcessorIndex = i;
+			}
+		}
+		return ListOfProcessors[shortestProcessorIndex];
+	}
+	else if (x == 'R')
+	{
+		int shortestProcessor = INT_MAX; // Keeps track of the first RR processor to finish
+		int shortestProcessorIndex = 0; // Index of the shortest RR
+		for (int i = 1; i < totalProcessors; i++)
+		{
+			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "RR")
+			{
+				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
+				shortestProcessorIndex = i;
+			}
+		}
+		return ListOfProcessors[shortestProcessorIndex];
+	}
+	int shortestProcessor = ListOfProcessors[0]->getExpectedFinishTime(); // Keeps track of the processor that will finish first
+	int shortestProcessorIndex = 0; // Index of the shortest processor
+	for (int i = 1; i < totalProcessors; i++)
+	{
+		if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor)
+		{
+			shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
+			shortestProcessorIndex = i;
+		}
+	}
+	return ListOfProcessors[shortestProcessorIndex];
+}
+
+void Scheduler::BLKtoRDY()
+{
+	PROCESS* tmp;
+	if (BLK.peek(tmp))
+	{
+		if (!tmp->get_totalIoD()) //checks if the processor IOD == 0, moves it to shortest RDY
+		{
+			BLK.dequeue(tmp);
+			BLK_Count--;
+			FindShortestProcessor()->addToMyRdy(tmp);
 		}
 	}
 }
