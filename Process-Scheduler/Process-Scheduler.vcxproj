@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryTrees.h" />
     <ClInclude Include="FCFS.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedPriorityQueue.h" />
@@ -139,9 +140,11 @@
     <ClInclude Include="RR.h" />
     <ClInclude Include="Scheduler.h" />
     <ClInclude Include="SJF.h" />
+    <ClInclude Include="TreeNode.h" />
     <ClInclude Include="UI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryTrees.cpp" />
     <ClCompile Include="FCFS.cpp" />
     <ClCompile Include="Pair.cpp" />
     <ClCompile Include="PROCESS.cpp" />
@@ -150,6 +153,7 @@
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="SJF.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
