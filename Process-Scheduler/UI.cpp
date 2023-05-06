@@ -117,3 +117,20 @@ void UI::PrintMessage(string x)
 {
 	cout << x;
 }
+
+int UI::SelectRunMode()
+{
+	cout << "-------  PLEASE CHOOSE THE RUNNING MOOD: ---------- \n\n";
+	cout << "I for Interactive Mood" << endl;
+	cout << "B for Step-By-Step Mood" << endl;
+	cout << "S for Silent Mood" << endl;
+	char x;
+	cin >> x;
+	if (x == 'I' || x == 'i')
+		return 1;
+	else if (x == 'B' || x == 'b')
+		return 2;
+	else if (x == 'S' || x == 's')
+		return 3;
+	return 0;
+}

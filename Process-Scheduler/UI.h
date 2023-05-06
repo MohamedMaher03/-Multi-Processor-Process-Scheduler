@@ -17,7 +17,6 @@ public:
 	void PrintRunning(PROCESS**, int, int, PROCESSOR**); //Prints Running processes
 	string ReadFileName();
 	void PrintMessage(string);
-	
-
+	int SelectRunMode();
 };
 
