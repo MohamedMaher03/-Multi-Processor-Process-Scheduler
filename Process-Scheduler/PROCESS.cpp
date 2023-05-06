@@ -246,4 +246,34 @@ enum PROCESS::STATES
 	 }
  }
 
+ void PROCESS::setParent(PROCESS* pr)
+ {
+	 Parent = pr;
+ }
+
+ void PROCESS::setChild1(PROCESS* ch)
+ {
+	 Child1 = ch;
+ }
+
+ void PROCESS::setChild2(PROCESS* ch)
+ {
+	 Child2 = ch;
+ }
+
+ PROCESS* PROCESS::getParent() const
+ {
+	 return Parent;
+ }
+
+ PROCESS* PROCESS::getChild1() const
+ {
+	 return Child1;
+ }
+
+ PROCESS* PROCESS::getChild2() const
+ {
+	 return Child2;
+ }
+
  

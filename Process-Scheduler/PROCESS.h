@@ -25,6 +25,9 @@ class PROCESS
 	int totalIoD;
 	int RTF;
 	int MaxW;
+	PROCESS* Parent;
+	PROCESS* Child1;
+	PROCESS* Child2;
 public:
 
 	PROCESS(int ArrivalTime, int ID, int CPU_Time,	int Number);
@@ -62,6 +65,12 @@ public:
 	void set_N(int);
 	int get_totalIoD() const;
 	int calculateTotalID();
+	void setParent(PROCESS*);
+	void setChild1(PROCESS*);
+	void setChild2(PROCESS*);
+	PROCESS* getParent() const;
+	PROCESS* getChild1() const;
+	PROCESS* getChild2() const;
 	~PROCESS();
 
 
