@@ -17,7 +17,7 @@ protected:
 	int ExpectedFinishTime; //inc with CT when any process added to RDY
 							//dec with CT when any process removed from RDY(as in case of kill)
 public:
-	PROCESSOR();
+	PROCESSOR(Scheduler*);
 	~PROCESSOR();
 	virtual void ScheduleAlgo() = 0;//function moving process from RDY to RUN differ for each processor type
 	virtual void PrintMyReady() = 0;

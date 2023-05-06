@@ -90,7 +90,10 @@ void Scheduler::SaveData()
 		for (int i = 1; i < totalProcessors; i++)
 		{
 			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPUtil() << "%,  ";
+			AvgUtilization += ListOfProcessors[i - 1]->getPUtil();
 		}
+		AvgUtilization += ListOfProcessors[totalProcessors - 1]->getPUtil();
+		AvgUtilization = (AvgUtilization / TRM_Count) * 100;
 		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
 		OutputFile << "Avg utilization = " << AvgUtilization << "%";
 		OutputFile.close();
@@ -103,7 +106,7 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 	ListOfProcessors = new PROCESSOR* [FC + SJ + R];
 	for (int i = 0; i < FC; i++)
 	{
-		FCFS* tmp = new FCFS();
+		FCFS* tmp = new FCFS(this);
 		ListOfProcessors[counter++] = tmp;
 	}
 	for (int i = 0; i < SJ; i++)
@@ -173,6 +176,18 @@ Scheduler::Scheduler()
 	RunningCount = 0;
 	RunningCountIndex = 0;
 	LiveTotalProcesses = 0;
+	AvgWaitingTime = 0;
+	AvgResponseTime = 0;
+	AvgTRT = 0;
+	MigPercent_MaxW = 0;
+	MigPercent_RTF = 0;
+	MigsDueMax_W = 0;
+	MigsDueRTF = 0;
+	ForkedCount = 0;
+	StealCount = 0;
+	KilledCount = 0;
+	KillPercent = 0;
+	StealPercent = 0;
 }
 bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
@@ -470,9 +485,51 @@ void Scheduler::BLKtoRDY()
 	}
 }
 
+void Scheduler::CalculateStats()
+{
+	for (int i = 0; i < TRM_Count; i++)
+	{
+		PROCESS* temp;
+		TRM.dequeue(temp);
+		AvgWaitingTime += temp->get_WT();
+		AvgResponseTime += temp->get_RT();
+		AvgTRT += temp->get_TRT();
+	}
+	AvgWaitingTime /= TRM_Count;
+	AvgResponseTime /= TRM_Count;
+	AvgTRT /= TRM_Count;
+	MigPercent_MaxW = (MigsDueMax_W / TRM_Count) * 100;
+	MigPercent_RTF = (MigsDueRTF / TRM_Count) * 100;
+	StealPercent = (StealCount / TRM_Count) * 100;
+	Forkability = (ForkedCount / TRM_Count) * 100;
+	KillPercent = (KilledCount / TRM_Count) * 100;
+	
+}
+
 void Scheduler::AddToForked(PROCESS* tmp)
 {
 	ForkedProcesses.InsertEnd(tmp);
+	ForkedCount++;
+}
+
+void Scheduler::increment_MigsDueMax_W()
+{
+	MigsDueMax_W++;
+}
+
+void Scheduler::increment_MigsDueRTF()
+{
+	MigsDueRTF++;
+}
+
+void Scheduler::increment_StealCount()
+{
+	StealCount++;
+}
+
+void Scheduler::increment_KilledCount()
+{
+	KilledCount++;
 }
 
 Scheduler::~Scheduler()

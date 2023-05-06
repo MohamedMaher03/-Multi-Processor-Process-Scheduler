@@ -47,6 +47,11 @@ class Scheduler
 	int KillPercent; //Percentage of process kill
 	int AvgUtilization; //Average utilization for all processors
 	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
+	int MigsDueMax_W; // count of migrations due to Max_W
+	int MigsDueRTF; // count of migrations due to RTF;
+	int StealCount; // Count of processes moved due to steal
+	int ForkedCount; // Count of processes forked
+	int KilledCount; // Count of processes killed
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
@@ -74,6 +79,10 @@ public:
 	void BLKtoRDY(); //Each timestep checks if the front of BLK (process with shortest IOD) has finished its IOD request, and moves it to shortest RDY
 	void CalculateStats();
 	void AddToForked(PROCESS*);
+	void increment_MigsDueMax_W();
+	void increment_MigsDueRTF();
+	void increment_StealCount();
+	void increment_KilledCount();
 	~Scheduler();
 };
 

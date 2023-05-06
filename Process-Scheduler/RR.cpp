@@ -1,10 +1,9 @@
  #include "RR.h"
 #include "Scheduler.h"
 
-RR::RR(Scheduler*scheduler)
+RR::RR(Scheduler* sc):PROCESSOR(sc)
 {
 	STATE = 0;
-	SchedPtr = scheduler;
 	RUN = nullptr;
 	TYPE = "RR";
 	RSIZE = 0;

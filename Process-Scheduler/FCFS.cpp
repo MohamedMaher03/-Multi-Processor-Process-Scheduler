@@ -2,7 +2,7 @@
 #include "Scheduler.h"
 using namespace std;
 
-FCFS::FCFS()
+FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 {  
 	STATE = false;
 	RUN = nullptr;

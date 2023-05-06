@@ -63,7 +63,7 @@ int PROCESSOR::getPUtil() const
 {
 	return PUtil;
 }
-PROCESSOR::PROCESSOR()
+PROCESSOR::PROCESSOR(Scheduler* sch)
 { 
 	ExpectedFinishTime = 0;
 	PLoad = 0;
@@ -71,6 +71,7 @@ PROCESSOR::PROCESSOR()
 	RSIZE = 0;
 	RUN = nullptr;
 	RunningInSched = false;
+	SchedPtr = sch;
 }
 
 PROCESSOR::~PROCESSOR()

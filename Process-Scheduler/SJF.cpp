@@ -2,13 +2,12 @@
 
 
 
-SJF::SJF(Scheduler* scheduler)
+SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 {
 	STATE = 0;
 	RUN = nullptr;
 	TYPE = "SJF";
 	RSIZE = 0;
-	SchedPtr = scheduler;
 }
 
 
