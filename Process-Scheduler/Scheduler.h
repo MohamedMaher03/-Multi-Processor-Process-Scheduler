@@ -33,6 +33,7 @@ class Scheduler
 	int RunningCount; // Total number of currently running processes
 	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
+	LinkedList<PROCESS*> ForkedProcesses;
 	PROCESS** Running; //This is an arry containg of pointers of Running processes from each processor
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
@@ -71,6 +72,8 @@ public:
 	void WorkStealing();
 	PROCESSOR* FindShortestProcessor(char); // This function if given a parameter 'S' OR 'R', finds the shortest SJF && RR respectively
 	void BLKtoRDY(); //Each timestep checks if the front of BLK (process with shortest IOD) has finished its IOD request, and moves it to shortest RDY
+	void CalculateStats();
+	void AddToForked(PROCESS*);
 	~Scheduler();
 };
 

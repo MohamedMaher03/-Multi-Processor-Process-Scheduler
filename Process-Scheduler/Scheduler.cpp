@@ -223,19 +223,34 @@ bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 
 void Scheduler::SIMULATE()
 {
+	int RunMode = UIptr->SelectRunMode(); // Returns 1 for Interactive, 2 for Step-By-Step, 3 for Silent. 0 otherwise;
 	LoadData(); //Step 1 Load Data from Input File
-	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count); // Step 2 Create the given Processors
 	while (!AllDone())
 	{
-		CheckNewArrivals(); //Step 2 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
+		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
 		BLKtoRDY();
-		Print('I'); // Print in Interactive Mode
+		switch (RunMode)
+		{
+		case 1:
+			Print('I');
+			break;
+		case 2:
+			Print('B');
+			break;
+		case 3:
+			Print('S');
+			break;
+		default:
+			break;
+		}
 		TIMESTEP++;
 	}
-	
+	CalculateStats(); // Calculate all statistics displayed in the output file
+	SaveData(); // Produce the Output file
 }
 
 void Scheduler::CheckNewArrivals()
@@ -453,6 +468,11 @@ void Scheduler::BLKtoRDY()
 			FindShortestProcessor()->addToMyRdy(tmp);
 		}
 	}
+}
+
+void Scheduler::AddToForked(PROCESS* tmp)
+{
+	ForkedProcesses.InsertEnd(tmp);
 }
 
 Scheduler::~Scheduler()
