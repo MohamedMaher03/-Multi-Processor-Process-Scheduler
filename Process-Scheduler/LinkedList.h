@@ -243,6 +243,8 @@ public:
 
 
 };
+
+
 template<>
 inline void LinkedList<PROCESS*>::PrintList()
 {
@@ -261,6 +263,7 @@ inline void LinkedList<PROCESS*>::PrintList()
 	}
 	
 }
+
 template<>
 inline PROCESS* LinkedList<PROCESS*>::KILL(int index, PROCESS* &T)
 {

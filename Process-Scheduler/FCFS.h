@@ -14,6 +14,8 @@ public:
 	void addToMyRdy(PROCESS *P);
 	void PrintMyReady();
 	bool PromoteProcess(int);
+	bool Killsignal(int time, int id);
+	void Killchildren(PROCESS* P);
 	PROCESS* KillRandomly(int index); //Iterate over your RDY list and kill the process with given index
 };
 

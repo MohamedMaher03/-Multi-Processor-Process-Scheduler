@@ -70,6 +70,55 @@ bool FCFS::PromoteProcess(int x)
 	}
 	return false;
 }
+void FCFS::Killchildren(PROCESS* P)
+{
+	if (P->getChild1()) {
+		SchedPtr->Add_toterminatedlist(P->getChild1());
+	}
+	if (P->getChild2()) {
+		SchedPtr->Add_toterminatedlist(P->getChild2());
+	}
+	P->setChild1(nullptr);
+	P->setChild2(nullptr);
+	//or if it has children i can search in all fcfs prosessor for them and delete their node
+}
+
+bool FCFS::Killsignal(int time, int id)
+{
+	if (time != SchedPtr->get_TIMESTEP())
+	{
+		return false;
+	}
+	if (RUN->get_PID() == id)
+	{
+		SchedPtr->Add_toterminatedlist(RUN);
+		if (RUN->getChild1() || RUN->getChild2()) //if prcocess have child and process terminate then their children must also terminated
+		{
+			Killchildren(RUN);
+		}
+		RUN = nullptr;
+		STATE = 0;
+		return true;
+	}
+	for (int i = 0;i < RSIZE;i++) {
+		Node<PROCESS*>* current = RDY.peek();
+			if (current->getItem()->get_PID() == id) 
+			{
+				PROCESS* itemPtr = current->getItem();
+				RDY.DeleteNode(itemPtr);
+				SchedPtr->Add_toterminatedlist(itemPtr);
+				RSIZE--;
+				if (itemPtr->getChild1() || itemPtr->getChild2())
+				{
+					Killchildren(itemPtr);
+				}
+				return true;
+			}
+			current = current->getNext();
+	}
+	return false;
+}
+
 
 PROCESS* FCFS::KillRandomly(int index)
 {
