@@ -244,6 +244,7 @@ enum PROCESS::STATES
 	 {
 		 totalIoD += IO[i].getsecond();
 	 }
+	 return totalIoD;
  }
 
  void PROCESS::setParent(PROCESS* pr)

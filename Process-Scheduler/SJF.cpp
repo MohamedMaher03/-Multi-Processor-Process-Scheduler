@@ -72,9 +72,9 @@ bool SJF::PromoteProcess(int x)
 
 PROCESS* SJF::removeTopOfMyRDY()
 {
-	PROCESS* top;
-	RDY.dequeue(top);
-	ExpectedFinishTime -= top->get_CT();
+	PROCESS* top = nullptr;
+	if (RDY.dequeue(top))
+		ExpectedFinishTime -= top->get_CT();
 	return top;
 }
 

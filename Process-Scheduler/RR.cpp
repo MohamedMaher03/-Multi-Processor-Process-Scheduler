@@ -80,6 +80,14 @@ void RR::addToMyRdy(PROCESS* TMP)
 	RSIZE++;
 }
 
+PROCESS* RR::removeTopOfMyRDY()
+{
+	PROCESS* top=nullptr;
+	if(RDY.dequeue(top))
+	ExpectedFinishTime -= top->get_CT();
+	return top;
+}
+
 bool RR::PromoteProcess(int x)
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE

@@ -94,7 +94,9 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	{
 		RDY.DeleteNode(target);
 		RSIZE--;
+		return true;
 	}
+	return false;
 }
 void FCFS::Kill(PROCESS* target)
 {
@@ -137,5 +139,17 @@ bool FCFS::KillSignal(int id, int time)
 			current = current->getNext();
 	}
 	return false;
+}
+
+PROCESS* FCFS::removeTopOfMyRDY()
+{
+	PROCESS* top = nullptr;
+	top=RDY.peek()->getItem();
+	if (top) 
+	{
+		RDY.DeleteFirst();
+		ExpectedFinishTime -= top->get_CT();
+	}
+	return top;
 }
 
