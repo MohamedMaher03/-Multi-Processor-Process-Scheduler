@@ -23,6 +23,8 @@ void RR::ScheduleAlgo()
 				RUN = front;
 				STATE = 1;
 				RUN->set_starttime(SchedPtr->get_TIMESTEP());
+				RSIZE--;
+				ExpectedFinishTime -= front->get_CT();
 				RUN->incrementCountsteps(1);
 			}
 			
@@ -59,6 +61,8 @@ void RR::ScheduleAlgo()
 					else
 					{
 						RDY.enqueue(RUN);
+						RSIZE++;
+						ExpectedFinishTime += RUN->get_CT();
 					}
 
 				}
@@ -83,8 +87,10 @@ void RR::addToMyRdy(PROCESS* TMP)
 PROCESS* RR::removeTopOfMyRDY()
 {
 	PROCESS* top=nullptr;
-	if(RDY.dequeue(top))
-	ExpectedFinishTime -= top->get_CT();
+	if (RDY.dequeue(top)) {
+		RSIZE--;
+		ExpectedFinishTime -= top->get_CT();
+	}
 	return top;
 }
 
@@ -102,6 +108,7 @@ bool RR::PromoteProcess(int x)
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
+			ExpectedFinishTime -= toberun->get_CT();
 			return true;
 		}
 	}

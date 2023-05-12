@@ -22,6 +22,8 @@ void SJF::ScheduleAlgo()
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());  //set start time if process didn't start CPU before 
 			STATE = 1;
 			RUN->incrementCountsteps(1);
+			RSIZE--;
+			ExpectedFinishTime -= HighestPriorityPROCESS->get_CT();
 		}
 	}
 	else {
@@ -64,6 +66,7 @@ bool SJF::PromoteProcess(int x)
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
+			ExpectedFinishTime -= toberun->get_CT();
 			return true;
 		}
 	}
@@ -73,8 +76,10 @@ bool SJF::PromoteProcess(int x)
 PROCESS* SJF::removeTopOfMyRDY()
 {
 	PROCESS* top = nullptr;
-	if (RDY.dequeue(top))
+	if (RDY.dequeue(top)) {
 		ExpectedFinishTime -= top->get_CT();
+		RSIZE--;
+	}
 	return top;
 }
 
