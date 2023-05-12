@@ -68,7 +68,8 @@ void Scheduler::SaveData()
 		OutputFile << "TT    PID    AT    CT    IO_D        WT    RT    TRT" << endl;
 		while (!TRM.isEmpty())
 		{
-			PROCESS* temp = TRM.dequeue(temp);
+			PROCESS* temp;
+			TRM.dequeue(temp);
 			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT()
 				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_TRT() << endl;
 		}
@@ -275,7 +276,7 @@ void Scheduler::CheckNewArrivals()
 		return;
 	PROCESS* temp;
 	NEW.dequeue(temp);
-	FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
+	FindShortestProcessor('N')->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
 }
 
 void Scheduler::Execute()
