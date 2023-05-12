@@ -246,7 +246,6 @@ void Scheduler::SIMULATE()
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
-		AllocatingProcesses(); //Iterates over all processes and move them based on randomizer result
 		BLKtoRDY();
 		switch (RunMode)
 		{
@@ -277,13 +276,11 @@ void Scheduler::CheckNewArrivals()
 	FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
 }
 
-void Scheduler::PromoteRdyToRun()
+void Scheduler::Execute()
 {
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		if (ListOfProcessors[i]->getRSIZE() > 0)
-			if (ListOfProcessors[i]->PromoteProcess(TIMESTEP))
-				RunningCount++;	
+		ListOfProcessors[i]->ScheduleAlgo();
 	}
 }
 

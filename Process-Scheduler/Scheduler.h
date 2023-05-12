@@ -70,7 +70,7 @@ public:
 	Scheduler();
 	void SIMULATE();
 	void CheckNewArrivals(); // Distributes processes from NEW queue to Shortest RDY 
-	void PromoteRdyToRun(); //This function promotes a process from RDY queue to Running if processor is IDLE
+	void Execute(); //This function iterates over all processors calling ScheduleAlgo of each one
 	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
