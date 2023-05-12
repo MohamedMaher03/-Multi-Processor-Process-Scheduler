@@ -31,6 +31,8 @@ void FCFS::ScheduleAlgo()
 		{
 			RUN = RDY.peek()->getItem();
 			RDY.DeleteFirst();
+			RSIZE--;
+			ExpectedFinishTime -= RUN->get_CT();
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			STATE = 1;
 			RUN->incrementCountsteps(1);
@@ -81,6 +83,7 @@ bool FCFS::PromoteProcess(int x)
 		RUN = TEMP;
 		STATE = 1;
 		RDY.DeleteFirst();
+		ExpectedFinishTime -= TEMP->get_CT();
 		RSIZE--;
 		return true;
 	}
@@ -104,6 +107,7 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	if (RDY.Find(target))
 	{
 		RDY.DeleteNode(target);
+		ExpectedFinishTime -= target->get_CT();
 		RSIZE--;
 		return true;
 	}
@@ -152,6 +156,7 @@ bool FCFS::KillSignal(int id, int time)
 			{
 				PROCESS* itemPtr = current->getItem();
 				RDY.DeleteNode(itemPtr);
+				ExpectedFinishTime -= itemPtr->get_CT();
 				SchedPtr->Add_toterminatedlist(itemPtr);
 				RSIZE--;
 				if (itemPtr->getChild1() || itemPtr->getChild2())
@@ -172,6 +177,7 @@ PROCESS* FCFS::removeTopOfMyRDY()
 	if (top) 
 	{
 		RDY.DeleteFirst();
+		RSIZE--;
 		ExpectedFinishTime -= top->get_CT();
 	}
 	return top;
