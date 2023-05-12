@@ -1,6 +1,7 @@
 #include "FCFS.h"
 #include "Scheduler.h"
 using namespace std;
+LinkedQueue<Pair*> FCFS::ToBeKilled;
 
 FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 {  
@@ -17,11 +18,11 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
-	Pair target;
+	Pair* target;
 	if (!ToBeKilled.isEmpty())
 	{
 		ToBeKilled.peek(target);
-		KillSignal(target.getfirst(), target.getsecond());
+		KillSignal(target->getfirst(), target->getsecond());
 	}
 
 	while (!RDY.IsEmpty()) 
@@ -98,7 +99,7 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	}
 	return false;
 }
-void FCFS::addToBeKilled(Pair tmp)
+void FCFS::addToBeKilled(Pair* tmp)
 {
 	ToBeKilled.enqueue(tmp);
 }

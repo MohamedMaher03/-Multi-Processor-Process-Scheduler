@@ -44,6 +44,7 @@ void Scheduler::LoadData()
 			}
 		}
 	}
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
 	string ignore1;
 	string ignore2;
 	myFile >> ignore1 >> ignore2;
@@ -52,7 +53,7 @@ void Scheduler::LoadData()
 	while (myFile >> time)
 	{
 		myFile >> id;
-		Pair tmp(time, id);
+		Pair* tmp = new Pair(time, id);
 		dynamic_cast<FCFS*>(ListOfProcessors[0])->addToBeKilled(tmp);
 	}
 	myFile.close();
@@ -241,7 +242,7 @@ void Scheduler::SIMULATE()
 {
 	int RunMode = UIptr->SelectRunMode(); // Returns 1 for Interactive, 2 for Step-By-Step, 3 for Silent. 0 otherwise;
 	LoadData(); //Step 1 Load Data from Input File
-	CreateProcessors(FCFS_Count, SJF_Count, RR_Count); // Step 2 Create the given Processors
+	
 	while (!AllDone())
 	{
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
@@ -422,7 +423,7 @@ void Scheduler::WorkStealing()
 	}
 }
 
-PROCESSOR* Scheduler::FindShortestProcessor(char x = 'N')
+PROCESSOR* Scheduler::FindShortestProcessor(char x)
 {
 	/*
 	This function is supposed to return the first to finish SJF and RR processors if given 'S' and 'R' respectively.
