@@ -23,7 +23,7 @@ void FCFS::ScheduleAlgo()
 	{
 		if (!RUN)
 		{
-			RUN = RDY.peek();
+			RUN = RDY.peek()->getItem();
 			RDY.DeleteFirst();
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			STATE = 1;
