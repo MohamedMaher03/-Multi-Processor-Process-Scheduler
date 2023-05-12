@@ -276,9 +276,10 @@ void Scheduler::CheckNewArrivals()
 		return;
 	PROCESS* temp;
 	NEW.peek(temp);
-	if (temp->get_AT()==TIMESTEP) {
+	if (temp->get_AT()==TIMESTEP) 
+	{
 		NEW.dequeue(temp);
-		FindShortestProcessor('N')->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
+		FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
 	}
 }
 
