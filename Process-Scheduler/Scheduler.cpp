@@ -1,7 +1,6 @@
 #include "Scheduler.h"
 #include <fstream>
 #include <sstream>
-#include <random>
 using namespace std;
 class FCFS;
 void Scheduler::LoadData()
@@ -136,7 +135,8 @@ void Scheduler::Print(char z)
 
 void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 {
-	BLK.enqueue(blockedprocess, blockedprocess->get_totalIoD() * - 1); // Priority queue ranks descending but here we want highest priority to be least IOD
+	//BLK.enqueue(blockedprocess, blockedprocess->get_totalIoD() * - 1); // Priority queue ranks descending but here we want highest priority to be least IOD
+	BLK.enqueue(blockedprocess);
 	BLK_Count++;
 }
 
@@ -244,7 +244,7 @@ void Scheduler::SIMULATE()
 	while (!AllDone())
 	{
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
-		PromoteRdyToRun(); //Iterates over all processors and move Rdy processes to Running if possible
+		Execute(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		BLKtoRDY();
 		switch (RunMode)
@@ -283,7 +283,7 @@ void Scheduler::Execute()
 		ListOfProcessors[i]->ScheduleAlgo();
 	}
 }
-
+/*
 void Scheduler::AllocatingProcesses() //Do NOT delete it just yet, we need the same conditions in phase 2, so keep it till we're DONE.
 {
 	for (int i = 0; i < RunningCountIndex; i++) 
@@ -350,7 +350,7 @@ void Scheduler::AllocatingProcesses() //Do NOT delete it just yet, we need the s
 		}
 	}
 }
-
+*/
 bool Scheduler::AllDone()
 {
 	

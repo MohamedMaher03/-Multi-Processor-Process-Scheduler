@@ -8,10 +8,10 @@ private:
 	LinkedPriorityQueue<PROCESS*>RDY;
 public:
 	SJF(Scheduler* scheduler);
-	void ScheduleAlgo();
+	void ScheduleAlgo() override;
 	bool PromoteProcess(int x);
-	PROCESS* removeTopOfMyRDY();
+	PROCESS* removeTopOfMyRDY() override;
 	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
-	void PrintMyReady();
+	void PrintMyReady() override;
 };
 

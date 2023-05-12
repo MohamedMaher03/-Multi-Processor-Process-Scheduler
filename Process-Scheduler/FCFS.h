@@ -6,16 +6,17 @@ class FCFS :public PROCESSOR
 {
 private:
 	LinkedList <PROCESS*> RDY;
+	static LinkedQueue<Pair> ToBeKilled;
 	
 public: 
-	FCFS(Scheduler*); //FCFS class has default constructor
+	FCFS(Scheduler*);
 	~FCFS();
-	void ScheduleAlgo();
-	void addToMyRdy(PROCESS *P);
-	void PrintMyReady();
+	void ScheduleAlgo() override;
+	void addToMyRdy(PROCESS *P) override;
+	void PrintMyReady() override;
 	bool PromoteProcess(int);
-	bool Killsignal(int time, int id);
-	void Killchildren(PROCESS* P);
-	PROCESS* KillRandomly(int index); //Iterate over your RDY list and kill the process with given index
+	void Kill(PROCESS*);
+	bool KillSignal(int, int);
+	void Killchildren(PROCESS* P); // Calls the Kill function for all children of a process
 };
 

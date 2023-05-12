@@ -11,9 +11,9 @@ class RR : public PROCESSOR
 public:
 	RR(Scheduler* scheduler);
 	~RR();
-	void ScheduleAlgo();//function moving process from RDY to RUN differ for each processor type
-	void PrintMyReady();
-	void addToMyRdy(PROCESS*);
+	void ScheduleAlgo() override;//function moving process from RDY to RUN differ for each processor type
+	void PrintMyReady() override;
+	void addToMyRdy(PROCESS*) override;
 	bool PromoteProcess(int); //Makes the process AS running, and removes it from RDY queue
 
 };

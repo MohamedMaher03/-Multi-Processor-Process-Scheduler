@@ -17,7 +17,12 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
-
+	Pair target;
+	if (!ToBeKilled.isEmpty())
+	{
+		ToBeKilled.peek(target);
+		KillSignal(target.getfirst(), target.getsecond());
+	}
 
 	while (!RDY.IsEmpty()) 
 	{
@@ -32,11 +37,11 @@ void FCFS::ScheduleAlgo()
 		if (RUN->get_CT() <= RUN->get_countsteps())
 			
 		{
-					SchedPtr->Add_toterminatedlist(RUN);
-					RUN = nullptr;
-					STATE = 0;
+			SchedPtr->Add_toterminatedlist(RUN);
+			RUN = nullptr;
+			STATE = 0;
 		}
-	
+
 	}
 	// lesa lazem a check al incrementation of the time step emta
 }
@@ -72,18 +77,22 @@ bool FCFS::PromoteProcess(int x)
 }
 void FCFS::Killchildren(PROCESS* P)
 {
-	if (P->getChild1()) {
-		SchedPtr->Add_toterminatedlist(P->getChild1());
+	if (!P->getChild1())
+	{
+		return;
 	}
-	if (P->getChild2()) {
-		SchedPtr->Add_toterminatedlist(P->getChild2());
-	}
-	P->setChild1(nullptr);
-	P->setChild2(nullptr);
-	//or if it has children i can search in all fcfs prosessor for them and delete their node
+	Killchildren(P->getChild1());
+	if(P->getChild2())
+	Killchildren(P->getChild2());
+
+}
+void FCFS::Kill(PROCESS* target)
+{
+	Killchildren(target);
+	SchedPtr->Add_toterminatedlist(target);
 }
 
-bool FCFS::Killsignal(int time, int id)
+bool FCFS::KillSignal(int id, int time)
 {
 	if (time != SchedPtr->get_TIMESTEP())
 	{
@@ -119,25 +128,3 @@ bool FCFS::Killsignal(int time, int id)
 	return false;
 }
 
-
-PROCESS* FCFS::KillRandomly(int index)
-{
-	/*if (RUN)
-	{
-		if (index == RUN->get_PID())
-		{
-			PROCESS* temp = RUN;
-			SchedPtr->Add_toterminatedlist(temp);
-			STATE = 0;
-			RUN = nullptr;
-			return;
-		}
-	}*/
-	if (RDY.IsEmpty())
-		return nullptr;
-	PROCESS* temp = new PROCESS(0, 0, 0, 0);
-	RDY.KILL(index, temp);
-	if (temp)
-		RSIZE--;
-	return temp;
-}
