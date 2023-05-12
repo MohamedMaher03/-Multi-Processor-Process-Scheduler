@@ -18,6 +18,8 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
+	if (!RUN && RDY.IsEmpty())
+		return;
 	Pair* target;
 	if (!ToBeKilled.isEmpty())
 	{
