@@ -24,26 +24,36 @@ void FCFS::ScheduleAlgo()
 		KillSignal(target.getfirst(), target.getsecond());
 	}
 
-	while (!RDY.IsEmpty()) 
+	if (!STATE)
 	{
-		if (!RUN)
+		if (!RDY.IsEmpty())
 		{
 			RUN = RDY.peek()->getItem();
 			RDY.DeleteFirst();
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			STATE = 1;
+			RUN->incrementCountsteps(1);
 		}
+	}
  
-		if (RUN->get_CT() <= RUN->get_countsteps())
-			
+	else{
+		if(SchedPtr->Process_completion(RUN))
 		{
-			SchedPtr->Add_toterminatedlist(RUN);
+			//SchedPtr->Add_toterminatedlist(RUN);
 			RUN = nullptr;
 			STATE = 0;
 		}
-
+		else if (SchedPtr->IO_requesthandling(RUN))
+		{
+			RUN = nullptr;
+			STATE = 0;
+		}
+		else
+		{
+			RUN->incrementCountsteps(1);
+		}
 	}
-	// lesa lazem a check al incrementation of the time step emta
+	
 }
 
 
@@ -101,6 +111,15 @@ bool FCFS::isInMyRdy(PROCESS* target)
 void FCFS::addToBeKilled(Pair tmp)
 {
 	ToBeKilled.enqueue(tmp);
+}
+void FCFS::ForkTree(PROCESS* P, PROCESS* C)
+{
+	if (!P->getChild1())
+	{
+		P->setChild1(C);
+	}
+	else
+		P->setChild2(C);
 }
 void FCFS::Kill(PROCESS* target)
 {
