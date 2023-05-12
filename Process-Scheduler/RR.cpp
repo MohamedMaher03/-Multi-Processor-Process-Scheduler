@@ -15,6 +15,8 @@ RR::~RR()
 
 void RR::ScheduleAlgo()
 {
+	if (!RUN && RDY.isEmpty())
+		return;
 		if (!STATE)//the processor is IDLE
 		{
 			PROCESS* front;

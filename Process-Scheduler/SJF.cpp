@@ -13,7 +13,8 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 
 void SJF::ScheduleAlgo()
 {
-	
+	if (!RUN && RDY.isEmpty())
+		return;
 	if (!STATE)  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;
