@@ -112,6 +112,15 @@ void FCFS::addToBeKilled(Pair tmp)
 {
 	ToBeKilled.enqueue(tmp);
 }
+void FCFS::ForkTree(PROCESS* P, PROCESS* C)
+{
+	if (!P->getChild1())
+	{
+		P->setChild1(C);
+	}
+	else
+		P->setChild2(C);
+}
 void FCFS::Kill(PROCESS* target)
 {
 	SchedPtr->Add_toterminatedlist(target);
