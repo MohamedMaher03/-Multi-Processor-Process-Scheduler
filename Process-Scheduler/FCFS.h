@@ -18,5 +18,6 @@ public:
 	void Kill(PROCESS*);
 	bool KillSignal(int, int);
 	void Killchildren(PROCESS* P); // Calls the Kill function for all children of a process
+	bool isInMyRdy(PROCESS*); // Returns true if a certain process is in its RDY list and kills it
 };
 

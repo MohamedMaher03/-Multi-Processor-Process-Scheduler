@@ -79,17 +79,28 @@ void FCFS::Killchildren(PROCESS* P)
 {
 	if (!P->getChild1())
 	{
+		Kill(P);
 		return;
 	}
 	Killchildren(P->getChild1());
 	if(P->getChild2())
 	Killchildren(P->getChild2());
+	Kill(P);
 
+}
+bool FCFS::isInMyRdy(PROCESS* target)
+{
+	if (RDY.Find(target))
+	{
+		RDY.DeleteNode(target);
+		RSIZE--;
+	}
 }
 void FCFS::Kill(PROCESS* target)
 {
-	Killchildren(target);
 	SchedPtr->Add_toterminatedlist(target);
+	SchedPtr->RemoveFromEverywhere(target);
+	SchedPtr->increment_KilledCount();
 }
 
 bool FCFS::KillSignal(int id, int time)

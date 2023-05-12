@@ -33,6 +33,8 @@ public:
 	bool getRunningInSched();
 	int getExpectedFinishTime();
 	virtual PROCESS* removeTopOfMyRDY() = 0;
+	PROCESS* getRun();
+	void KillRun();
 	int getPLoad() const;
 	int getPUtil() const;
 };

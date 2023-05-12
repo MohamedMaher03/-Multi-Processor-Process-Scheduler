@@ -83,6 +83,7 @@ public:
 	void increment_MigsDueRTF();
 	void increment_StealCount();
 	void increment_KilledCount();
+	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
 	~Scheduler();
 };
 

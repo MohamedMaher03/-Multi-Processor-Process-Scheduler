@@ -529,6 +529,20 @@ void Scheduler::increment_KilledCount()
 	KilledCount++;
 }
 
+void Scheduler::RemoveFromEverywhere(PROCESS* target)
+{
+	for (int i = 0; i < FCFS_Count; i++)
+	{
+		if (ListOfProcessors[i]->getRun() == target)
+		{
+			ListOfProcessors[i]->KillRun();
+			return;
+		}
+		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target))
+			return;
+	}
+}
+
 Scheduler::~Scheduler()
 {
 	Running = nullptr;

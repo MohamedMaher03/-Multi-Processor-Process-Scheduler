@@ -54,6 +54,14 @@ int PROCESSOR::getExpectedFinishTime()
 {
 	return ExpectedFinishTime;
 }
+PROCESS* PROCESSOR::getRun()
+{
+	return RUN;
+}
+void PROCESSOR::KillRun()
+{
+	RUN = nullptr;
+}
 int PROCESSOR::getPLoad() const
 {
 	return PLoad;

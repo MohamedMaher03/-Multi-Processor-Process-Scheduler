@@ -103,7 +103,7 @@ public:
 	}
 
 	//searches for a given value in the list, returns true if found; false otherwise.
-	bool Find(int Key) {
+	bool Find(T Key) {
 		Node<T>* ptr = Head;
 		//This is how to iterate over a linked list using for loop, NO i++ here (ptr = ptr->next)
 		for (ptr; ptr; ptr = ptr->getNext()) //the second ptr means while ptr!= NULL
