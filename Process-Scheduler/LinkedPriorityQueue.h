@@ -31,7 +31,7 @@ public:
         return head == nullptr;
     }
 
-    void enqueue(const T& data, int priority) 
+    void enqueue(T& data, int priority) 
     {
         Node* newNode = new Node{data, priority, nullptr};
 

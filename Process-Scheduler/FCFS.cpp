@@ -98,6 +98,10 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	}
 	return false;
 }
+void FCFS::addToBeKilled(Pair tmp)
+{
+	ToBeKilled.enqueue(tmp);
+}
 void FCFS::Kill(PROCESS* target)
 {
 	SchedPtr->Add_toterminatedlist(target);

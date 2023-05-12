@@ -47,12 +47,13 @@ void Scheduler::LoadData()
 	string ignore1;
 	string ignore2;
 	myFile >> ignore1 >> ignore2;
-	int a, b;
-	while (myFile >> a)
+	int time, id;
+	if(FCFS_Count > 0)
+	while (myFile >> time)
 	{
-		myFile >> b;
-		TimeOfDeath.enqueue(a);
-		ProcessesToBeKilled.enqueue(b);
+		myFile >> id;
+		Pair tmp(time, id);
+		dynamic_cast<FCFS*>(ListOfProcessors[0])->addToBeKilled(tmp);
 	}
 	myFile.close();
 }

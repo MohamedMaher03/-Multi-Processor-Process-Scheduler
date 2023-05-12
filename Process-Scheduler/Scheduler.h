@@ -26,8 +26,6 @@ class Scheduler
 	int STL;
 	int Forkability;
 	int ProcessesCount;
-	LinkedQueue<int>ProcessesToBeKilled;
-	LinkedQueue<int>TimeOfDeath;
 	int BLK_Count;
 	int TRM_Count;
 	int RunningCount; // Total number of currently running processes
@@ -71,7 +69,6 @@ public:
 	void SIMULATE();
 	void CheckNewArrivals(); // Distributes processes from NEW queue to Shortest RDY 
 	void Execute(); //This function iterates over all processors calling ScheduleAlgo of each one
-	void AllocatingProcesses(); //Use the radnomizer to distribute processes ranadomly
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
 	void WorkStealing();
