@@ -101,10 +101,6 @@ bool RR::PromoteProcess(int x)
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
-		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if(RDY.peek(toberun))
-		if (x == toberun->get_AT())
-			return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;
