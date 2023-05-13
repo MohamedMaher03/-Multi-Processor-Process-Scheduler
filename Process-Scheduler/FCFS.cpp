@@ -1,6 +1,8 @@
 #include "FCFS.h"
 #include "Scheduler.h"
+#include<random>
 using namespace std;
+LinkedQueue<Pair*> FCFS::ToBeKilled;
 
 FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 {  
@@ -17,11 +19,13 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
-	Pair target;
+	if (!RUN && RDY.IsEmpty())
+		return;
+	Pair* target;
 	if (!ToBeKilled.isEmpty())
 	{
 		ToBeKilled.peek(target);
-		KillSignal(target.getfirst(), target.getsecond());
+		KillSignal(target->getfirst(), target->getsecond());
 	}
 
 	if (!STATE)
@@ -30,6 +34,8 @@ void FCFS::ScheduleAlgo()
 		{
 			RUN = RDY.peek()->getItem();
 			RDY.DeleteFirst();
+			RSIZE--;
+			ExpectedFinishTime -= RUN->get_CT();
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			STATE = 1;
 			RUN->incrementCountsteps(1);
@@ -80,6 +86,7 @@ bool FCFS::PromoteProcess(int x)
 		RUN = TEMP;
 		STATE = 1;
 		RDY.DeleteFirst();
+		ExpectedFinishTime -= TEMP->get_CT();
 		RSIZE--;
 		return true;
 	}
@@ -103,12 +110,13 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	if (RDY.Find(target))
 	{
 		RDY.DeleteNode(target);
+		ExpectedFinishTime -= target->get_CT();
 		RSIZE--;
 		return true;
 	}
 	return false;
 }
-void FCFS::addToBeKilled(Pair tmp)
+void FCFS::addToBeKilled(Pair* tmp)
 {
 	ToBeKilled.enqueue(tmp);
 }
@@ -131,7 +139,17 @@ void FCFS::ForkTree(PROCESS* P)
 		}
 	}
 }
-		
+int FCFS::random()
+{
+	random_device rd;
+	mt19937 gen(rd());
+
+	// Define the distribution for the random number
+	uniform_int_distribution<> dis(1, 100);
+
+	// Generate and return the random number
+	return dis(gen);
+}
 void FCFS::Kill(PROCESS* target)
 {
 	SchedPtr->Add_toterminatedlist(target);
@@ -162,6 +180,7 @@ bool FCFS::KillSignal(int id, int time)
 			{
 				PROCESS* itemPtr = current->getItem();
 				RDY.DeleteNode(itemPtr);
+				ExpectedFinishTime -= itemPtr->get_CT();
 				SchedPtr->Add_toterminatedlist(itemPtr);
 				RSIZE--;
 				if (itemPtr->getChild1() || itemPtr->getChild2())
@@ -182,6 +201,7 @@ PROCESS* FCFS::removeTopOfMyRDY()
 	if (top) 
 	{
 		RDY.DeleteFirst();
+		RSIZE--;
 		ExpectedFinishTime -= top->get_CT();
 	}
 	return top;

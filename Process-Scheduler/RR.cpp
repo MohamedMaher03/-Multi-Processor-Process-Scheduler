@@ -15,6 +15,8 @@ RR::~RR()
 
 void RR::ScheduleAlgo()
 {
+	if (!RUN && RDY.isEmpty())
+		return;
 		if (!STATE)//the processor is IDLE
 		{
 			PROCESS* front;
@@ -23,6 +25,8 @@ void RR::ScheduleAlgo()
 				RUN = front;
 				STATE = 1;
 				RUN->set_starttime(SchedPtr->get_TIMESTEP());
+				RSIZE--;
+				ExpectedFinishTime -= front->get_CT();
 				RUN->incrementCountsteps(1);
 			}
 			
@@ -59,6 +63,8 @@ void RR::ScheduleAlgo()
 					else
 					{
 						RDY.enqueue(RUN);
+						RSIZE++;
+						ExpectedFinishTime += RUN->get_CT();
 					}
 
 				}
@@ -83,8 +89,10 @@ void RR::addToMyRdy(PROCESS* TMP)
 PROCESS* RR::removeTopOfMyRDY()
 {
 	PROCESS* top=nullptr;
-	if(RDY.dequeue(top))
-	ExpectedFinishTime -= top->get_CT();
+	if (RDY.dequeue(top)) {
+		RSIZE--;
+		ExpectedFinishTime -= top->get_CT();
+	}
 	return top;
 }
 
@@ -93,15 +101,12 @@ bool RR::PromoteProcess(int x)
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
-		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if(RDY.peek(toberun))
-		if (x == toberun->get_AT())
-			return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
+			ExpectedFinishTime -= toberun->get_CT();
 			return true;
 		}
 	}

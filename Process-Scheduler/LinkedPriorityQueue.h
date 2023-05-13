@@ -1,10 +1,11 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
 template <typename T>
 class LinkedPriorityQueue {
 private:
-    struct Node 
+    struct Node
     {
         T data;
         int priority;
@@ -26,14 +27,14 @@ public:
         }
     }
 
-    bool isEmpty() const 
+    bool isEmpty() const
     {
         return head == nullptr;
     }
 
-    void enqueue(T& data, int priority) 
+    void enqueue(T& data, int priority)
     {
-        Node* newNode = new Node{data, priority, nullptr};
+        Node* newNode = new Node{ data, priority, nullptr };
 
         if (isEmpty()) {
             head = newNode;
@@ -57,7 +58,7 @@ public:
     }
 
     T dequeue(T& frntEntry) {
-        if (isEmpty()) 
+        if (isEmpty())
             return nullptr;
 
         Node* temp = head;
@@ -69,9 +70,9 @@ public:
         return frntEntry;
     }
 
-    T peek(T& frntEntry) const 
+    T peek(T& frntEntry) const
     {
-        if (isEmpty()) 
+        if (isEmpty())
         {
             return nullptr;
         }
@@ -79,7 +80,7 @@ public:
         return frntEntry;
     }
 
-    int size() const 
+    int size() const
     {
         int count = 0;
 
@@ -90,14 +91,16 @@ public:
         return count;
     }
 
-    void print() const {
-        for (Node* current = head; current != nullptr; current = current->next) {
+    void print() const 
+    {
+        for (Node* current = head; current != nullptr; current = current->next) 
+        {
             std::cout << current->data << " ";
         }
 
         std::cout << std::endl;
     }
-    
+
 };
 template<>
 inline void LinkedPriorityQueue<PROCESS*>::printContents()

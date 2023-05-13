@@ -10,13 +10,14 @@
 class Scheduler
 {
 	int TIMESTEP;
-	PROCESSOR** ListOfProcessors;
+	PROCESSOR* ListOfProcessors [200];
 	int totalProcessors;
 	//These 3 queues are common across all processes
 	LinkedQueue<PROCESS*> NEW;
 	LinkedQueue<PROCESS*> BLK;
-	LinkedPriorityQueue<PROCESS*> TRM;
+	LinkedQueue<PROCESS*> TRM;
 	UI* UIptr;
+	int RUNNING[200]; // An array of Running Processes' IDs. Index represents the number of processor (Index 0 => Processor 1)
 	int FCFS_Count;
 	int SJF_Count;
 	int RR_Count;
@@ -32,7 +33,6 @@ class Scheduler
 	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
 	LinkedList<PROCESS*> ForkedProcesses;
-	PROCESS** Running; //This is an arry containg of pointers of Running processes from each processor
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
 	int AvgWaitingTime; //Average waiting time for all processes
@@ -44,7 +44,7 @@ class Scheduler
 	int ForkPercent; //Percentage of process fork
 	int KillPercent; //Percentage of process kill
 	int AvgUtilization; //Average utilization for all processors
-	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
+	float StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
 	int MigsDueMax_W; // count of migrations due to Max_W
 	int MigsDueRTF; // count of migrations due to RTF;
 	int StealCount; // Count of processes moved due to steal
@@ -74,7 +74,7 @@ public:
 	bool AllDone(); //All is done if RDY queues of all processors are all empty
 	void AddToRunning();
 	void WorkStealing();
-	PROCESSOR* FindShortestProcessor(char); // This function if given a parameter 'S' OR 'R', finds the shortest SJF && RR respectively
+	PROCESSOR* FindShortestProcessor(char x = 'N'); // This function if given a parameter 'S' OR 'R', finds the shortest SJF && RR respectively
 	void BLKtoRDY(); //Each timestep checks if the front of BLK (process with shortest IOD) has finished its IOD request, and moves it to shortest RDY
 	void CalculateStats();
 	void AddToForked(PROCESS*);
@@ -82,7 +82,10 @@ public:
 	void increment_MigsDueRTF();
 	void increment_StealCount();
 	void increment_KilledCount();
+	void increment_runningcount();
+	void decrement_runningcount();
 	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
+	void RemoveFromRunning(PROCESS*);
 	~Scheduler();
 };
 

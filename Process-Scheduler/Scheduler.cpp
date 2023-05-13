@@ -44,6 +44,7 @@ void Scheduler::LoadData()
 			}
 		}
 	}
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
 	string ignore1;
 	string ignore2;
 	myFile >> ignore1 >> ignore2;
@@ -52,7 +53,7 @@ void Scheduler::LoadData()
 	while (myFile >> time)
 	{
 		myFile >> id;
-		Pair tmp(time, id);
+		Pair* tmp = new Pair(time, id);
 		dynamic_cast<FCFS*>(ListOfProcessors[0])->addToBeKilled(tmp);
 	}
 	myFile.close();
@@ -67,7 +68,8 @@ void Scheduler::SaveData()
 		OutputFile << "TT    PID    AT    CT    IO_D        WT    RT    TRT" << endl;
 		while (!TRM.isEmpty())
 		{
-			PROCESS* temp = TRM.dequeue(temp);
+			PROCESS* temp;
+			TRM.dequeue(temp);
 			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT()
 				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_TRT() << endl;
 		}
@@ -103,7 +105,6 @@ void Scheduler::SaveData()
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
-	ListOfProcessors = new PROCESSOR* [FC + SJ + R];
 	for (int i = 0; i < FC; i++)
 	{
 		FCFS* tmp = new FCFS(this);
@@ -119,14 +120,18 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 		RR* tmp = new RR(this);
 		ListOfProcessors[counter++] = tmp;
 	}
+	for (int i = 0; i < (FC + SJ + R); i++)
+	{
+		RUNNING[i] = 0;
+	}
 }
 
 void Scheduler::Print(char z)
 {
 	if (z == 'I')
-		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount, ProcessesCount);
+		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, RUNNING, TRM, TRM_Count, RunningCount);
 	else if (z == 'B')
-		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
+		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, RUNNING, TRM, TRM_Count, RunningCount);
 	else if (z == 'S')
 	{
 		UIptr->printSilent();
@@ -143,7 +148,7 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 
 void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
-	TRM.enqueue(temp, temp->get_TT());
+	TRM.enqueue(temp);
 	TRM_Count++;
 }
 
@@ -171,11 +176,6 @@ void Scheduler::increment_LiveTotalProcesses()
 Scheduler::Scheduler()
 {
 	TIMESTEP = 1;
-	Running = new PROCESS*[totalProcessors];
-	for (int i = 0; i < totalProcessors; i++)
-	{
-		Running[i] = nullptr;
-	}
 	TRM_Count = 0;
 	BLK_Count = 0;
 	FCFS_Count = 0;
@@ -198,14 +198,14 @@ Scheduler::Scheduler()
 	KillPercent = 0;
 	StealPercent = 0;
 }
-bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
+bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
 	{
 		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
 		{
-			RUN->incrementCountsteps(1);
 			RUN->incrementcountN();
-			//Add_toblocklist(RUN); The BLK is now priority queue. Highest priority is Least remaining IOD
+			Add_toblocklist(RUN); 
+			RemoveFromRunning(RUN);
 			RunningCount--;
 			return true;
 		}
@@ -215,11 +215,14 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 
 bool Scheduler::Process_completion(PROCESS* RUN)
 {
-	if (RUN->get_countsteps() > RUN->get_CT())
-	{
-		Add_toterminatedlist(RUN);
-		RunningCount--;
-		return true;
+	if (RUN) {
+		if (RUN->get_countsteps() >= RUN->get_CT())
+		{
+			Add_toterminatedlist(RUN);
+			RunningCount--;
+			RemoveFromRunning(RUN);
+			return true;
+		}
 	}
 	return false;
 }
@@ -249,13 +252,14 @@ void Scheduler::SIMULATE()
 {
 	int RunMode = UIptr->SelectRunMode(); // Returns 1 for Interactive, 2 for Step-By-Step, 3 for Silent. 0 otherwise;
 	LoadData(); //Step 1 Load Data from Input File
-	CreateProcessors(FCFS_Count, SJF_Count, RR_Count); // Step 2 Create the given Processors
+	
 	while (!AllDone())
 	{
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		Execute(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		BLKtoRDY();
+		WorkStealing();
 		switch (RunMode)
 		{
 		case 1:
@@ -281,8 +285,15 @@ void Scheduler::CheckNewArrivals()
 	if (NEW.isEmpty())
 		return;
 	PROCESS* temp;
-	NEW.dequeue(temp);
-	FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
+	NEW.peek(temp);
+	while (temp->get_AT() == TIMESTEP) 
+	{
+		NEW.dequeue(temp);
+		FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
+		if (NEW.isEmpty())
+			return;
+		NEW.peek(temp);
+	}
 }
 
 void Scheduler::Execute()
@@ -370,67 +381,52 @@ void Scheduler::AddToRunning()
 {
 	for (int i = 0; i < totalProcessors; i++)  
 	{
-		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
-		{
-			if (RunningCountIndex >= totalProcessors)
-			{
-				int newRunningCountIndex = RunningCountIndex % totalProcessors;
-				if (Running[newRunningCountIndex] == nullptr) {
-					Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-					RunningCountIndex++;
-					ListOfProcessors[i]->setRunningInSched(1);
-				}
-				else {
-					RunningCountIndex++;
-					newRunningCountIndex = RunningCountIndex % totalProcessors;
-					if (Running[newRunningCountIndex] == nullptr) {
-						Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-						RunningCountIndex++;
-						ListOfProcessors[i]->setRunningInSched(1);
-					}
-				}
-			}
-			else
-			{
-				Running[RunningCountIndex++] = ListOfProcessors[i]->getCurrentlyRunning();
-				ListOfProcessors[i]->setRunningInSched(1);
-			}
-		}
+		if (ListOfProcessors[i]->getCurrentlyRunning())
+			RUNNING[i] = ListOfProcessors[i]->getCurrentlyRunning()->get_PID();
 	}
-	
 }
 
 void Scheduler::WorkStealing()
 {
 	if (TIMESTEP % STL == 0) //every STL timestep
 	{
-		int LQF=-1;
-		int SQF=1e9;
-		int indxProcessorOfSQF;
-		int indxProcessorOfLQF;
-		for (int i = 0;i < totalProcessors;i++) {
+		int LQF= ListOfProcessors[0]->getExpectedFinishTime();
+		int SQF= ListOfProcessors[0]->getExpectedFinishTime();
+		int indxProcessorOfSQF=0;
+		int indxProcessorOfLQF=0;
+		for (int i = 1;i < totalProcessors;i++) {
 			int cur = ListOfProcessors[i]->getExpectedFinishTime();
-			if (cur >= LQF) {
+			if (cur >= LQF) 
+			{
 				LQF = cur;
 				indxProcessorOfLQF = i;
 			}
-			if (cur <= SQF) {
+			else if (cur <= SQF)
+			{
 				SQF = cur;
 				indxProcessorOfSQF = i;
 			}
 		}
-		StealLimit = (LQF - SQF) / LQF;
+		if (LQF == 0)
+		{
+			return;
+		}
+		StealLimit = float((LQF - SQF))/ LQF;
 		while (StealLimit > 0.4) {
 			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
-			StealLimit = (LQF - SQF) / LQF;
+			if (LQF == 0)
+			{
+				return;
+			}
+			StealLimit = float((LQF - SQF)) / LQF;
 		}
 	}
 }
 
-PROCESSOR* Scheduler::FindShortestProcessor(char x = 'N')
+PROCESSOR* Scheduler::FindShortestProcessor(char x)
 {
 	/*
 	This function is supposed to return the first to finish SJF and RR processors if given 'S' and 'R' respectively.
@@ -482,13 +478,16 @@ void Scheduler::BLKtoRDY()
 	PROCESS* tmp;
 	if (BLK.peek(tmp))
 	{
-		if (!tmp->get_totalIoD()) //checks if the processor IOD == 0, moves it to shortest RDY
+		if (tmp->get_IO_D(tmp->get_countN() - 1) > 0) //Checks for the given N(number of IO req), What is the remaining IO_D
+			tmp->DecrementIOD(tmp->get_countN() - 1);
+		else //checks if the processor IOD == 0, moves it to shortest RDY
 		{
 			BLK.dequeue(tmp);
 			BLK_Count--;
 			FindShortestProcessor()->addToMyRdy(tmp);
 		}
 	}
+	
 }
 
 void Scheduler::CalculateStats()
@@ -538,11 +537,21 @@ void Scheduler::increment_KilledCount()
 	KilledCount++;
 }
 
+void Scheduler::increment_runningcount()
+{
+	RunningCount++;
+}
+
+void Scheduler::decrement_runningcount()
+{
+	RunningCount--;
+}
+
 void Scheduler::RemoveFromEverywhere(PROCESS* target)
 {
 	for (int i = 0; i < FCFS_Count; i++)
 	{
-		if (ListOfProcessors[i]->getRun() == target)
+		if (ListOfProcessors[i]->getCurrentlyRunning() == target)
 		{
 			ListOfProcessors[i]->KillRun();
 			return;
@@ -552,10 +561,17 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 	}
 }
 
+void Scheduler::RemoveFromRunning(PROCESS* target)
+{
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		if (RUNNING[i] == target->get_PID())
+			RUNNING[i] = 0;
+	}
+}
+
 Scheduler::~Scheduler()
 {
-	Running = nullptr;
-	delete[] Running;
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i])
@@ -564,6 +580,4 @@ Scheduler::~Scheduler()
 			ListOfProcessors[i] = nullptr;
 		}
 	}
-	delete[] ListOfProcessors;
-	TRM.~LinkedPriorityQueue();
 }

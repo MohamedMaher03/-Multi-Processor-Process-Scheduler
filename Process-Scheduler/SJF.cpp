@@ -13,34 +13,36 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 
 void SJF::ScheduleAlgo()
 {
-	
-	if (!STATE)  //if the processor is IDLE 
+	if (!RUN && RDY.isEmpty())
+		return;
+	if (!RUN&&!RDY.isEmpty())  //if the processor is IDLE 
 	{
-		PROCESS* HighestPriorityPROCESS;
-		if (RDY.dequeue(HighestPriorityPROCESS)) {
-			RUN = HighestPriorityPROCESS;
-			RUN->set_starttime(SchedPtr->get_TIMESTEP());  //set start time if process didn't start CPU before 
-			STATE = 1;
-			RUN->incrementCountsteps(1);
-		}
+		PROCESS* HighestPriorityPROCESS;  
+			if (RDY.dequeue(HighestPriorityPROCESS)) {
+				RUN = HighestPriorityPROCESS;
+				RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
+				STATE = 1;
+				RSIZE--;
+				ExpectedFinishTime -= HighestPriorityPROCESS->get_CT();
+				SchedPtr->increment_runningcount();
+			}
 	}
-	else {
-		// if there is a process running in the CPU
-
+	else {	// if there is a process running in the CPU
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
+			return;
 		}
-		else if (SchedPtr->IO_requesthandling(RUN))
+		if (SchedPtr->IO_requesthandling(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
-		}
-		else {
-			RUN->incrementCountsteps(1);
+			return;
 		}
 	}
+		if(RUN) 
+		RUN->incrementCountsteps(1);
 }
 
 void SJF::addToMyRdy(PROCESS* process)
@@ -64,6 +66,7 @@ bool SJF::PromoteProcess(int x)
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
+			ExpectedFinishTime -= toberun->get_CT();
 			return true;
 		}
 	}
@@ -73,8 +76,10 @@ bool SJF::PromoteProcess(int x)
 PROCESS* SJF::removeTopOfMyRDY()
 {
 	PROCESS* top = nullptr;
-	if (RDY.dequeue(top))
+	if (RDY.dequeue(top)) {
 		ExpectedFinishTime -= top->get_CT();
+		RSIZE--;
+	}
 	return top;
 }
 

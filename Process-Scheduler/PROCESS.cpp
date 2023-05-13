@@ -9,17 +9,20 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 	Countsteps = 0;//added
 	CountN = 0;    //added
 	StartTime = -1; //added
+	totalIoD = 0;
 	if (N)
 	{
 		IO = new Pair[N]; // array of pairs 
 						  //IO.first->IO-R
 						  //IO.second->IO-D
+		calculateTotalID();
 	}
 	IsKilled = false;
 	IsOrphan = false;
-	child = nullptr; 
+	Child1 = nullptr;
+	Child2 = nullptr;
 	set_state("NEW");
-	totalIoD = 0;
+	
 }
 PROCESS::~PROCESS()
 {
@@ -153,8 +156,14 @@ enum PROCESS::STATES
 	 (IO + ind)->setfirst(IO_R);  
 	 (IO + ind)->setsecond(IO_D);
  }
- int PROCESS::get_IO_R(int indx) {
+
+ int PROCESS::get_IO_R(int indx) const
+ {
 	 return (IO + indx)->getfirst();
+ }
+ int PROCESS::get_IO_D(int indx) const
+ {
+	 return (IO + indx)->getsecond();
  }
  bool PROCESS::get_IsKilled()
  {
@@ -275,6 +284,13 @@ enum PROCESS::STATES
  PROCESS* PROCESS::getChild2() const
  {
 	 return Child2;
+ }
+
+ void PROCESS::DecrementIOD(int indx)
+ {
+	 int IO_D = (IO + indx)->getsecond();
+	 IO_D--;
+	 (IO + indx)->setsecond(IO_D);
  }
 
  
