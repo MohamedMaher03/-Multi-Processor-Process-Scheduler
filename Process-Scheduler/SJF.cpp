@@ -15,35 +15,34 @@ void SJF::ScheduleAlgo()
 {
 	if (!RUN && RDY.isEmpty())
 		return;
-	if (!STATE)  //if the processor is IDLE 
+	if (!RUN&&!RDY.isEmpty())  //if the processor is IDLE 
 	{
-		PROCESS* HighestPriorityPROCESS;
-		if (RDY.dequeue(HighestPriorityPROCESS)) {
-			RUN = HighestPriorityPROCESS;
-			RUN->set_starttime(SchedPtr->get_TIMESTEP());  //set start time if process didn't start CPU before 
-			STATE = 1;
-			RUN->incrementCountsteps(1);
-			RSIZE--;
-			ExpectedFinishTime -= HighestPriorityPROCESS->get_CT();
-		}
+		PROCESS* HighestPriorityPROCESS;  
+			if (RDY.dequeue(HighestPriorityPROCESS)) {
+				RUN = HighestPriorityPROCESS;
+				RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
+				STATE = 1;
+				RSIZE--;
+				ExpectedFinishTime -= HighestPriorityPROCESS->get_CT();
+				SchedPtr->increment_runningcount();
+			}
 	}
-	else {
 		// if there is a process running in the CPU
-
+	RUN->incrementCountsteps(1);
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
+			SchedPtr->decrement_runningcount();
+			return;
 		}
-		else if (SchedPtr->IO_requesthandling(RUN))
+		if (SchedPtr->IO_requesthandling(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
+			SchedPtr->decrement_runningcount();
 		}
-		else {
-			RUN->incrementCountsteps(1);
-		}
-	}
+		
 }
 
 void SJF::addToMyRdy(PROCESS* process)
