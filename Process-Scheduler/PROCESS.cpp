@@ -163,7 +163,7 @@ enum PROCESS::STATES
  }
  int PROCESS::get_IO_D(int indx) const
  {
-	 return (IO + indx)->getfirst();
+	 return (IO + indx)->getsecond();
  }
  bool PROCESS::get_IsKilled()
  {

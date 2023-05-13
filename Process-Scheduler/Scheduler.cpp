@@ -482,8 +482,8 @@ void Scheduler::BLKtoRDY()
 	PROCESS* tmp;
 	if (BLK.peek(tmp))
 	{
-		if (tmp->get_IO_D(tmp->get_countN()) > 0) //Checks for the given N(number of IO req), What is the remaining IO_D
-			tmp->DecrementIOD(tmp->get_countN());
+		if (tmp->get_IO_D(tmp->get_countN() - 1) > 0) //Checks for the given N(number of IO req), What is the remaining IO_D
+			tmp->DecrementIOD(tmp->get_countN() - 1);
 		else //checks if the processor IOD == 0, moves it to shortest RDY
 		{
 			BLK.dequeue(tmp);
