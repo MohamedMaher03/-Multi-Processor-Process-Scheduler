@@ -15,7 +15,7 @@ class Scheduler
 	//These 3 queues are common across all processes
 	LinkedQueue<PROCESS*> NEW;
 	LinkedQueue<PROCESS*> BLK;
-	LinkedPriorityQueue<PROCESS*> TRM;
+	LinkedQueue<PROCESS*> TRM;
 	UI* UIptr;
 	int FCFS_Count;
 	int SJF_Count;
