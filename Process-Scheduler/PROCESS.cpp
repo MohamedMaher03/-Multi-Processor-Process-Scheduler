@@ -9,17 +9,20 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 	Countsteps = 0;//added
 	CountN = 0;    //added
 	StartTime = -1; //added
+	totalIoD = 0;
 	if (N)
 	{
 		IO = new Pair[N]; // array of pairs 
 						  //IO.first->IO-R
 						  //IO.second->IO-D
+		calculateTotalID();
 	}
 	IsKilled = false;
 	IsOrphan = false;
-	child = nullptr; 
+	Child1 = nullptr;
+	Child2 = nullptr;
 	set_state("NEW");
-	totalIoD = 0;
+	
 }
 PROCESS::~PROCESS()
 {

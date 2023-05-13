@@ -18,7 +18,6 @@ class PROCESS
 	bool IsKilled;
 	bool IsParent;
 	bool IsOrphan;
-	PROCESS* child;
 	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
 	enum STATES;
 	STATES state;
