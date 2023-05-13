@@ -556,8 +556,11 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 			ListOfProcessors[i]->KillRun();
 			return;
 		}
-		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target))
+		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target)) 
+		{
+			dynamic_cast<FCFS*>(ListOfProcessors[i])->RemoveFromMyRdy(target);
 			return;
+		}
 	}
 }
 

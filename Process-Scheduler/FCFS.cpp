@@ -94,11 +94,12 @@ bool FCFS::PromoteProcess(int x)
 }
 void FCFS::Killchildren(PROCESS* P)
 {
-	if (!P->getChild1())
+	if (!P->getChild1() && !P->getChild2())
 	{
 		Kill(P);
 		return;
 	}
+	if (P->getChild1())
 	Killchildren(P->getChild1());
 	if(P->getChild2())
 	Killchildren(P->getChild2());
@@ -138,6 +139,11 @@ void FCFS::ForkTree(PROCESS* P)
 			 RDY.InsertEnd(C);
 		}
 	}
+}
+
+void FCFS::RemoveFromMyRdy(PROCESS* target)
+{
+	RDY.DeleteNode(target);
 }
 int FCFS::random()
 {
