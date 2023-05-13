@@ -266,10 +266,6 @@ void Scheduler::SIMULATE()
 			break;
 		}
 		TIMESTEP++;
-		if (TIMESTEP == 70)
-		{
-			int x = 0;
-		}
 	}
 	CalculateStats(); // Calculate all statistics displayed in the output file
 	SaveData(); // Produce the Output file
