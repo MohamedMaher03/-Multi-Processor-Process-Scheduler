@@ -27,7 +27,7 @@ void SJF::ScheduleAlgo()
 				SchedPtr->increment_runningcount();
 			}
 	}
-		// if there is a process running in the CPU
+	else {	// if there is a process running in the CPU
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
@@ -40,6 +40,7 @@ void SJF::ScheduleAlgo()
 			STATE = 0;
 			return;
 		}
+	}
 		if(RUN) 
 		RUN->incrementCountsteps(1);
 }

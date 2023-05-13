@@ -44,7 +44,7 @@ class Scheduler
 	int ForkPercent; //Percentage of process fork
 	int KillPercent; //Percentage of process kill
 	int AvgUtilization; //Average utilization for all processors
-	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
+	float StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
 	int MigsDueMax_W; // count of migrations due to Max_W
 	int MigsDueRTF; // count of migrations due to RTF;
 	int StealCount; // Count of processes moved due to steal

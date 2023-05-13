@@ -251,6 +251,7 @@ void Scheduler::SIMULATE()
 		Execute(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
 		BLKtoRDY();
+		WorkStealing();
 		switch (RunMode)
 		{
 		case 1:
@@ -381,28 +382,38 @@ void Scheduler::WorkStealing()
 {
 	if (TIMESTEP % STL == 0) //every STL timestep
 	{
-		int LQF=-1;
-		int SQF=1e9;
-		int indxProcessorOfSQF;
-		int indxProcessorOfLQF;
-		for (int i = 0;i < totalProcessors;i++) {
+		int LQF= ListOfProcessors[0]->getExpectedFinishTime();
+		int SQF= ListOfProcessors[0]->getExpectedFinishTime();
+		int indxProcessorOfSQF=0;
+		int indxProcessorOfLQF=0;
+		for (int i = 1;i < totalProcessors;i++) {
 			int cur = ListOfProcessors[i]->getExpectedFinishTime();
-			if (cur >= LQF) {
+			if (cur >= LQF) 
+			{
 				LQF = cur;
 				indxProcessorOfLQF = i;
 			}
-			if (cur <= SQF) {
+			else if (cur <= SQF)
+			{
 				SQF = cur;
 				indxProcessorOfSQF = i;
 			}
 		}
-		StealLimit = (LQF - SQF) / LQF;
+		if (LQF == 0)
+		{
+			return;
+		}
+		StealLimit = float((LQF - SQF))/ LQF;
 		while (StealLimit > 0.4) {
 			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
-			StealLimit = (LQF - SQF) / LQF;
+			if (LQF == 0)
+			{
+				return;
+			}
+			StealLimit = float((LQF - SQF)) / LQF;
 		}
 	}
 }
