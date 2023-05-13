@@ -105,7 +105,6 @@ void Scheduler::SaveData()
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
-	ListOfProcessors = new PROCESSOR* [FC + SJ + R];
 	for (int i = 0; i < FC; i++)
 	{
 		FCFS* tmp = new FCFS(this);
@@ -121,14 +120,18 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 		RR* tmp = new RR(this);
 		ListOfProcessors[counter++] = tmp;
 	}
+	for (int i = 0; i < (FC + SJ + R); i++)
+	{
+		RUNNING[i] = 0;
+	}
 }
 
 void Scheduler::Print(char z)
 {
 	if (z == 'I')
-		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount, ProcessesCount);
+		UIptr->printInteractive(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, RUNNING, TRM, TRM_Count, RunningCount);
 	else if (z == 'B')
-		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, Running, RunningCountIndex, TRM, TRM_Count, RunningCount);
+		UIptr->printStepByStep(TIMESTEP, ListOfProcessors, totalProcessors, BLK, BLK_Count, RUNNING, TRM, TRM_Count, RunningCount);
 	else if (z == 'S')
 	{
 		UIptr->printSilent();
@@ -165,11 +168,6 @@ int Scheduler::getRTF()
 Scheduler::Scheduler()
 {
 	TIMESTEP = 1;
-	Running = new PROCESS*[totalProcessors];
-	for (int i = 0; i < totalProcessors; i++)
-	{
-		Running[i] = nullptr;
-	}
 	TRM_Count = 0;
 	BLK_Count = 0;
 	FCFS_Count = 0;
@@ -199,6 +197,7 @@ bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 		{
 			RUN->incrementcountN();
 			Add_toblocklist(RUN); 
+			RemoveFromRunning(RUN);
 			RunningCount--;
 			return true;
 		}
@@ -213,6 +212,7 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 		{
 			Add_toterminatedlist(RUN);
 			RunningCount--;
+			RemoveFromRunning(RUN);
 			return true;
 		}
 	}
@@ -372,34 +372,9 @@ void Scheduler::AddToRunning()
 {
 	for (int i = 0; i < totalProcessors; i++)  
 	{
-		if (ListOfProcessors[i]->getState() && !ListOfProcessors[i]->getRunningInSched())
-		{
-			if (RunningCountIndex >= totalProcessors)
-			{
-				int newRunningCountIndex = RunningCountIndex % totalProcessors;
-				if (Running[newRunningCountIndex] == nullptr) {
-					Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-					RunningCountIndex++;
-					ListOfProcessors[i]->setRunningInSched(1);
-				}
-				else {
-					RunningCountIndex++;
-					newRunningCountIndex = RunningCountIndex % totalProcessors;
-					if (Running[newRunningCountIndex] == nullptr) {
-						Running[newRunningCountIndex] = ListOfProcessors[i]->getCurrentlyRunning();
-						RunningCountIndex++;
-						ListOfProcessors[i]->setRunningInSched(1);
-					}
-				}
-			}
-			else
-			{
-				Running[RunningCountIndex++] = ListOfProcessors[i]->getCurrentlyRunning();
-				ListOfProcessors[i]->setRunningInSched(1);
-			}
-		}
+		if (ListOfProcessors[i]->getCurrentlyRunning())
+			RUNNING[i] = ListOfProcessors[i]->getCurrentlyRunning()->get_PID();
 	}
-	
 }
 
 void Scheduler::WorkStealing()
@@ -557,7 +532,7 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 {
 	for (int i = 0; i < FCFS_Count; i++)
 	{
-		if (ListOfProcessors[i]->getRun() == target)
+		if (ListOfProcessors[i]->getCurrentlyRunning() == target)
 		{
 			ListOfProcessors[i]->KillRun();
 			return;
@@ -567,10 +542,17 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 	}
 }
 
+void Scheduler::RemoveFromRunning(PROCESS* target)
+{
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		if (RUNNING[i] == target->get_PID())
+			RUNNING[i] = 0;
+	}
+}
+
 Scheduler::~Scheduler()
 {
-	Running = nullptr;
-	delete[] Running;
 	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i])
@@ -579,5 +561,4 @@ Scheduler::~Scheduler()
 			ListOfProcessors[i] = nullptr;
 		}
 	}
-	delete[] ListOfProcessors;
 }

@@ -3,7 +3,7 @@
 #include <thread>  // for this_thread::sleep_for
 #include<iostream>
 using namespace std;
-void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount,int ProcessesCount)
+void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -22,11 +22,10 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "------------ - BLK processes  ------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK); cout << endl;
 	cout << "\n------------ - RUN processes  ------------ - " << endl;
-	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount, ProccessorList); cout << endl;
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, ProcessorsCount); cout << endl;
 	cout << "\n------------ - TRM processes  ------------ - " << endl;
 	cout << TSize << " TRM: "; TRM.printContents(); cout << endl;
 	cout << "\n";
-	if(ProcessesCount!=TSize)
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
 	cout << "\n \n";
 	while (1)
@@ -38,7 +37,7 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	}
 	
 }
-void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, PROCESS** RUN, int RunningCountIndex, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
+void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
 {
 	cout << "Current Timestep:" << Time << "\n"
 		"-------------  RDY processes  -------------" << endl;
@@ -57,7 +56,7 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	cout << "------------ - BLK processes------------ - " << endl;
 	cout << BSize << " BLK: "; PrintQueue(BLK);
 	cout << "\n------------ - RUN processes------------ - " << endl;
-	cout << RunningCount << " RUN: "; PrintRunning(RUN, RunningCountIndex, ProcessorsCount, ProccessorList);
+	cout << RunningCount << " RUN: "; PrintRunning(RUN, ProcessorsCount);
 	cout << "\n------------ - TRM processes------------ - " << endl;
 	cout << TSize << " TRM: "; TRM.printContents();
 	cout << "\n *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*" << endl;
@@ -89,19 +88,12 @@ void UI::PrintQueue(LinkedQueue<PROCESS*> Q)
 	Q.printContents();
 }
 
-void UI::PrintRunning(PROCESS** Run, int Size, int TotalCPUs, PROCESSOR** ProcessorsList)
+void UI::PrintRunning(int* Run, int s)
 {
-	if (Size > TotalCPUs)
-		Size = TotalCPUs;
-	for (int i = 0; i < Size; i++)
+	for (int i = 0; i < s; i++)
 	{
 		if (Run[i])
-			for (int j = 0; j < TotalCPUs; j++)
-			{
-				if(ProcessorsList[j]->getCurrentlyRunning())
-				if(Run[i]->get_PID() == ProcessorsList[j]->getCurrentlyRunning()->get_PID())
-				cout << Run[i]->get_PID() << "(P" << j + 1 << "), ";
-			}
+			cout << Run[i] << "(P" << i + 1 << "), ";
 	}
 }
 
