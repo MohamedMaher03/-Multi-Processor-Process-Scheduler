@@ -266,6 +266,10 @@ void Scheduler::SIMULATE()
 			break;
 		}
 		TIMESTEP++;
+		if (TIMESTEP == 70)
+		{
+			int x = 0;
+		}
 	}
 	CalculateStats(); // Calculate all statistics displayed in the output file
 	SaveData(); // Produce the Output file
@@ -281,6 +285,8 @@ void Scheduler::CheckNewArrivals()
 	{
 		NEW.dequeue(temp);
 		FindShortestProcessor()->addToMyRdy(temp); // Shortest Processor RDY gets first elem in NEW queue
+		if (NEW.isEmpty())
+			return;
 		NEW.peek(temp);
 	}
 }
