@@ -145,7 +145,7 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 
 void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
-	TRM.enqueue(temp, temp->get_TT());
+	TRM.enqueue(temp);
 	TRM_Count++;
 }
 
@@ -208,11 +208,13 @@ bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
 
 bool Scheduler::Process_completion(PROCESS* RUN)
 {
-	if (RUN->get_countsteps() > RUN->get_CT())
-	{
-		Add_toterminatedlist(RUN);
-		RunningCount--;
-		return true;
+	if (RUN) {
+		if (RUN->get_countsteps() >= RUN->get_CT())
+		{
+			Add_toterminatedlist(RUN);
+			RunningCount--;
+			return true;
+		}
 	}
 	return false;
 }
@@ -477,7 +479,7 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 
 void Scheduler::BLKtoRDY()
 {
-	
+	/*
 	PROCESS* tmp;
 	if (BLK.peek(tmp))
 	{
@@ -488,7 +490,7 @@ void Scheduler::BLKtoRDY()
 			FindShortestProcessor()->addToMyRdy(tmp);
 		}
 	}
-	
+	*/
 }
 
 void Scheduler::CalculateStats()
@@ -575,5 +577,4 @@ Scheduler::~Scheduler()
 		}
 	}
 	delete[] ListOfProcessors;
-	TRM.~LinkedPriorityQueue();
 }

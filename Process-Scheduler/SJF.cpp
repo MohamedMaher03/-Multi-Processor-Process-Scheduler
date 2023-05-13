@@ -28,7 +28,6 @@ void SJF::ScheduleAlgo()
 			}
 	}
 		// if there is a process running in the CPU
-	RUN->incrementCountsteps(1);
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
@@ -41,8 +40,10 @@ void SJF::ScheduleAlgo()
 			RUN = nullptr;
 			STATE = 0;
 			SchedPtr->decrement_runningcount();
+			return;
 		}
-		
+		if(RUN) 
+		RUN->incrementCountsteps(1);
 }
 
 void SJF::addToMyRdy(PROCESS* process)
