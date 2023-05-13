@@ -192,13 +192,13 @@ Scheduler::Scheduler()
 	KillPercent = 0;
 	StealPercent = 0;
 }
-bool Scheduler:: IO_requesthandling(PROCESS* RUN) {
+bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
 	{
 		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
 		{
 			RUN->incrementcountN();
-			Add_toblocklist(RUN); //The BLK is now priority queue. Highest priority is Least remaining IOD
+			Add_toblocklist(RUN); 
 			RunningCount--;
 			return true;
 		}
@@ -479,18 +479,19 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 
 void Scheduler::BLKtoRDY()
 {
-	/*
 	PROCESS* tmp;
 	if (BLK.peek(tmp))
 	{
-		if (!tmp->get_totalIoD()) //checks if the processor IOD == 0, moves it to shortest RDY
+		if (tmp->get_IO_D(tmp->get_countN()) > 0) //Checks for the given N(number of IO req), What is the remaining IO_D
+			tmp->DecrementIOD(tmp->get_countN());
+		else //checks if the processor IOD == 0, moves it to shortest RDY
 		{
 			BLK.dequeue(tmp);
 			BLK_Count--;
 			FindShortestProcessor()->addToMyRdy(tmp);
 		}
 	}
-	*/
+	
 }
 
 void Scheduler::CalculateStats()

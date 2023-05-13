@@ -156,7 +156,13 @@ enum PROCESS::STATES
 	 (IO + ind)->setfirst(IO_R);  
 	 (IO + ind)->setsecond(IO_D);
  }
- int PROCESS::get_IO_R(int indx) {
+
+ int PROCESS::get_IO_R(int indx) const
+ {
+	 return (IO + indx)->getfirst();
+ }
+ int PROCESS::get_IO_D(int indx) const
+ {
 	 return (IO + indx)->getfirst();
  }
  bool PROCESS::get_IsKilled()
@@ -278,6 +284,13 @@ enum PROCESS::STATES
  PROCESS* PROCESS::getChild2() const
  {
 	 return Child2;
+ }
+
+ void PROCESS::DecrementIOD(int indx)
+ {
+	 int IO_D = (IO + indx)->getsecond();
+	 IO_D--;
+	 (IO + indx)->setsecond(IO_D);
  }
 
  

@@ -55,7 +55,8 @@ public:
 	void set_IO(int IO_R, int IO_D, int ind);
 	bool get_IsKilled();
 	bool get_IsParent();
-	int get_IO_R(int indx);
+	int get_IO_R(int indx) const;
+	int get_IO_D(int) const;
 	void set_state(string x);
 	string get_state();
 	void set_PID(int);
@@ -70,6 +71,7 @@ public:
 	PROCESS* getParent() const;
 	PROCESS* getChild1() const;
 	PROCESS* getChild2() const;
+	void DecrementIOD(int);
 	~PROCESS();
 
 
