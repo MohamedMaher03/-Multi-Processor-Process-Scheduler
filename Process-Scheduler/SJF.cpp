@@ -32,14 +32,12 @@ void SJF::ScheduleAlgo()
 		{
 			RUN = nullptr;
 			STATE = 0;
-			SchedPtr->decrement_runningcount();
 			return;
 		}
 		if (SchedPtr->IO_requesthandling(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
-			SchedPtr->decrement_runningcount();
 			return;
 		}
 		if(RUN) 
