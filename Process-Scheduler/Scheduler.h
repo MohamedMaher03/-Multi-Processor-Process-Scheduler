@@ -65,6 +65,8 @@ public:
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
+	int get_LiveTotalProcesses();
+	void increment_LiveTotalProcesses();
 	Scheduler();
 	void SIMULATE();
 	void CheckNewArrivals(); // Distributes processes from NEW queue to Shortest RDY 

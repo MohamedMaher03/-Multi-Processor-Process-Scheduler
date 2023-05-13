@@ -160,6 +160,14 @@ int Scheduler::getRTF()
 {
 	return RTF;
 }
+int Scheduler::get_LiveTotalProcesses()
+{
+	return LiveTotalProcesses;
+}
+void Scheduler::increment_LiveTotalProcesses()
+{
+	LiveTotalProcesses++;
+}
 Scheduler::Scheduler()
 {
 	TIMESTEP = 1;

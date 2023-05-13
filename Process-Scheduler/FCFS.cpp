@@ -112,15 +112,26 @@ void FCFS::addToBeKilled(Pair tmp)
 {
 	ToBeKilled.enqueue(tmp);
 }
-void FCFS::ForkTree(PROCESS* P, PROCESS* C)
-{
-	if (!P->getChild1())
+void FCFS::ForkTree(PROCESS* P)
+{ 
+	if (STATE)
 	{
-		P->setChild1(C);
+		if (RUN->get_PID() == P->get_PID())
+		{
+			 SchedPtr->increment_LiveTotalProcesses();
+			 int Remaining_CT = P->get_CT() - P->get_countsteps();
+			 PROCESS* C = new PROCESS(SchedPtr->get_TIMESTEP(), SchedPtr->get_LiveTotalProcesses(), Remaining_CT, 0);
+			 if (!P->getChild1())
+			 {
+				 P->setChild1(C);
+			 }
+			 else
+				 P->setChild2(C);
+			 RDY.InsertEnd(C);
+		}
 	}
-	else
-		P->setChild2(C);
 }
+		
 void FCFS::Kill(PROCESS* target)
 {
 	SchedPtr->Add_toterminatedlist(target);
