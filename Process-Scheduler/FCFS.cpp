@@ -1,5 +1,6 @@
 #include "FCFS.h"
 #include "Scheduler.h"
+#include<random>
 using namespace std;
 LinkedQueue<Pair*> FCFS::ToBeKilled;
 
@@ -127,6 +128,17 @@ void FCFS::ForkTree(PROCESS* P, PROCESS* C)
 	}
 	else
 		P->setChild2(C);
+}
+int FCFS::random()
+{
+	random_device rd;
+	mt19937 gen(rd());
+
+	// Define the distribution for the random number
+	uniform_int_distribution<> dis(1, 100);
+
+	// Generate and return the random number
+	return dis(gen);
 }
 void FCFS::Kill(PROCESS* target)
 {
