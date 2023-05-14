@@ -70,8 +70,8 @@ void Scheduler::SaveData()
 		{
 			PROCESS* temp;
 			TRM.dequeue(temp);
-			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT()
-				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_TRT() << endl;
+			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT() << "    " << temp->get_CT()
+				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_RT() << "    " << temp->get_TRT() << endl;
 		}
 		OutputFile << "Processes: " << LiveTotalProcesses << endl;
 		OutputFile << "Avg WT = " << (int)AvgWaitingTime << ",      Avg RT = " << (int)AvgResponseTime << ",      Avg TRT = " << (int)AvgTRT << endl;
@@ -425,10 +425,12 @@ void Scheduler::BLKtoRDY()
 
 void Scheduler::CalculateStats()
 {
+	LinkedQueue<PROCESS*> tmpQ;  //Will store the processes temporarily till we put them back in TRM
 	for (int i = 0; i < TRM_Count; i++)
 	{
 		PROCESS* temp;
 		TRM.dequeue(temp);
+		tmpQ.enqueue(temp);
 		AvgWaitingTime += temp->get_WT();
 		AvgResponseTime += temp->get_RT();
 		AvgTRT += temp->get_TRT();
@@ -441,6 +443,12 @@ void Scheduler::CalculateStats()
 	StealPercent = (StealCount / TRM_Count) * 100;
 	Forkability = (ForkedCount / TRM_Count) * 100;
 	KillPercent = (KilledCount / TRM_Count) * 100;
+	while (!tmpQ.isEmpty())
+	{
+		PROCESS* temp;
+		tmpQ.dequeue(temp);
+		TRM.enqueue(temp);
+	}
 	
 }
 

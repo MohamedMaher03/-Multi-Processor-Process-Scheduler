@@ -15,14 +15,13 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 		IO = new Pair[N]; // array of pairs 
 						  //IO.first->IO-R
 						  //IO.second->IO-D
-		calculateTotalID();
 	}
 	IsKilled = false;
 	IsOrphan = false;
 	Child1 = nullptr;
 	Child2 = nullptr;
 	set_state("NEW");
-	
+	calculateTotalID();
 }
 PROCESS::~PROCESS()
 {
@@ -251,6 +250,7 @@ enum PROCESS::STATES
  {
 	 for (int i = 0; i < N; i++)
 	 {
+		 if(IO[i].getsecond() > 0)
 		 totalIoD += IO[i].getsecond();
 	 }
 	 return totalIoD;
