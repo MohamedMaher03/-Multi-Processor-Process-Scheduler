@@ -270,14 +270,13 @@ void Scheduler::SIMULATE()
 		case 2:
 			Print('B');
 			break;
-		case 3:
-			Print('S');
-			break;
 		default:
 			break;
 		}
 		TIMESTEP++;
 	}
+	if(RunMode == 3)
+		Print('S');
 	CalculateStats(); // Calculate all statistics displayed in the output file
 	SaveData(); // Produce the Output file
 }
