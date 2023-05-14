@@ -35,15 +35,15 @@ class Scheduler
 	LinkedList<PROCESS*> ForkedProcesses;
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
-	int AvgWaitingTime; //Average waiting time for all processes
-	int AvgResponseTime; //Average Response time for all processes
-	int AvgTRT; //Average Turnaround time for all processes
-	int MigPercent_RTF; //Percentage of process migration due to RTF
-	int MigPercent_MaxW; //Percentage of process migration due to MaxW
-	int StealPercent; //Percentages of processes moved by works steal
-	int ForkPercent; //Percentage of process fork
-	int KillPercent; //Percentage of process kill
-	int AvgUtilization; //Average utilization for all processors
+	float AvgWaitingTime; //Average waiting time for all processes
+	float AvgResponseTime; //Average Response time for all processes
+	float AvgTRT; //Average Turnaround time for all processes
+	float MigPercent_RTF; //Percentage of process migration due to RTF
+	float MigPercent_MaxW; //Percentage of process migration due to MaxW
+	float StealPercent; //Percentages of processes moved by works steal
+	float ForkPercent; //Percentage of process fork
+	float KillPercent; //Percentage of process kill
+	float AvgUtilization; //Average utilization for all processors
 	float StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
 	int MigsDueMax_W; // count of migrations due to Max_W
 	int MigsDueRTF; // count of migrations due to RTF;
