@@ -136,7 +136,6 @@ void Scheduler::Print(char z)
 	else if (z == 'S')
 	{
 		UIptr->printSilent();
-		SaveData();
 	}
 }
 
