@@ -5,6 +5,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 	AT = ArrivalTime;
 	PID = ID;
 	CT = CPU_Time;
+	Deadline = deadline;
 	N = Number;
 	Countsteps = 0;//added
 	CountN = 0;    //added

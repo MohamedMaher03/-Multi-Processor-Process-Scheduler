@@ -7,6 +7,7 @@
 #include "FCFS.h"
 #include "SJF.h"
 #include "RR.h"
+#include "EDF.h"
 class Scheduler
 {
 	int TIMESTEP;

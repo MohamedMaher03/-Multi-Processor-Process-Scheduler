@@ -13,7 +13,7 @@ void Scheduler::LoadData()
 		return;
 	}
 	File = FileName;
-	myFile >> FCFS_Count >> SJF_Count >> RR_Count;
+	myFile >> FCFS_Count >> SJF_Count >> RR_Count >>EDF_count;
 	totalProcessors = FCFS_Count + SJF_Count + RR_Count;
 	myFile >> TimeSlice;
 	myFile >> RTF >> MaxW >> STL >> Forkability;

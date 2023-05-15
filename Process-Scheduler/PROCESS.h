@@ -12,6 +12,7 @@ class PROCESS
 	int TRT;
 	int WT;
 	int  N;
+	int Deadline;
 	int StartTime; //the time at which process first enter in any processor
 	int Countsteps;// counter for the time steps that process take till now 
 	int CountN;	   //number of times process use IO till now 
