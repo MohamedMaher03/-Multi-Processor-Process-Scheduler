@@ -405,6 +405,20 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 		}
 		return ListOfProcessors[shortestProcessorIndex];
 	}
+	else if (x == 'F')
+	{
+		int shortestProcessor = INT_MAX; // Keeps track of the first FCFS processor to finish
+		int shortestProcessorIndex = 0; // Index of the shortest FCFS
+		for (int i = 1; i < FCFS_Count; i++)
+		{
+			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "FCFS")
+			{
+				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
+				shortestProcessorIndex = i;
+			}
+		}
+		return ListOfProcessors[shortestProcessorIndex];
+	}
 	int shortestProcessor = ListOfProcessors[0]->getExpectedFinishTime(); // Keeps track of the processor that will finish first
 	int shortestProcessorIndex = 0; // Index of the shortest processor
 	for (int i = 1; i < totalProcessors; i++)
@@ -535,7 +549,9 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 
 void Scheduler::CreateNewProcess(PROCESS* parent)
 {
-	PROCESS* Baby = new PROCESS(TIMESTEP, LiveTotalProcesses,parent->get_CT(), 0); //Not CT, Remember to change it
+	PROCESS* Baby = new PROCESS(TIMESTEP, ++LiveTotalProcesses,parent->get_CT() - parent->get_countsteps(), 0);
+	FindShortestProcessor('F')->addToMyRdy(Baby);
+	Baby->set_isforked();
 	if (parent->getChild1())
 	{
 		parent->setChild2(Baby);

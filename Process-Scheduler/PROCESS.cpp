@@ -64,9 +64,9 @@ enum PROCESS::STATES
 	 IsKilled = 1;
  }
 
- void PROCESS::set_isforked(bool forked)
+ void PROCESS::set_isforked()
  {
-	 isforked = forked;
+	 isforked = 1;
  }
 
  int PROCESS::get_PID() const
