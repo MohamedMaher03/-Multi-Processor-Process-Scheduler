@@ -4,7 +4,7 @@ EDF::EDF(Scheduler* sc) :PROCESSOR(sc)
 {
 	STATE = 0;
 	RUN = nullptr;
-	TYPE = "SJF";
+	TYPE = "EDF";
 	RSIZE = 0;
 	PLoad = 0;
 	PUtil = 0;

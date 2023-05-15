@@ -1,6 +1,7 @@
 #include "PROCESS.h"
 using namespace std;
-PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,int deadline, int Number)
+
+PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number)
 {
 	AT = ArrivalTime;
 	PID = ID;
