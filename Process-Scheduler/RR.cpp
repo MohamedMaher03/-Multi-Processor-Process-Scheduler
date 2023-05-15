@@ -7,6 +7,7 @@ RR::RR(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "RR";
 	RSIZE = 0;
+	
 }
 
 RR::~RR()
@@ -17,8 +18,9 @@ void RR::ScheduleAlgo()
 {
 	if (!RUN && RDY.isEmpty())
 		return;
-		if (!STATE)//the processor is IDLE
+		if (!(RDY.isEmpty())&&(!RUN))//the processor is IDLE
 		{
+			count_RR = 0;
 			PROCESS* front;
 			if(RDY.dequeue(front))
 			{
@@ -27,51 +29,58 @@ void RR::ScheduleAlgo()
 				RUN->set_starttime(SchedPtr->get_TIMESTEP());
 				RSIZE--;
 				ExpectedFinishTime -= front->get_CT();
-				RUN->incrementCountsteps(1);
+				SchedPtr->increment_runningcount();
+				
 			}
 			
 		}
-		else {
+		
+			
+		
 			if (SchedPtr->Process_completion(RUN))
 			{
 				RUN = nullptr;
 				STATE = 0;
+				return;
 			}
-			else if (SchedPtr->IO_requesthandling(RUN))
+			if (SchedPtr->IO_requesthandling(RUN))
 			{
 				RUN = nullptr;
 				STATE = 0;
+				return;
 			}
-			else {
-				if (RUN->get_countsteps() < SchedPtr->getTimeSlice())
+
+		
+		if (RUN)
+		{
+			/*if ((SchedPtr->MIG_RR_SJF(RUN)))
+			{
+				RUN = nullptr;
+			}
+			else*/
+			{
+				if (count_RR < SchedPtr->getTimeSlice())
 				{
-					if ((RUN->get_CT() - RUN->get_countsteps()) < SchedPtr->getRTF())
-					{
-						RUN->incrementCountsteps(1);
-					}
-					else
-					{
-						//migrate to SJF
-					}
+					RUN->incrementCountsteps(1);
+					count_RR++;
 				}
 				else
 				{
-					if ((RUN->get_CT() - RUN->get_countsteps()) > SchedPtr->getRTF())
-					{
-						//migrate to SJF
-					}
-					else
-					{
-						RDY.enqueue(RUN);
-						RSIZE++;
-						ExpectedFinishTime += RUN->get_CT();
-					}
+					RDY.enqueue(RUN);
+					ExpectedFinishTime += RUN->get_CT();
+					SchedPtr->decrement_runningcount();
+					RUN = NULL;
+					RSIZE++;
+					
+					
 
 				}
 			}
-
 		}
-
+				
+			
+		
+		
 }
 
 void RR::PrintMyReady()

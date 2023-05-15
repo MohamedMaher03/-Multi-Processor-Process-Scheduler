@@ -10,5 +10,3 @@ Processors Load
 p1=0%,  p2=0%,  p3=0%,  p4=0%
 
 Processors Utiliz
-p1=0%,  p2=0%,  p3=0%,  p4=0%
-Avg utilization = 0%

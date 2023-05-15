@@ -7,6 +7,7 @@ class PROCESSOR;
 class RR : public PROCESSOR
 {
 	LinkedQueue<PROCESS*>RDY;
+	int count_RR;
 
 public:
 	RR(Scheduler* scheduler);
