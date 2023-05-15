@@ -32,7 +32,7 @@ class Scheduler
 	int BLK_Count;
 	int TRM_Count;
 	int RunningCount; // Total number of currently running processes
-	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
+	int TotalTRT;
 	int LiveTotalProcesses;
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
