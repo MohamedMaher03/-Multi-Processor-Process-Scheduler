@@ -9,7 +9,6 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
-	TotalTRT = 0;
 }
 
 void SJF::ScheduleAlgo()
@@ -89,17 +88,5 @@ PROCESS* SJF::removeTopOfMyRDY()
 void  SJF::PrintMyReady() 
 {
 	RDY.printContents();
-}
-
-int SJF::CalculateExpectedFinish()
-{
-	//TO-DO
-	return 0;
-}
-
-int SJF::CalculateTRT()
-{
-	//TO-DO
-	return 0;
 }
 
