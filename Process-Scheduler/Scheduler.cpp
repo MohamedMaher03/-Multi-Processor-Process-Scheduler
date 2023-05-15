@@ -545,6 +545,7 @@ void Scheduler::CreateNewProcess(PROCESS* parent)
 {
 	PROCESS* Baby = new PROCESS(TIMESTEP, ++LiveTotalProcesses,parent->get_CT() - parent->get_countsteps(), 0);
 	FindShortestProcessor('F')->addToMyRdy(Baby);
+	Baby->set_isforked();
 	if (parent->getChild1())
 	{
 		parent->setChild2(Baby);

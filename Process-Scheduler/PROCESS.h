@@ -34,7 +34,7 @@ public:
 	void set_TRT(int termination, int ArrivalTime);
 	void set_WT(int termination, int ArrivalTime, int CPU_Time);
 	void set_IsKilled();
-	void set_isforked(bool forked);
+	void set_isforked();
 	int get_PID() const;
 	int get_AT() const;
 	int get_RT() const;
