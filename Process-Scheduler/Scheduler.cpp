@@ -527,6 +527,20 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 	}
 }
 
+void Scheduler::CreateNewProcess(PROCESS* parent)
+{
+	PROCESS* Baby = new PROCESS(TIMESTEP, LiveTotalProcesses,parent->get_CT(), 0);
+	if (parent->getChild1())
+	{
+		parent->setChild2(Baby);
+		Baby->setParent(parent);
+		return;
+	}
+	parent->setChild1(Baby);
+	Baby->setParent(parent);
+	return;
+}
+
 Scheduler::~Scheduler()
 {
 	for (int i = 0; i < totalProcessors; i++)
