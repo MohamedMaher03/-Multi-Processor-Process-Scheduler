@@ -16,7 +16,6 @@ protected:
 	bool RunningInSched;
 	int ExpectedFinishTime; //inc with CT when any process added to RDY
 							//dec with CT when any process removed from RDY(as in case of kill)
-	int TotalTRT;
 	int TotalBusyTime;
 	int TotalIdleTime;
 public:

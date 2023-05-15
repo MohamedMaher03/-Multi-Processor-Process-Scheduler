@@ -84,7 +84,7 @@ float PROCESSOR::getPUtil() const
 
 void PROCESSOR::CalculatePLoad()
 {
-	PLoad = TotalBusyTime * 1.0 / TotalTRT;
+	//	PLoad = TotalBusyTime * 1.0 / TotalTRT;
 }
 
 void PROCESSOR::CalculatePUtil()
