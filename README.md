@@ -23,8 +23,6 @@ To install the project, follow these steps:
 
 To use the program, specify in an input file the following:
 
-```
-```
 
 - `<number_of_processors>`: The number of processors in the system.
 - `<number_of_processes>`: The number of processes to be scheduled.
