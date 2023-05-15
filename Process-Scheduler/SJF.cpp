@@ -13,9 +13,14 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 
 void SJF::ScheduleAlgo()
 {
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
 	if (!RUN && RDY.isEmpty())
 		return;
-	if (!RUN&&!RDY.isEmpty())  //if the processor is IDLE 
+	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;  
 			if (RDY.dequeue(HighestPriorityPROCESS)) {

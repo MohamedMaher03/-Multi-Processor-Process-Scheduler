@@ -19,6 +19,11 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
 	if (!RUN && RDY.IsEmpty())
 		return;
 	Pair* target;
@@ -61,7 +66,6 @@ void FCFS::ScheduleAlgo()
 	}
 	
 }
-
 
 void FCFS::addToMyRdy(PROCESS *P)
 { 

@@ -15,6 +15,11 @@ RR::~RR()
 
 void RR::ScheduleAlgo()
 {
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
 	if (!RUN && RDY.isEmpty())
 		return;
 		if (!STATE)//the processor is IDLE
