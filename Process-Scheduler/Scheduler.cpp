@@ -252,20 +252,26 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 
 bool Scheduler::MIG_RR_SJF(PROCESS* run)
 {
-	if ((run->get_CT() - run->get_countsteps()) < RTF)
+	if (check_is_SJF())
 	{
-		FindShortestProcessor('S')->addToMyRdy(run);
-		return true;
+		if ((run->get_CT() - run->get_countsteps()) < RTF)
+		{
+			FindShortestProcessor('S')->addToMyRdy(run);
+			return true;
+		}
 	}
 	return false;
 }
 
 bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 {
-	if (run->get_WT()>MaxW)
+	if (check_is_RR())
 	{
-		FindShortestProcessor('R')->addToMyRdy(run);
-		return true;
+		if (get_WT_RR(run) > MaxW)
+		{
+			FindShortestProcessor('R')->addToMyRdy(run);
+			return true;
+		}
 	}
 	return false;
 }
@@ -548,6 +554,36 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 		if (RUNNING[i] == target->get_PID())
 			RUNNING[i] = 0;
 	}
+}
+
+bool Scheduler::check_is_SJF()
+{
+	for (int i = 1; i < totalProcessors; i++)
+	{
+		if (ListOfProcessors[i]->getType() == "SJF")
+		{
+			return true;
+		}
+	}
+	return false;
+
+}
+
+bool Scheduler::check_is_RR()
+{
+	for (int i = 1; i < totalProcessors; i++)
+	{
+		if (ListOfProcessors[i]->getType() == "RR")
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int Scheduler::get_WT_RR(PROCESS* running)
+{
+	return(TIMESTEP - (running->get_AT()) - (running->get_countsteps()));
 }
 
 void Scheduler::CreateNewProcess(PROCESS* parent)

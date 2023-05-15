@@ -63,11 +63,11 @@ void RR::ScheduleAlgo()
 
 		if (RUN)
 		{
-			/*if ((SchedPtr->MIG_RR_SJF(RUN)))
+			if ((SchedPtr->MIG_RR_SJF(RUN)))
 			{
 				RUN = nullptr;
 			}
-			else*/
+			else
 			{
 				if (count_RR < SchedPtr->getTimeSlice())
 				{
@@ -77,7 +77,8 @@ void RR::ScheduleAlgo()
 				else
 				{
 					RDY.enqueue(RUN);
-					ExpectedFinishTime += RUN->get_CT();
+					ExpectedFinishTime += (RUN->get_CT()-RUN->get_countsteps());
+					SchedPtr->RemoveFromRunning(RUN);
 					SchedPtr->decrement_runningcount();
 					RUN = NULL;
 					RSIZE++;
@@ -104,7 +105,7 @@ void RR::PrintMyReady()
 void RR::addToMyRdy(PROCESS* TMP)
 {
 	RDY.enqueue(TMP);
-	ExpectedFinishTime += TMP->get_CT();
+	ExpectedFinishTime += (TMP->get_CT()-TMP->get_countsteps());
 	RSIZE++;
 }
 
@@ -113,7 +114,7 @@ PROCESS* RR::removeTopOfMyRDY()
 	PROCESS* top=nullptr;
 	if (RDY.dequeue(top)) {
 		RSIZE--;
-		ExpectedFinishTime -= top->get_CT();
+		ExpectedFinishTime -= (top->get_CT()-top->get_countsteps());
 	}
 	return top;
 }
@@ -129,7 +130,7 @@ bool RR::PromoteProcess()
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
-			ExpectedFinishTime -= toberun->get_CT();
+			ExpectedFinishTime -= (toberun->get_CT()-toberun->get_countsteps());
 			return true;
 		}
 	}

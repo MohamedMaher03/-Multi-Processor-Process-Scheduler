@@ -1,0 +1,19 @@
+TT    PID    AT    CT    IO_D        WT    RT    TRT
+0    3    5    2    0        0    0    2
+0    2    3    5    0        6    0    11
+0    1    3    20    0        13    0    33
+0    4    9    23    0        16    0    39
+Processes: 4
+Avg WT = 8,      Avg RT = 0,      Avg TRT = 21
+Migration % :        RTF = 4%,      MaxW = 50%
+Work Steal % :0%
+Forked Processes: 0%
+Killed Processes: 0%
+
+Processors: 4 [0 FCFS, 0 SJF, 4 RR]
+Processors Load
+p1=0%,  p2=0%,  p3=0%,  p4=0%
+
+Processors Utiliz
+p1=0%,  p2=0%,  p3=0%,  p4=0%
+Avg utilization = 26.0417%

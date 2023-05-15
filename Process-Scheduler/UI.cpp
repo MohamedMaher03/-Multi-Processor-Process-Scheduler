@@ -29,13 +29,13 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
 	cout << "\n \n";
 	
-	while (1)
+	/*while (1)
 	{
 		char x;
 		cin >> x;
 		if (x == 'e' || x == 'E')
 			break;
-	}
+	}*/
 	
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)

@@ -88,6 +88,9 @@ public:
 	void decrement_runningcount();
 	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
 	void RemoveFromRunning(PROCESS*);
+	bool check_is_SJF();//check if there is SJF processors for migration
+	bool check_is_RR();//check if there is RR processors for migration
+	int get_WT_RR(PROCESS* running);//get the waiting time for migration to RR
 	void CreateNewProcess(PROCESS*);  //Creates a child process given its parent
 	int GetTRT();
 	~Scheduler();
