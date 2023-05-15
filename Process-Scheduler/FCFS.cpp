@@ -37,7 +37,9 @@ void FCFS::ScheduleAlgo()
 	}
 	if (!RUN && !RDY.IsEmpty())
 	{
-			RUN = RDY.peek()->getItem();
+			PROCESS* TEMP;
+			TEMP = RDY.peek()->getItem();
+			RUN = TEMP;
 			STATE = 1;
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			RDY.DeleteFirst();
@@ -135,6 +137,8 @@ void FCFS::ForkTree(PROCESS* P)
 			 SchedPtr->increment_LiveTotalProcesses();
 			 int Remaining_CT = P->get_CT() - P->get_countsteps();
 			 PROCESS* C = new PROCESS(SchedPtr->get_TIMESTEP(), SchedPtr->get_LiveTotalProcesses(), Remaining_CT, 0);
+			 C->set_isforked(true);
+			 P->set_isforked(true);
 			 if (!P->getChild1())
 			 {
 				 P->setChild1(C);
