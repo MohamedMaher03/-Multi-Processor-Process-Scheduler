@@ -26,6 +26,8 @@ public:
 	void ForkTree(PROCESS* P);
 	void RemoveFromMyRdy(PROCESS*); // Removes a certain process from its ready
 	int random();
+	int CalculateExpectedFinish() override;
+	int CalculateTRT() override;
 
 };
 

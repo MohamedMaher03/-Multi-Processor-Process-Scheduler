@@ -220,3 +220,15 @@ PROCESS* FCFS::removeTopOfMyRDY()
 	return top;
 }
 
+int RR::CalculateExpectedFinish()
+{
+	//TO-DO
+	return 0;
+}
+
+int RR::CalculateTRT()
+{
+	//TO-DO
+	return 0;
+}
+

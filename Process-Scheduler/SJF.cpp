@@ -1,7 +1,5 @@
 #include "SJF.h"
 
-
-
 SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 {
 	STATE = 0;
@@ -9,7 +7,6 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 	TYPE = "SJF";
 	RSIZE = 0;
 }
-
 
 void SJF::ScheduleAlgo()
 {
@@ -91,5 +88,17 @@ PROCESS* SJF::removeTopOfMyRDY()
 void  SJF::PrintMyReady() 
 {
 	RDY.printContents();
+}
+
+int RR::CalculateExpectedFinish()
+{
+	//TO-DO
+	return 0;
+}
+
+int RR::CalculateTRT()
+{
+	//TO-DO
+	return 0;
 }
 
