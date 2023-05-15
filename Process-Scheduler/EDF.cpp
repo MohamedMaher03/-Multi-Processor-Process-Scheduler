@@ -44,7 +44,7 @@ void EDF::ScheduleAlgo()
 				RUN = HighestPriorityPROCESS;
 			}
 		}
-	
+
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
@@ -57,7 +57,7 @@ void EDF::ScheduleAlgo()
 			STATE = 0;
 			return;
 		}
-}
+	}
 	if (RUN)
 		RUN->incrementCountsteps(1);
 }
