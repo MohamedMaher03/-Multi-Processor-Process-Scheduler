@@ -1,4 +1,18 @@
 #include "PROCESSOR.h"
+#include "Scheduler.h"
+
+PROCESSOR::PROCESSOR(Scheduler* sch)
+{
+	ExpectedFinishTime = 0;
+	PLoad = 0;
+	PUtil = 0;
+	RSIZE = 0;
+	RUN = nullptr;
+	RunningInSched = false;
+	SchedPtr = sch;
+	TotalBusyTime = 0;
+	TotalIdleTime = 0;
+}
 
 int PROCESSOR::getRSIZE()
 {
@@ -54,32 +68,28 @@ int PROCESSOR::getExpectedFinishTime()
 {
 	return ExpectedFinishTime;
 }
-PROCESS* PROCESSOR::getRun()
-{
-	return RUN;
-}
 void PROCESSOR::KillRun()
 {
 	RUN = nullptr;
 }
-int PROCESSOR::getPLoad() const
+float PROCESSOR::getPLoad() const
 {
 	return PLoad;
 }
 
-int PROCESSOR::getPUtil() const
+float PROCESSOR::getPUtil() const
 {
 	return PUtil;
 }
-PROCESSOR::PROCESSOR(Scheduler* sch)
-{ 
-	ExpectedFinishTime = 0;
-	PLoad = 0;
-	PUtil = 0;
-	RSIZE = 0;
-	RUN = nullptr;
-	RunningInSched = false;
-	SchedPtr = sch;
+
+void PROCESSOR::CalculatePLoad(int TRT)
+{
+	PLoad = TotalBusyTime / TRT;
+}
+
+void PROCESSOR::CalculatePUtil()
+{
+	PUtil = TotalBusyTime * 1.0 / (TotalBusyTime + TotalIdleTime);
 }
 
 PROCESSOR::~PROCESSOR()

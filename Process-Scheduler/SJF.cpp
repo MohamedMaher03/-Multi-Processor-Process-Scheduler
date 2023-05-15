@@ -1,21 +1,26 @@
 #include "SJF.h"
 
-
-
 SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 {
 	STATE = 0;
 	RUN = nullptr;
 	TYPE = "SJF";
 	RSIZE = 0;
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
 }
-
 
 void SJF::ScheduleAlgo()
 {
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
 	if (!RUN && RDY.isEmpty())
 		return;
-	if (!RUN&&!RDY.isEmpty())  //if the processor is IDLE 
+	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;  
 			if (RDY.dequeue(HighestPriorityPROCESS)) {
@@ -27,7 +32,7 @@ void SJF::ScheduleAlgo()
 				SchedPtr->increment_runningcount();
 			}
 	}
-		// if there is a process running in the CPU
+	else {	// if there is a process running in the CPU
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
@@ -40,6 +45,7 @@ void SJF::ScheduleAlgo()
 			STATE = 0;
 			return;
 		}
+	}
 		if(RUN) 
 		RUN->incrementCountsteps(1);
 }
@@ -51,15 +57,12 @@ void SJF::addToMyRdy(PROCESS* process)
 	RSIZE++;
 }
 
-bool SJF::PromoteProcess(int x)
+bool SJF::PromoteProcess()
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
 		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if (RDY.peek(toberun))
-			if (x == toberun->get_AT())
-				return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;

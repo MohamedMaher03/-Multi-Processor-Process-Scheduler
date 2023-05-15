@@ -1,10 +1,12 @@
 #include "PROCESS.h"
 using namespace std;
-PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
+
+PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number)
 {
 	AT = ArrivalTime;
 	PID = ID;
 	CT = CPU_Time;
+	Deadline = deadline;
 	N = Number;
 	Countsteps = 0;//added
 	CountN = 0;    //added
@@ -15,21 +17,19 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 		IO = new Pair[N]; // array of pairs 
 						  //IO.first->IO-R
 						  //IO.second->IO-D
-		calculateTotalID();
 	}
 	IsKilled = false;
-	IsOrphan = false;
+	isforked = false;
 	Child1 = nullptr;
 	Child2 = nullptr;
 	set_state("NEW");
-	
+	calculateTotalIO_D();
 }
 PROCESS::~PROCESS()
 {
 	if(N)
 		delete [] IO;
 }
-
 
 enum PROCESS::STATES
 {
@@ -65,49 +65,49 @@ enum PROCESS::STATES
 	 IsKilled = 1;
  }
 
- void PROCESS::set_IsParent(bool parent)
+ void PROCESS::set_isforked()
  {
-	 IsParent = parent;
+	 isforked = 1;
  }
 
- void PROCESS::set_IsOrphan()
- {
-	 IsOrphan = true;
- }
-
- int PROCESS::get_PID()
+ int PROCESS::get_PID() const
  {
 	 return PID;
  }
 
- int PROCESS::get_AT()
+ int PROCESS::get_AT() const
  {
 	 return AT;
  }
 
- int PROCESS::get_RT()
+ int PROCESS::get_RT() const
  {
 	 return RT;
  }
 
- int PROCESS::get_CT()
+ int PROCESS::get_CT() const
  {
 	 return CT;
  }
 
- int PROCESS::get_TT()
+ int PROCESS::get_TT() const
  {
 	 return TT;
  }
 
- int PROCESS::get_TRT()
+ int PROCESS::get_TRT() const
  {
 	 return TRT;
  }
 
- int PROCESS::get_WT()
+ int PROCESS::get_WT() const
  {
 	 return WT;
+ }
+
+ bool PROCESS::get_isforked()
+ {
+	 return isforked;
  }
 
  void PROCESS::set_starttime(int t)
@@ -131,7 +131,7 @@ enum PROCESS::STATES
 	 CountN++;
  }
 
- int PROCESS::get_N()
+ int PROCESS::get_N() const
  {
 	 return N;
  }
@@ -146,11 +146,6 @@ enum PROCESS::STATES
 	 return Countsteps;
  }
 
- bool PROCESS::get_IsOrphan()
- {
-	 return IsOrphan;
- }
-
  void PROCESS::set_IO(int IO_R, int IO_D, int ind)
  {
 	 (IO + ind)->setfirst(IO_R);  
@@ -161,18 +156,14 @@ enum PROCESS::STATES
  {
 	 return (IO + indx)->getfirst();
  }
+
  int PROCESS::get_IO_D(int indx) const
  {
 	 return (IO + indx)->getsecond();
  }
- bool PROCESS::get_IsKilled()
+ bool PROCESS::get_IsKilled() const
  {
 	 return IsKilled;
- }
-
- bool PROCESS::get_IsParent()
- {
-	 return IsParent;
  }
 
  void PROCESS::set_state(string x)
@@ -222,35 +213,16 @@ enum PROCESS::STATES
 	 return false;
  }*/
 
- void PROCESS::set_PID(int x)
- {
-	 PID = x;
- }
-
- void PROCESS::set_AT(int x)
- {
-	 AT = x;
- }
-
- void PROCESS::set_CT(int x)
- {
-	 CT = x;
- }
-
- void PROCESS::set_N(int x)
- {
-	 N = x;
- }
-
  int PROCESS::get_totalIoD() const
  {
 	 return totalIoD;
  }
 
- int PROCESS::calculateTotalID()
+ int PROCESS::calculateTotalIO_D()
  {
 	 for (int i = 0; i < N; i++)
 	 {
+		 if(IO[i].getsecond() > 0)
 		 totalIoD += IO[i].getsecond();
 	 }
 	 return totalIoD;

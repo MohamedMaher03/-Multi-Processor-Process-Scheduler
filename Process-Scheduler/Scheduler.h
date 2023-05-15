@@ -7,19 +7,22 @@
 #include "FCFS.h"
 #include "SJF.h"
 #include "RR.h"
+#include "EDF.h"
 class Scheduler
 {
 	int TIMESTEP;
-	PROCESSOR** ListOfProcessors;
+	PROCESSOR* ListOfProcessors [200];
 	int totalProcessors;
 	//These 3 queues are common across all processes
 	LinkedQueue<PROCESS*> NEW;
 	LinkedQueue<PROCESS*> BLK;
 	LinkedQueue<PROCESS*> TRM;
 	UI* UIptr;
+	int RUNNING[200]; // An array of Running Processes' IDs. Index represents the number of processor (Index 0 => Processor 1)
 	int FCFS_Count;
 	int SJF_Count;
 	int RR_Count;
+	int EDF_count;
 	int TimeSlice;
 	int RTF;
 	int MaxW;
@@ -31,20 +34,18 @@ class Scheduler
 	int RunningCount; // Total number of currently running processes
 	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
-	LinkedList<PROCESS*> ForkedProcesses;
-	PROCESS** Running; //This is an arry containg of pointers of Running processes from each processor
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
-	int AvgWaitingTime; //Average waiting time for all processes
-	int AvgResponseTime; //Average Response time for all processes
-	int AvgTRT; //Average Turnaround time for all processes
-	int MigPercent_RTF; //Percentage of process migration due to RTF
-	int MigPercent_MaxW; //Percentage of process migration due to MaxW
-	int StealPercent; //Percentages of processes moved by works steal
-	int ForkPercent; //Percentage of process fork
-	int KillPercent; //Percentage of process kill
-	int AvgUtilization; //Average utilization for all processors
-	int StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
+	float AvgWaitingTime; //Average waiting time for all processes
+	float AvgResponseTime; //Average Response time for all processes
+	float AvgTRT; //Average Turnaround time for all processes
+	float MigPercent_RTF; //Percentage of process migration due to RTF
+	float MigPercent_MaxW; //Percentage of process migration due to MaxW
+	float StealPercent; //Percentages of processes moved by works steal
+	float ForkPercent; //Percentage of process fork
+	float KillPercent; //Percentage of process kill
+	float AvgUtilization; //Average utilization for all processors
+	float StealLimit; // A percentage. (LQF - SQF) / LQF (should be greater than 40)
 	int MigsDueMax_W; // count of migrations due to Max_W
 	int MigsDueRTF; // count of migrations due to RTF;
 	int StealCount; // Count of processes moved due to steal
@@ -54,7 +55,7 @@ class Scheduler
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
 	void SaveData(); // produce the output file at end of simulation
-	void CreateProcessors(int, int, int);
+	void CreateProcessors(int, int, int,int);
 	void Print(char); //Decides which mode ([I]nteractive - [S]ilent - Step[B]yStep) 
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);
@@ -65,6 +66,9 @@ public:
 	int get_TIMESTEP();
 	int getTimeSlice();
 	int getRTF();
+	int get_LiveTotalProcesses();
+	int get_ForkPercent() const;
+	void increment_LiveTotalProcesses();
 	Scheduler();
 	void SIMULATE();
 	void CheckNewArrivals(); // Distributes processes from NEW queue to Shortest RDY 
@@ -83,6 +87,9 @@ public:
 	void increment_runningcount();
 	void decrement_runningcount();
 	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
+	void RemoveFromRunning(PROCESS*);
+	void CreateNewProcess(PROCESS*);  //Creates a child process given its parent
+	int GetTRT();
 	~Scheduler();
 };
 

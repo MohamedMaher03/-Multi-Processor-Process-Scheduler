@@ -10,12 +10,14 @@ protected:
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
-	int PLoad; //Statistic for phase 2
-	int PUtil;  //Statistic for phase 2
+	float PLoad; //Statistic for phase 2
+	float PUtil;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
 	bool RunningInSched;
 	int ExpectedFinishTime; //inc with CT when any process added to RDY
 							//dec with CT when any process removed from RDY(as in case of kill)
+	int TotalBusyTime;
+	int TotalIdleTime;
 public:
 	PROCESSOR(Scheduler*);
 	~PROCESSOR();
@@ -27,15 +29,16 @@ public:
 	PROCESS* getCurrentlyRunning(); //returns address of currently running process for each processor, null otherwise
 	bool getState();
 	void setState(bool s);
-	virtual bool PromoteProcess(int) = 0; //Makes the process AS running, and removes it from RDY queue
+	virtual bool PromoteProcess() = 0; //Makes the process AS running, and removes it from RDY queue
     void ResetRunningProcess(int); // Gets rid of currently running process and resets processor state to idle
 	void setRunningInSched(int);
 	bool getRunningInSched();
 	int getExpectedFinishTime();
 	virtual PROCESS* removeTopOfMyRDY() = 0;
-	PROCESS* getRun();
 	void KillRun();
-	int getPLoad() const;
-	int getPUtil() const;
+	float getPLoad() const;
+	float getPUtil() const;
+	void CalculatePLoad(int);
+	void CalculatePUtil();
 };
 

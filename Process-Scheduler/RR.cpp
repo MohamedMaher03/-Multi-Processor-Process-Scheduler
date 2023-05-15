@@ -7,7 +7,9 @@ RR::RR(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "RR";
 	RSIZE = 0;
-	
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
 }
 
 RR::~RR()
@@ -16,13 +18,21 @@ RR::~RR()
 
 void RR::ScheduleAlgo()
 {
-	if (!RUN && RDY.isEmpty())
-		return;
-		if (!(RDY.isEmpty())&&(!RUN))//the processor is IDLE
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
+
+	
+	{
+		if (!RUN && RDY.isEmpty())
+			return;
+		if (!(RDY.isEmpty()) && (!RUN))//the processor is IDLE
 		{
 			count_RR = 0;
 			PROCESS* front;
-			if(RDY.dequeue(front))
+			if (RDY.dequeue(front))
 			{
 				RUN = front;
 				STATE = 1;
@@ -30,27 +40,27 @@ void RR::ScheduleAlgo()
 				RSIZE--;
 				ExpectedFinishTime -= front->get_CT();
 				SchedPtr->increment_runningcount();
-				
-			}
-			
-		}
-		
-			
-		
-			if (SchedPtr->Process_completion(RUN))
-			{
-				RUN = nullptr;
-				STATE = 0;
-				return;
-			}
-			if (SchedPtr->IO_requesthandling(RUN))
-			{
-				RUN = nullptr;
-				STATE = 0;
-				return;
+
 			}
 
-		
+		}
+
+
+
+		if (SchedPtr->Process_completion(RUN))
+		{
+			RUN = nullptr;
+			STATE = 0;
+			return;
+		}
+		if (SchedPtr->IO_requesthandling(RUN))
+		{
+			RUN = nullptr;
+			STATE = 0;
+			return;
+		}
+
+
 		if (RUN)
 		{
 			/*if ((SchedPtr->MIG_RR_SJF(RUN)))
@@ -71,17 +81,17 @@ void RR::ScheduleAlgo()
 					SchedPtr->decrement_runningcount();
 					RUN = NULL;
 					RSIZE++;
-					
-					
+
+
 
 				}
 			}
 		}
-				
-			
-		
-		
-}
+
+
+
+
+	}
 
 void RR::PrintMyReady()
 {
@@ -105,15 +115,16 @@ PROCESS* RR::removeTopOfMyRDY()
 	return top;
 }
 
-bool RR::PromoteProcess(int x)
+bool RR::PromoteProcess()
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
+		PROCESS* toberun;
 		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if(RDY.peek(toberun))
-		if (x == toberun->get_AT())
-			return false;
+		if (RDY.peek(toberun))
+			if (x == toberun->get_AT())
+				return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;

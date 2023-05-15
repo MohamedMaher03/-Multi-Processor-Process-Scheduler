@@ -16,14 +16,15 @@ public:
 	void ScheduleAlgo() override;
 	void addToMyRdy(PROCESS *P) override;
 	void PrintMyReady() override;
-	bool PromoteProcess(int);
+	bool PromoteProcess();
 	void Kill(PROCESS*);
 	bool KillSignal(int, int);
 	PROCESS* removeTopOfMyRDY() override;
 	void Killchildren(PROCESS* P); // Calls the Kill function for all children of a process
 	bool isInMyRdy(PROCESS*); // Returns true if a certain process is in its RDY list and kills it
 	void addToBeKilled(Pair*);
-	void ForkTree(PROCESS* P, PROCESS* C);
+	void ForkTree(PROCESS* P);
+	void RemoveFromMyRdy(PROCESS*); // Removes a certain process from its ready
 	int random();
 
 };
