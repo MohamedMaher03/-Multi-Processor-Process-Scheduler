@@ -135,7 +135,8 @@ void FCFS::ForkTree(PROCESS* P)
 			 }
 			 else
 				 P->setChild2(C);
-			 RDY.InsertEnd(C);
+			
+			 addToMyRdy(C);
 		}
 	}
 }
