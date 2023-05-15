@@ -13,6 +13,7 @@ EDF::EDF(Scheduler* sc) :PROCESSOR(sc)
 
 void EDF::ScheduleAlgo()
 {
+	if (!RUN)
 	
 }
 
