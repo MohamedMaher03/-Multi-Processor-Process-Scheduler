@@ -9,7 +9,7 @@ private:
 public:
 	SJF(Scheduler* scheduler);
 	void ScheduleAlgo() override;
-	bool PromoteProcess(int x);
+	bool PromoteProcess();
 	PROCESS* removeTopOfMyRDY() override;
 	void addToMyRdy(PROCESS*process);  //Schedular class will set RDYLIST
 	void PrintMyReady() override;

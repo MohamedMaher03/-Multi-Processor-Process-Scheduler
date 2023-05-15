@@ -38,8 +38,8 @@ Killed Processes: 0%
 
 Processors: 4 [0 FCFS, 4 SJF, 0 RR]
 Processors Load
-p1=0%,  p2=0%,  p3=0%,  p4=0%
+p1=-2147483648%,  p2=-2147483648%,  p3=-2147483648%,  p4=-2147483648%
 
 Processors Utiliz
 p1=0%,  p2=0%,  p3=0%,  p4=0%
-Avg utilization = 0%
+Avg utilization = 9.88465%

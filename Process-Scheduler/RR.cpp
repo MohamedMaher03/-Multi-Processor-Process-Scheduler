@@ -7,6 +7,10 @@ RR::RR(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "RR";
 	RSIZE = 0;
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
+	TotalTRT = 0;
 }
 
 RR::~RR()
@@ -101,7 +105,7 @@ PROCESS* RR::removeTopOfMyRDY()
 	return top;
 }
 
-bool RR::PromoteProcess(int x)
+bool RR::PromoteProcess()
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{

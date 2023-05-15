@@ -10,6 +10,10 @@ FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "FCFS";
 	RSIZE = 0;
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
+	TotalTRT = 0;
 }
 
 FCFS::~FCFS()
@@ -79,14 +83,12 @@ void FCFS::PrintMyReady()
 	RDY.PrintList();
 }
 
-bool FCFS::PromoteProcess(int x)
+bool FCFS::PromoteProcess()
 {
 	if (!STATE && !RDY.IsEmpty())
 	{	 
 		PROCESS* TEMP;
 		TEMP = RDY.peek()->getItem();
-		if (x == TEMP->get_AT())
-			return false;
 		RUN = TEMP;
 		STATE = 1;
 		RDY.DeleteFirst();
@@ -220,13 +222,13 @@ PROCESS* FCFS::removeTopOfMyRDY()
 	return top;
 }
 
-int RR::CalculateExpectedFinish()
+int FCFS::CalculateExpectedFinish()
 {
 	//TO-DO
 	return 0;
 }
 
-int RR::CalculateTRT()
+int FCFS::CalculateTRT()
 {
 	//TO-DO
 	return 0;

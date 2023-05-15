@@ -6,6 +6,10 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "SJF";
 	RSIZE = 0;
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
+	TotalTRT = 0;
 }
 
 void SJF::ScheduleAlgo()
@@ -54,15 +58,12 @@ void SJF::addToMyRdy(PROCESS* process)
 	RSIZE++;
 }
 
-bool SJF::PromoteProcess(int x)
+bool SJF::PromoteProcess()
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
 		PROCESS* toberun;
 		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if (RDY.peek(toberun))
-			if (x == toberun->get_AT())
-				return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;
@@ -90,13 +91,13 @@ void  SJF::PrintMyReady()
 	RDY.printContents();
 }
 
-int RR::CalculateExpectedFinish()
+int SJF::CalculateExpectedFinish()
 {
 	//TO-DO
 	return 0;
 }
 
-int RR::CalculateTRT()
+int SJF::CalculateTRT()
 {
 	//TO-DO
 	return 0;

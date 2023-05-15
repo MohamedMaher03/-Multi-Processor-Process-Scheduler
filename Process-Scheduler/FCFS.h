@@ -16,7 +16,7 @@ public:
 	void ScheduleAlgo() override;
 	void addToMyRdy(PROCESS *P) override;
 	void PrintMyReady() override;
-	bool PromoteProcess(int);
+	bool PromoteProcess();
 	void Kill(PROCESS*);
 	bool KillSignal(int, int);
 	PROCESS* removeTopOfMyRDY() override;
