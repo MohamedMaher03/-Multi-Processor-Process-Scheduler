@@ -34,7 +34,6 @@ class Scheduler
 	int RunningCount; // Total number of currently running processes
 	int RunningCountIndex; //Inaccurate number of Running processes but useful for indexing the array
 	int LiveTotalProcesses;
-	LinkedList<PROCESS*> ForkedProcesses;
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
 	float AvgWaitingTime; //Average waiting time for all processes
@@ -90,6 +89,7 @@ public:
 	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
 	void RemoveFromRunning(PROCESS*);
 	void CreateNewProcess(PROCESS*);  //Creates a child process given its parent
+	int GetTRT();
 	~Scheduler();
 };
 

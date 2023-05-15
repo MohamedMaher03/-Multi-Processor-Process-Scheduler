@@ -13,8 +13,8 @@ void Scheduler::LoadData()
 		return;
 	}
 	File = FileName;
-	myFile >> FCFS_Count >> SJF_Count >> RR_Count >>EDF_count;
-	totalProcessors = FCFS_Count + SJF_Count + RR_Count +EDF_count;
+	myFile >> FCFS_Count >> SJF_Count >> RR_Count >> EDF_count;
+	totalProcessors = FCFS_Count + SJF_Count + RR_Count + EDF_count;
 	myFile >> TimeSlice;
 	myFile >> RTF >> MaxW >> STL >> Forkability;
 	myFile >> ProcessesCount;
@@ -44,7 +44,7 @@ void Scheduler::LoadData()
 			}
 		}
 	}
-	CreateProcessors(FCFS_Count, SJF_Count, RR_Count,EDF_count);
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count, EDF_count);
 	string ignore1;
 	string ignore2;
 	myFile >> ignore1 >> ignore2;
@@ -484,16 +484,10 @@ void Scheduler::CalculateStats()
 	//Calculate Processor Stats
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		ListOfProcessors[i]->CalculatePLoad();
+		ListOfProcessors[i]->CalculatePLoad(AvgTRT * TRM_Count);
 		ListOfProcessors[i]->CalculatePUtil();
 	}
 	
-}
-
-void Scheduler::AddToForked(PROCESS* tmp)
-{
-	ForkedProcesses.InsertEnd(tmp);
-	ForkedCount++;
 }
 
 void Scheduler::increment_MigsDueMax_W()
@@ -566,6 +560,11 @@ void Scheduler::CreateNewProcess(PROCESS* parent)
 	parent->setChild1(Baby);
 	Baby->setParent(parent);
 	return;
+}
+
+int Scheduler::GetTRT()
+{
+	return AvgTRT * TRM_Count;
 }
 
 Scheduler::~Scheduler()
