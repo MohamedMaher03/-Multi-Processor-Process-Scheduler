@@ -129,24 +129,12 @@ void FCFS::addToBeKilled(Pair* tmp)
 	ToBeKilled.enqueue(tmp);
 }
 void FCFS::ForkTree(PROCESS* P)
-{ 
-	if (STATE)
+{
+	if (STATE && (random()<= SchedPtr->get_ForkPercent()))
 	{
 		if (RUN->get_PID() == P->get_PID())
 		{
-			 SchedPtr->increment_LiveTotalProcesses();
-			 int Remaining_CT = P->get_CT() - P->get_countsteps();
-			 PROCESS* C = new PROCESS(SchedPtr->get_TIMESTEP(), SchedPtr->get_LiveTotalProcesses(), Remaining_CT, 0);
-			 C->set_isforked(true);
-			 P->set_isforked(true);
-			 if (!P->getChild1())
-			 {
-				 P->setChild1(C);
-			 }
-			 else
-				 P->setChild2(C);
-			
-			 addToMyRdy(C);
+			 SchedPtr->CreateNewProcess(P);	 
 		}
 	}
 }

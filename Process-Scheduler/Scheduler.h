@@ -68,6 +68,7 @@ public:
 	int getTimeSlice();
 	int getRTF();
 	int get_LiveTotalProcesses();
+	int get_ForkPercent() const;
 	void increment_LiveTotalProcesses();
 	Scheduler();
 	void SIMULATE();

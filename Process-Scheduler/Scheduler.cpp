@@ -179,6 +179,11 @@ int Scheduler::get_LiveTotalProcesses()
 	return LiveTotalProcesses;
 }
 
+int Scheduler::get_ForkPercent() const
+{
+	return ForkPercent;
+}
+
 void Scheduler::increment_LiveTotalProcesses()
 {
 	LiveTotalProcesses++;
@@ -549,7 +554,7 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 
 void Scheduler::CreateNewProcess(PROCESS* parent)
 {
-	PROCESS* Baby = new PROCESS(TIMESTEP, ++LiveTotalProcesses,parent->get_CT() - parent->get_countsteps(), 0);
+	PROCESS* Baby = new PROCESS (TIMESTEP, ++LiveTotalProcesses,parent->get_CT() - parent->get_countsteps(), 0);
 	FindShortestProcessor('F')->addToMyRdy(Baby);
 	Baby->set_isforked();
 	if (parent->getChild1())
