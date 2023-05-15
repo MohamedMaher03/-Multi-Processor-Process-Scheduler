@@ -529,7 +529,9 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 
 void Scheduler::CreateNewProcess(PROCESS* parent)
 {
-	PROCESS* Baby = new PROCESS(TIMESTEP, LiveTotalProcesses,parent->get_CT(), 0); //Not CT, Remember to change it
+	PROCESS* Baby = new PROCESS(TIMESTEP, LiveTotalProcesses,parent->get_CT() - parent->get_countsteps(), 0);
+	LiveTotalProcesses++;
+	FindShortestProcessor()->addToMyRdy(Baby);
 	if (parent->getChild1())
 	{
 		parent->setChild2(Baby);
