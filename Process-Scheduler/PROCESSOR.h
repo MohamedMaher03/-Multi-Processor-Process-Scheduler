@@ -10,12 +10,15 @@ protected:
 	string TYPE;
 	int RSIZE;
 	bool STATE; // 0->IDLE |_||_| 1->BUSY
-	int PLoad; //Statistic for phase 2
-	int PUtil;  //Statistic for phase 2
+	float PLoad; //Statistic for phase 2
+	float PUtil;  //Statistic for phase 2
 	Scheduler* SchedPtr; //Pointer to Scheduler
 	bool RunningInSched;
 	int ExpectedFinishTime; //inc with CT when any process added to RDY
 							//dec with CT when any process removed from RDY(as in case of kill)
+	int TotalBusyTime;
+	int TotalIdleTime;
+	int TotalTRT;
 public:
 	PROCESSOR(Scheduler*);
 	~PROCESSOR();
@@ -34,7 +37,11 @@ public:
 	int getExpectedFinishTime();
 	virtual PROCESS* removeTopOfMyRDY() = 0;
 	void KillRun();
-	int getPLoad() const;
-	int getPUtil() const;
+	float getPLoad() const;
+	float getPUtil() const;
+	void CalculatePLoad();
+	void CalculatePUtil();
+	virtual int CalculateExpectedFinish() = 0; //Iterates over RDY of each processor and sets the Expected Finish Time
+	virtual int CalculateTRT() = 0;		//Iterates over RDY of each processor and sets the Total TRT 
 };
 
