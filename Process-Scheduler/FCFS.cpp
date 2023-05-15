@@ -36,19 +36,15 @@ void FCFS::ScheduleAlgo()
 		ToBeKilled.peek(target);
 		KillSignal(target->getfirst(), target->getsecond());
 	}
-
-	if (!STATE)
+	if (!RUN && !RDY.IsEmpty())
 	{
-		if (!RDY.IsEmpty())
-		{
 			RUN = RDY.peek()->getItem();
+			STATE = 1;
+			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			RDY.DeleteFirst();
 			RSIZE--;
 			ExpectedFinishTime -= RUN->get_CT();
-			RUN->set_starttime(SchedPtr->get_TIMESTEP());
-			STATE = 1;
 			RUN->incrementCountsteps(1);
-		}
 	}
  
 	else{
@@ -57,17 +53,21 @@ void FCFS::ScheduleAlgo()
 			//SchedPtr->Add_toterminatedlist(RUN);
 			RUN = nullptr;
 			STATE = 0;
+			return;
 		}
 		else if (SchedPtr->IO_requesthandling(RUN))
 		{
 			RUN = nullptr;
 			STATE = 0;
+			return;
 		}
 		else
 		{
 			RUN->incrementCountsteps(1);
 		}
 	}
+	if (RUN)
+		RUN->incrementCountsteps(1);
 	
 }
 
