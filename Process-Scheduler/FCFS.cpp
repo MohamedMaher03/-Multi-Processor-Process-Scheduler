@@ -223,12 +223,6 @@ PROCESS* FCFS::removeTopOfMyRDY()
 	return top;
 }
 
-int FCFS::CalculateExpectedFinish()
-{
-	//TO-DO
-	return 0;
-}
-
 int FCFS::CalculateTRT()
 {
 	//TO-DO

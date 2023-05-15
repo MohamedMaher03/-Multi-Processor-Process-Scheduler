@@ -91,11 +91,6 @@ void  SJF::PrintMyReady()
 	RDY.printContents();
 }
 
-int SJF::CalculateExpectedFinish()
-{
-	//TO-DO
-	return 0;
-}
 
 int SJF::CalculateTRT()
 {

@@ -122,12 +122,6 @@ bool RR::PromoteProcess()
 	return false;
 }
 
-int RR::CalculateExpectedFinish()
-{
-	//TO-DO
-	return 0;
-}
-
 int RR::CalculateTRT()
 {
 	//TO-DO

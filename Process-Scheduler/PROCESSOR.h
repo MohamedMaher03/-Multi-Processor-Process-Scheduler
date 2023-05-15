@@ -41,7 +41,6 @@ public:
 	float getPUtil() const;
 	void CalculatePLoad();
 	void CalculatePUtil();
-	virtual int CalculateExpectedFinish() = 0; //Iterates over RDY of each processor and sets the Expected Finish Time
 	virtual int CalculateTRT() = 0;		//Iterates over RDY of each processor and sets the Total TRT 
 };
 
