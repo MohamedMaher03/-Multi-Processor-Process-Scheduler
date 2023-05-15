@@ -14,13 +14,58 @@ EDF::EDF(Scheduler* sc) :PROCESSOR(sc)
 void EDF::ScheduleAlgo()
 {
 	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
+	if (!RUN && RDY.isEmpty())
+		return;
+	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
+	{
+		PROCESS* HighestPriorityPROCESS;
+		if (RDY.dequeue(HighestPriorityPROCESS)) {
+			RUN = HighestPriorityPROCESS;
+			RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
+			STATE = 1;
+			RSIZE--;
+			ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT() - HighestPriorityPROCESS->get_countsteps());
+			SchedPtr->increment_runningcount();
+		}
+	}
+	else {	// if there is a process running in the CPU
+		PROCESS* HighestPriorityPROCESS;
+		if (RDY.peek(HighestPriorityPROCESS) && RUN) {
+			if (RUN->get_deadline() > HighestPriorityPROCESS->get_deadline()) {
+				addToMyRdy(RUN);
+				ExpectedFinishTime += (RUN->get_CT() - RUN->get_countsteps());
+				RUN = nullptr;
+				RDY.dequeue(HighestPriorityPROCESS);
+				ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT() - HighestPriorityPROCESS->get_countsteps());
+				RUN = HighestPriorityPROCESS;
+			}
+		}
 	
+		if (SchedPtr->Process_completion(RUN))
+		{
+			RUN = nullptr;
+			STATE = 0;
+			return;
+		}
+		if (SchedPtr->IO_requesthandling(RUN))
+		{
+			RUN = nullptr;
+			STATE = 0;
+			return;
+		}
+}
+	if (RUN)
+		RUN->incrementCountsteps(1);
 }
 
 void EDF::addToMyRdy(PROCESS* process)
 {
-	RDY.enqueue(process, process->get_CT());
-	ExpectedFinishTime += process->get_CT();
+	RDY.enqueue(process, process->get_deadline());
+	ExpectedFinishTime += (process->get_CT()-process->get_countsteps());
 	RSIZE++;
 }
 
@@ -35,7 +80,7 @@ bool EDF::PromoteProcess()
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
-			ExpectedFinishTime -= toberun->get_CT();
+			ExpectedFinishTime -= (toberun->get_CT() - toberun->get_countsteps());
 			return true;
 		}
 	}
@@ -46,7 +91,7 @@ PROCESS* EDF::removeTopOfMyRDY()
 {
 	PROCESS* top = nullptr;
 	if (RDY.dequeue(top)) {
-		ExpectedFinishTime -= top->get_CT();
+		ExpectedFinishTime -= (top->get_CT() - top->get_countsteps());
 		RSIZE--;
 	}
 	return top;

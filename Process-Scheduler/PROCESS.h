@@ -42,6 +42,7 @@ public:
 	int get_TT() const;
 	int get_TRT() const;
 	int get_WT() const;
+	int get_deadline() const;
 	bool get_isforked();
 	void set_starttime(int t); 
 	int get_starttime();	   

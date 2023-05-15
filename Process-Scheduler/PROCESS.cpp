@@ -105,6 +105,8 @@ enum PROCESS::STATES
 	 return WT;
  }
  int PROCESS::get_deadline() const {
+	 return Deadline;
+ }
 
  bool PROCESS::get_isforked()
  {
