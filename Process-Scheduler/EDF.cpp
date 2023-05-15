@@ -28,7 +28,7 @@ void EDF::ScheduleAlgo()
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
 			STATE = 1;
 			RSIZE--;
-			ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT() - HighestPriorityPROCESS->get_countsteps());
+			ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT());
 			SchedPtr->increment_runningcount();
 		}
 	}
@@ -37,10 +37,10 @@ void EDF::ScheduleAlgo()
 		if (RDY.peek(HighestPriorityPROCESS) && RUN) {
 			if (RUN->get_deadline() > HighestPriorityPROCESS->get_deadline()) {
 				addToMyRdy(RUN);
-				ExpectedFinishTime += (RUN->get_CT() - RUN->get_countsteps());
 				RUN = nullptr;
 				RDY.dequeue(HighestPriorityPROCESS);
-				ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT() - HighestPriorityPROCESS->get_countsteps());
+				RSIZE--;
+				ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT());
 				RUN = HighestPriorityPROCESS;
 			}
 		}
@@ -65,7 +65,7 @@ void EDF::ScheduleAlgo()
 void EDF::addToMyRdy(PROCESS* process)
 {
 	RDY.enqueue(process, process->get_deadline());
-	ExpectedFinishTime += (process->get_CT()-process->get_countsteps());
+	ExpectedFinishTime += (process->get_CT());
 	RSIZE++;
 }
 
@@ -80,7 +80,7 @@ bool EDF::PromoteProcess()
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
-			ExpectedFinishTime -= (toberun->get_CT() - toberun->get_countsteps());
+			ExpectedFinishTime -= (toberun->get_CT());
 			return true;
 		}
 	}
@@ -91,7 +91,7 @@ PROCESS* EDF::removeTopOfMyRDY()
 {
 	PROCESS* top = nullptr;
 	if (RDY.dequeue(top)) {
-		ExpectedFinishTime -= (top->get_CT() - top->get_countsteps());
+		ExpectedFinishTime -= (top->get_CT());
 		RSIZE--;
 	}
 	return top;
