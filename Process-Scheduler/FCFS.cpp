@@ -149,6 +149,7 @@ void FCFS::RemoveFromMyRdy(PROCESS* target)
 {
 	RDY.DeleteNode(target);
 }
+
 int FCFS::random()
 {
 	random_device rd;
@@ -160,8 +161,10 @@ int FCFS::random()
 	// Generate and return the random number
 	return dis(gen);
 }
+
 void FCFS::Kill(PROCESS* target)
 {
+	target->set_IsKilled();
 	SchedPtr->Add_toterminatedlist(target);
 	SchedPtr->RemoveFromEverywhere(target);
 	SchedPtr->increment_KilledCount();
