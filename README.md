@@ -21,22 +21,23 @@ To install the project, follow these steps:
 
 ## Usage
 
-To use the program, run the following command:
+To use the program, specify in an input file the following:
 
 ```
-./multiprocessor-process-scheduler <number_of_processors> <number_of_processes> <quantum_time>
 ```
 
 - `<number_of_processors>`: The number of processors in the system.
 - `<number_of_processes>`: The number of processes to be scheduled.
-- `<quantum_time>`: The time quantum for each process.
+- `<Arrival Time>`: The arrival time for each process
+- `<CT>`: The CPU time for each process
+- `<N>`: The number of IO requests for each process
 
 The program will simulate the operation of the process scheduler for the given parameters and output the following statistics:
 
 - Average waiting time for each process
 - Average turnaround time for each process
 - CPU utilization
-- Throughput
+- CPU Load
 
 ## Contributing
 
