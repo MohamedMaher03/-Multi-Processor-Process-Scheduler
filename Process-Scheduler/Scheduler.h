@@ -86,6 +86,7 @@ public:
 	void decrement_runningcount();
 	void RemoveFromEverywhere(PROCESS*); //takes a process address as a target & makes sure it is dead and burried
 	void RemoveFromRunning(PROCESS*);
+	void CreateNewProcess(PROCESS*);  //Creates a child process given its parent
 	~Scheduler();
 };
 
