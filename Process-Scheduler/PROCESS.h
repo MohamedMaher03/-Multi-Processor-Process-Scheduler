@@ -51,7 +51,6 @@ public:
 	int get_countN();			
 	void incrementcountN();   
 	int get_N() const;             
-	bool get_IsOrphan();
 	void set_IO(int IO_R, int IO_D, int ind);
 	bool get_IsKilled() const;
 	int get_IO_R(int indx) const;
@@ -67,6 +66,8 @@ public:
 	PROCESS* getChild1() const;
 	PROCESS* getChild2() const;
 	void DecrementIOD(int);
+	void SetTRT(int);
+	void setWT(int);
 	~PROCESS();
 
 

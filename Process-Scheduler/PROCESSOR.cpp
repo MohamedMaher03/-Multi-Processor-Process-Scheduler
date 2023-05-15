@@ -1,5 +1,5 @@
 #include "PROCESSOR.h"
-
+#include "Scheduler.h"
 
 PROCESSOR::PROCESSOR(Scheduler* sch)
 {
@@ -82,9 +82,9 @@ float PROCESSOR::getPUtil() const
 	return PUtil;
 }
 
-void PROCESSOR::CalculatePLoad()
+void PROCESSOR::CalculatePLoad(int TRT)
 {
-	//	PLoad = TotalBusyTime * 1.0 / TotalTRT;
+	PLoad = TotalBusyTime / TRT;
 }
 
 void PROCESSOR::CalculatePUtil()

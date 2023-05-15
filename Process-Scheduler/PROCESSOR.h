@@ -38,7 +38,7 @@ public:
 	void KillRun();
 	float getPLoad() const;
 	float getPUtil() const;
-	void CalculatePLoad();
+	void CalculatePLoad(int);
 	void CalculatePUtil();
 };
 

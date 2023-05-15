@@ -268,4 +268,14 @@ enum PROCESS::STATES
 	 (IO + indx)->setsecond(IO_D);
  }
 
+ void PROCESS::SetTRT(int x)
+ {
+	 TRT = x;
+ }
+
+ void PROCESS::setWT(int x)
+ {
+	 WT = x;
+ }
+
  
