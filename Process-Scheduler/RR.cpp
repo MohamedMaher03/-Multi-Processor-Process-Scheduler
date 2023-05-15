@@ -24,7 +24,7 @@ void RR::ScheduleAlgo()
 		TotalBusyTime++;
 
 
-	
+
 	{
 		if (!RUN && RDY.isEmpty())
 			return;
@@ -38,7 +38,7 @@ void RR::ScheduleAlgo()
 				STATE = 1;
 				RUN->set_starttime(SchedPtr->get_TIMESTEP());
 				RSIZE--;
-				ExpectedFinishTime -= front->get_CT();
+				ExpectedFinishTime -= (front->get_CT()-front->get_countsteps());
 				SchedPtr->increment_runningcount();
 
 			}
@@ -92,6 +92,9 @@ void RR::ScheduleAlgo()
 
 
 	}
+}
+
+	
 
 void RR::PrintMyReady()
 {
@@ -119,12 +122,8 @@ bool RR::PromoteProcess()
 {
 	if (!STATE && !RDY.isEmpty())// the processor is IDLE
 	{
+	
 		PROCESS* toberun;
-		PROCESS* toberun;
-		//If RDY.peek() exists I want to check if the timestep is equal AT, if this is the case return false
-		if (RDY.peek(toberun))
-			if (x == toberun->get_AT())
-				return false;
 		if (RDY.dequeue(toberun))
 		{
 			RUN = toberun;
