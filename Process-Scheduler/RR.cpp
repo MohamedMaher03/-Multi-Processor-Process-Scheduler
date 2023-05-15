@@ -10,7 +10,6 @@ RR::RR(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
-	TotalTRT = 0;
 }
 
 RR::~RR()
@@ -120,10 +119,4 @@ bool RR::PromoteProcess()
 		}
 	}
 	return false;
-}
-
-int RR::CalculateTRT()
-{
-	//TO-DO
-	return 0;
 }

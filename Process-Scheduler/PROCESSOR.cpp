@@ -12,7 +12,6 @@ PROCESSOR::PROCESSOR(Scheduler* sch)
 	SchedPtr = sch;
 	TotalBusyTime = 0;
 	TotalIdleTime = 0;
-	TotalTRT = 0;
 }
 
 int PROCESSOR::getRSIZE()

@@ -13,7 +13,6 @@ FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
-	TotalTRT = 0;
 }
 
 FCFS::~FCFS()
@@ -221,11 +220,5 @@ PROCESS* FCFS::removeTopOfMyRDY()
 		ExpectedFinishTime -= top->get_CT();
 	}
 	return top;
-}
-
-int FCFS::CalculateTRT()
-{
-	//TO-DO
-	return 0;
 }
 

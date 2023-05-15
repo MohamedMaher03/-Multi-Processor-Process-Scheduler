@@ -18,7 +18,6 @@ protected:
 							//dec with CT when any process removed from RDY(as in case of kill)
 	int TotalBusyTime;
 	int TotalIdleTime;
-	int TotalTRT;
 public:
 	PROCESSOR(Scheduler*);
 	~PROCESSOR();
@@ -41,6 +40,5 @@ public:
 	float getPUtil() const;
 	void CalculatePLoad();
 	void CalculatePUtil();
-	virtual int CalculateTRT() = 0;		//Iterates over RDY of each processor and sets the Total TRT 
 };
 
