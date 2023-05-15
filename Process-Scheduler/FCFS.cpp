@@ -137,8 +137,8 @@ void FCFS::ForkTree(PROCESS* P)
 			 SchedPtr->increment_LiveTotalProcesses();
 			 int Remaining_CT = P->get_CT() - P->get_countsteps();
 			 PROCESS* C = new PROCESS(SchedPtr->get_TIMESTEP(), SchedPtr->get_LiveTotalProcesses(), Remaining_CT, 0);
-			 C->set_isforked(true);
-			 P->set_isforked(true);
+			 C->set_isforked();
+			 P->set_isforked();
 			 if (!P->getChild1())
 			 {
 				 P->setChild1(C);
