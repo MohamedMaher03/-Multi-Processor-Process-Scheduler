@@ -79,7 +79,6 @@ public:
 	PROCESSOR* FindShortestProcessor(char x = 'N'); // This function if given a parameter 'S' OR 'R', finds the shortest SJF && RR respectively
 	void BLKtoRDY(); //Each timestep checks if the front of BLK (process with shortest IOD) has finished its IOD request, and moves it to shortest RDY
 	void CalculateStats();
-	void AddToForked(PROCESS*);
 	void increment_MigsDueMax_W();
 	void increment_MigsDueRTF();
 	void increment_StealCount();
