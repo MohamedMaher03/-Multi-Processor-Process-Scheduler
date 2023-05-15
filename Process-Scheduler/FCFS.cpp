@@ -10,6 +10,10 @@ FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 	RUN = nullptr;
 	TYPE = "FCFS";
 	RSIZE = 0;
+	PLoad = 0;
+	PUtil = 0;
+	TotalBusyTime = 0;
+	TotalTRT = 0;
 }
 
 FCFS::~FCFS()
@@ -19,6 +23,11 @@ FCFS::~FCFS()
 
 void FCFS::ScheduleAlgo()
 {
+	if (!RUN)
+		TotalIdleTime++;
+	else
+		TotalBusyTime++;
+
 	if (!RUN && RDY.IsEmpty())
 		return;
 	Pair* target;
@@ -62,7 +71,6 @@ void FCFS::ScheduleAlgo()
 	
 }
 
-
 void FCFS::addToMyRdy(PROCESS *P)
 { 
 	RDY.InsertEnd(P);
@@ -75,14 +83,12 @@ void FCFS::PrintMyReady()
 	RDY.PrintList();
 }
 
-bool FCFS::PromoteProcess(int x)
+bool FCFS::PromoteProcess()
 {
 	if (!STATE && !RDY.IsEmpty())
 	{	 
 		PROCESS* TEMP;
 		TEMP = RDY.peek()->getItem();
-		if (x == TEMP->get_AT())
-			return false;
 		RUN = TEMP;
 		STATE = 1;
 		RDY.DeleteFirst();
@@ -94,11 +100,12 @@ bool FCFS::PromoteProcess(int x)
 }
 void FCFS::Killchildren(PROCESS* P)
 {
-	if (!P->getChild1())
+	if (!P->getChild1() && !P->getChild2())
 	{
 		Kill(P);
 		return;
 	}
+	if (P->getChild1())
 	Killchildren(P->getChild1());
 	if(P->getChild2())
 	Killchildren(P->getChild2());
@@ -140,6 +147,12 @@ void FCFS::ForkTree(PROCESS* P)
 		}
 	}
 }
+
+void FCFS::RemoveFromMyRdy(PROCESS* target)
+{
+	RDY.DeleteNode(target);
+}
+
 int FCFS::random()
 {
 	random_device rd;
@@ -151,8 +164,10 @@ int FCFS::random()
 	// Generate and return the random number
 	return dis(gen);
 }
+
 void FCFS::Kill(PROCESS* target)
 {
+	target->set_IsKilled();
 	SchedPtr->Add_toterminatedlist(target);
 	SchedPtr->RemoveFromEverywhere(target);
 	SchedPtr->increment_KilledCount();
@@ -206,5 +221,17 @@ PROCESS* FCFS::removeTopOfMyRDY()
 		ExpectedFinishTime -= top->get_CT();
 	}
 	return top;
+}
+
+int FCFS::CalculateExpectedFinish()
+{
+	//TO-DO
+	return 0;
+}
+
+int FCFS::CalculateTRT()
+{
+	//TO-DO
+	return 0;
 }
 

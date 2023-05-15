@@ -15,6 +15,8 @@ public:
 	void PrintMyReady() override;
 	void addToMyRdy(PROCESS*) override;
 	PROCESS* removeTopOfMyRDY() override;
-	bool PromoteProcess(int); //Makes the process AS running, and removes it from RDY queue
+	bool PromoteProcess(); //Makes the process AS running, and removes it from RDY queue
+	int CalculateExpectedFinish() override;
+	int CalculateTRT() override;
 
 };

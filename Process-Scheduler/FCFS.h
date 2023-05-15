@@ -16,7 +16,7 @@ public:
 	void ScheduleAlgo() override;
 	void addToMyRdy(PROCESS *P) override;
 	void PrintMyReady() override;
-	bool PromoteProcess(int);
+	bool PromoteProcess();
 	void Kill(PROCESS*);
 	bool KillSignal(int, int);
 	PROCESS* removeTopOfMyRDY() override;
@@ -24,7 +24,10 @@ public:
 	bool isInMyRdy(PROCESS*); // Returns true if a certain process is in its RDY list and kills it
 	void addToBeKilled(Pair*);
 	void ForkTree(PROCESS* P);
+	void RemoveFromMyRdy(PROCESS*); // Removes a certain process from its ready
 	int random();
+	int CalculateExpectedFinish() override;
+	int CalculateTRT() override;
 
 };
 

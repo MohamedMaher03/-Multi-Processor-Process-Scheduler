@@ -58,6 +58,7 @@ void Scheduler::LoadData()
 	}
 	myFile.close();
 }
+
 void Scheduler::SaveData()
 {
 	File = "Output_" + File;
@@ -70,38 +71,40 @@ void Scheduler::SaveData()
 		{
 			PROCESS* temp;
 			TRM.dequeue(temp);
-			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT()
-				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_TRT() << endl;
+			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT() << "    " << temp->get_CT()
+				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_RT() << "    " << temp->get_TRT() << endl;
 		}
 		OutputFile << "Processes: " << LiveTotalProcesses << endl;
-		OutputFile << "Avg WT = " << AvgWaitingTime << ",      Avg RT = " << AvgResponseTime << ",      Avg TRT = " << AvgTRT << endl;
-		OutputFile << "Migration % :        RTF = " << RTF << "%,      MaxW = " << MaxW << "%" << endl;
-		OutputFile << "Forked Processes: " << ForkPercent << "%" << endl;
-		OutputFile << "Killed Processes: " << KillPercent << "%" << endl;
+		OutputFile << "Avg WT = " << (int)AvgWaitingTime << ",      Avg RT = " << (int)AvgResponseTime << ",      Avg TRT = " << (int)AvgTRT << endl;
+		OutputFile << "Migration % :        RTF = " << (int)RTF << "%,      MaxW = " << (int)MaxW << "%" << endl;
+		OutputFile << "Work Steal % :" << (int)StealPercent << "%" << endl;
+		OutputFile << "Forked Processes: " << (int)ForkPercent << "%" << endl;
+		OutputFile << "Killed Processes: " << (int)KillPercent << "%" << endl;
 		OutputFile << endl;
 		OutputFile << "Processors: " << totalProcessors << " [" << FCFS_Count << " FCFS, " << SJF_Count << " SJF, "
 			<< RR_Count << " RR]" << endl;
 		OutputFile << "Processors Load" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
-			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPLoad() << "%,  ";
+			OutputFile << "p" << i << "=" << (int)ListOfProcessors[i - 1]->getPLoad() << "%,  ";
 		}
-		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPLoad() << "%\n";
+		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPLoad() << "%\n";
 		OutputFile << endl;
 		OutputFile << "Processors Utiliz" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
-			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPUtil() << "%,  ";
+			OutputFile << "p" << i << "=" << (int)ListOfProcessors[i - 1]->getPUtil() << "%,  ";
 			AvgUtilization += ListOfProcessors[i - 1]->getPUtil();
 		}
 		AvgUtilization += ListOfProcessors[totalProcessors - 1]->getPUtil();
 		AvgUtilization = (AvgUtilization / TRM_Count) * 100;
-		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
+		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
 		OutputFile << "Avg utilization = " << AvgUtilization << "%";
 		OutputFile.close();
 	}
 
 }
+
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
@@ -135,7 +138,6 @@ void Scheduler::Print(char z)
 	else if (z == 'S')
 	{
 		UIptr->printSilent();
-		SaveData();
 	}
 }
 
@@ -156,6 +158,7 @@ int Scheduler::get_TIMESTEP()
 {
 	return TIMESTEP;
 }
+
 int Scheduler::getTimeSlice()
 {
 	return TimeSlice;
@@ -165,14 +168,17 @@ int Scheduler::getRTF()
 {
 	return RTF;
 }
+
 int Scheduler::get_LiveTotalProcesses()
 {
 	return LiveTotalProcesses;
 }
+
 void Scheduler::increment_LiveTotalProcesses()
 {
 	LiveTotalProcesses++;
 }
+
 Scheduler::Scheduler()
 {
 	TIMESTEP = 1;
@@ -198,6 +204,7 @@ Scheduler::Scheduler()
 	KillPercent = 0;
 	StealPercent = 0;
 }
+
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
 	{
@@ -268,14 +275,13 @@ void Scheduler::SIMULATE()
 		case 2:
 			Print('B');
 			break;
-		case 3:
-			Print('S');
-			break;
 		default:
 			break;
 		}
 		TIMESTEP++;
 	}
+	if(RunMode == 3)
+		Print('S');
 	CalculateStats(); // Calculate all statistics displayed in the output file
 	SaveData(); // Produce the Output file
 }
@@ -303,74 +309,7 @@ void Scheduler::Execute()
 		ListOfProcessors[i]->ScheduleAlgo();
 	}
 }
-/*
-void Scheduler::AllocatingProcesses() //Do NOT delete it just yet, we need the same conditions in phase 2, so keep it till we're DONE.
-{
-	for (int i = 0; i < RunningCountIndex; i++) 
-		//RunningCountIndex may be changed to become totalProcessors (if agree with me do it)
-	{
-		if (!Running[i])
-			continue;
-		if (RunningCount > 0 && i<totalProcessors)
-		{
-			if (random >= 1 && random <= 15)
-			{
-				//MOVE Running[i] to BLK list
-				BLK.enqueue(Running[i]);
-				BLK_Count++;
-				for (int j = 0; j < totalProcessors; j++) //Remove running process from it's original processor RUN*
-				{
-					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
-				}
-				Running[i] = nullptr;
-				if (RunningCount > 0)
-					RunningCount--;
 
-			}
-			else if (random >= 20 && random <= 30)
-			{
-				//MOVE Running[i] to RDY list of any processor
-
-				ListOfProcessors[count]->addToMyRdy(Running[i]);
-				count = (count + 1) % totalProcessors;
-				for (int j = 0; j < totalProcessors; j++)
-				{
-					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
-				}
-				Running[i] = nullptr;
-				if (RunningCount > 0)
-					RunningCount--;
-
-			}
-			else if (random >= 50 && random <= 60)
-			{
-				//MOVE Running[i] to TRM list
-
-				TRM.enqueue(Running[i], Running[i]->get_TT());
-				TRM_Count++;
-				for (int j = 0; j < totalProcessors; j++)
-				{
-					ListOfProcessors[j]->ResetRunningProcess(Running[i]->get_PID());
-				}
-				Running[i] = nullptr;
-				if (RunningCount > 0)
-					RunningCount--;
-
-			}
-		}
-	}
-	
-	for (int i = 0; i < FCFS_Count; i++)
-	{
-		PROCESS* KILLED = dynamic_cast<FCFS*>(ListOfProcessors[i])->KillRandomly(FCFS_random);
-		if (KILLED)
-		{
-			TRM.enqueue(KILLED, KILLED->get_TT());
-			TRM_Count++;
-		}
-	}
-}
-*/
 bool Scheduler::AllDone()
 {
 	
@@ -492,14 +431,17 @@ void Scheduler::BLKtoRDY()
 
 void Scheduler::CalculateStats()
 {
+	LinkedQueue<PROCESS*> tmpQ;  //Will store the processes temporarily till we put them back in TRM
 	for (int i = 0; i < TRM_Count; i++)
 	{
 		PROCESS* temp;
 		TRM.dequeue(temp);
+		tmpQ.enqueue(temp);
 		AvgWaitingTime += temp->get_WT();
 		AvgResponseTime += temp->get_RT();
 		AvgTRT += temp->get_TRT();
 	}
+	//Calculate Process Stats
 	AvgWaitingTime /= TRM_Count;
 	AvgResponseTime /= TRM_Count;
 	AvgTRT /= TRM_Count;
@@ -508,6 +450,18 @@ void Scheduler::CalculateStats()
 	StealPercent = (StealCount / TRM_Count) * 100;
 	Forkability = (ForkedCount / TRM_Count) * 100;
 	KillPercent = (KilledCount / TRM_Count) * 100;
+	while (!tmpQ.isEmpty())
+	{
+		PROCESS* temp;
+		tmpQ.dequeue(temp);
+		TRM.enqueue(temp);
+	}
+	//Calculate Processor Stats
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		ListOfProcessors[i]->CalculatePLoad();
+		ListOfProcessors[i]->CalculatePUtil();
+	}
 	
 }
 
@@ -556,8 +510,11 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 			ListOfProcessors[i]->KillRun();
 			return;
 		}
-		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target))
+		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target)) 
+		{
+			dynamic_cast<FCFS*>(ListOfProcessors[i])->RemoveFromMyRdy(target);
 			return;
+		}
 	}
 }
 
