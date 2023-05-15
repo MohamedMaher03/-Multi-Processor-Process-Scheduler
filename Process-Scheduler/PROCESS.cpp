@@ -1,29 +1,7 @@
 #include "PROCESS.h"
 using namespace std;
-PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
-{
-	AT = ArrivalTime;
-	PID = ID;
-	CT = CPU_Time;
-	N = Number;
-	Countsteps = 0;//added
-	CountN = 0;    //added
-	StartTime = -1; //added
-	totalIoD = 0;
-	if (N)
-	{
-		IO = new Pair[N]; // array of pairs 
-		//IO.first->IO-R
-		//IO.second->IO-D
-	}
-	IsKilled = false;
-	isforked = false;
-	Child1 = nullptr;
-	Child2 = nullptr;
-	set_state("NEW");
-	calculateTotalIO_D();
-}
-PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time,int deadline, int Number)
+
+PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number)
 {
 	AT = ArrivalTime;
 	PID = ID;
