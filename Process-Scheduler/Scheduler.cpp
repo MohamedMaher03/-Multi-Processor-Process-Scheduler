@@ -58,6 +58,7 @@ void Scheduler::LoadData()
 	}
 	myFile.close();
 }
+
 void Scheduler::SaveData()
 {
 	File = "Output_" + File;
@@ -85,24 +86,25 @@ void Scheduler::SaveData()
 		OutputFile << "Processors Load" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
-			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPLoad() << "%,  ";
+			OutputFile << "p" << i << "=" << (int)ListOfProcessors[i - 1]->getPLoad() << "%,  ";
 		}
-		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPLoad() << "%\n";
+		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPLoad() << "%\n";
 		OutputFile << endl;
 		OutputFile << "Processors Utiliz" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
-			OutputFile << "p" << i << "=" << ListOfProcessors[i - 1]->getPUtil() << "%,  ";
+			OutputFile << "p" << i << "=" << (int)ListOfProcessors[i - 1]->getPUtil() << "%,  ";
 			AvgUtilization += ListOfProcessors[i - 1]->getPUtil();
 		}
 		AvgUtilization += ListOfProcessors[totalProcessors - 1]->getPUtil();
 		AvgUtilization = (AvgUtilization / TRM_Count) * 100;
-		OutputFile << "p" << totalProcessors << "=" << ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
+		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
 		OutputFile << "Avg utilization = " << AvgUtilization << "%";
 		OutputFile.close();
 	}
 
 }
+
 void Scheduler::CreateProcessors(int FC, int SJ, int R)
 {
 	int counter = 0;
@@ -156,6 +158,7 @@ int Scheduler::get_TIMESTEP()
 {
 	return TIMESTEP;
 }
+
 int Scheduler::getTimeSlice()
 {
 	return TimeSlice;
@@ -165,14 +168,17 @@ int Scheduler::getRTF()
 {
 	return RTF;
 }
+
 int Scheduler::get_LiveTotalProcesses()
 {
 	return LiveTotalProcesses;
 }
+
 void Scheduler::increment_LiveTotalProcesses()
 {
 	LiveTotalProcesses++;
 }
+
 Scheduler::Scheduler()
 {
 	TIMESTEP = 1;
@@ -435,6 +441,7 @@ void Scheduler::CalculateStats()
 		AvgResponseTime += temp->get_RT();
 		AvgTRT += temp->get_TRT();
 	}
+	//Calculate Process Stats
 	AvgWaitingTime /= TRM_Count;
 	AvgResponseTime /= TRM_Count;
 	AvgTRT /= TRM_Count;
@@ -448,6 +455,12 @@ void Scheduler::CalculateStats()
 		PROCESS* temp;
 		tmpQ.dequeue(temp);
 		TRM.enqueue(temp);
+	}
+	//Calculate Processor Stats
+	for (int i = 0; i < totalProcessors; i++)
+	{
+		ListOfProcessors[i]->CalculatePLoad();
+		ListOfProcessors[i]->CalculatePUtil();
 	}
 	
 }
