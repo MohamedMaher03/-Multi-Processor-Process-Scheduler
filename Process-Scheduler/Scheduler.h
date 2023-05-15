@@ -22,6 +22,7 @@ class Scheduler
 	int FCFS_Count;
 	int SJF_Count;
 	int RR_Count;
+	int EDF_count;
 	int TimeSlice;
 	int RTF;
 	int MaxW;
@@ -55,7 +56,7 @@ class Scheduler
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
 	void SaveData(); // produce the output file at end of simulation
-	void CreateProcessors(int, int, int);
+	void CreateProcessors(int, int, int,int);
 	void Print(char); //Decides which mode ([I]nteractive - [S]ilent - Step[B]yStep) 
 	void Add_toblocklist(PROCESS*blockedprocess);
 	void Add_toterminatedlist(PROCESS* terminatedprocess);

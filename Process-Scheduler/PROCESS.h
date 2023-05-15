@@ -29,7 +29,7 @@ class PROCESS
 	PROCESS* Child2;
 public:
 
-	PROCESS(int ArrivalTime, int ID, int CPU_Time,	int Number);
+	PROCESS(int ArrivalTime, int ID, int CPU_Time,int deadline,	int Number);
 	void set_RT(int response);
 	void set_TT(int termination);
 	void set_TRT(int termination, int ArrivalTime);

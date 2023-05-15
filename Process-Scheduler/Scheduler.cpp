@@ -14,16 +14,16 @@ void Scheduler::LoadData()
 	}
 	File = FileName;
 	myFile >> FCFS_Count >> SJF_Count >> RR_Count >>EDF_count;
-	totalProcessors = FCFS_Count + SJF_Count + RR_Count;
+	totalProcessors = FCFS_Count + SJF_Count + RR_Count +EDF_count;
 	myFile >> TimeSlice;
 	myFile >> RTF >> MaxW >> STL >> Forkability;
 	myFile >> ProcessesCount;
 	LiveTotalProcesses = ProcessesCount; //updated 
 	for (int i = 0; i < ProcessesCount; i++)
 	{
-		int AT, PID, CT, N;
-		myFile >> AT >> PID >> CT >> N;
-		PROCESS* tmp = new PROCESS(AT, PID, CT, N); // The process constructor expects these values
+		int AT, PID, CT,D, N;
+		myFile >> AT >> PID >> CT >> D >> N;
+		PROCESS* tmp = new PROCESS(AT, PID, CT, D, N); // The process constructor expects these values
 		NEW.enqueue(tmp);//Processes are first added to NEW queue
 		if (N > 0)
 		{ 
@@ -44,7 +44,7 @@ void Scheduler::LoadData()
 			}
 		}
 	}
-	CreateProcessors(FCFS_Count, SJF_Count, RR_Count);
+	CreateProcessors(FCFS_Count, SJF_Count, RR_Count,EDF_count);
 	string ignore1;
 	string ignore2;
 	myFile >> ignore1 >> ignore2;
@@ -105,7 +105,7 @@ void Scheduler::SaveData()
 
 }
 
-void Scheduler::CreateProcessors(int FC, int SJ, int R)
+void Scheduler::CreateProcessors(int FC, int SJ, int R,int ED)
 {
 	int counter = 0;
 	for (int i = 0; i < FC; i++)
@@ -123,7 +123,12 @@ void Scheduler::CreateProcessors(int FC, int SJ, int R)
 		RR* tmp = new RR(this);
 		ListOfProcessors[counter++] = tmp;
 	}
-	for (int i = 0; i < (FC + SJ + R); i++)
+	for (int i = 0; i < ED; i++)
+	{
+		EDF* tmp = new EDF(this);
+		ListOfProcessors[counter++] = tmp;
+	}
+	for (int i = 0; i < (FC + SJ + R +ED); i++)
 	{
 		RUNNING[i] = 0;
 	}
@@ -187,6 +192,7 @@ Scheduler::Scheduler()
 	FCFS_Count = 0;
 	SJF_Count = 0;
 	RR_Count = 0;
+	EDF_count = 0;
 	ProcessesCount = 0;
 	RunningCount = 0;
 	RunningCountIndex = 0;
