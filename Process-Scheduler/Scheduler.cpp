@@ -155,6 +155,11 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 
 void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
+	int AT = temp->get_AT();
+	int TRT = TIMESTEP - AT;
+	temp->SetTRT(TRT);
+	TotalTRT += temp->get_TRT();
+	temp->setWT(TRT - temp->get_CT());
 	TRM.enqueue(temp);
 	TRM_Count++;
 }
@@ -200,7 +205,6 @@ Scheduler::Scheduler()
 	EDF_count = 0;
 	ProcessesCount = 0;
 	RunningCount = 0;
-	RunningCountIndex = 0;
 	LiveTotalProcesses = 0;
 	AvgWaitingTime = 0;
 	AvgResponseTime = 0;
@@ -214,6 +218,7 @@ Scheduler::Scheduler()
 	KilledCount = 0;
 	KillPercent = 0;
 	StealPercent = 0;
+	TotalTRT = 0;
 }
 
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
@@ -464,12 +469,11 @@ void Scheduler::CalculateStats()
 		tmpQ.enqueue(temp);
 		AvgWaitingTime += temp->get_WT();
 		AvgResponseTime += temp->get_RT();
-		AvgTRT += temp->get_TRT();
 	}
 	//Calculate Process Stats
 	AvgWaitingTime /= TRM_Count;
 	AvgResponseTime /= TRM_Count;
-	AvgTRT /= TRM_Count;
+	AvgTRT = TotalTRT / TRM_Count;
 	MigPercent_MaxW = (MigsDueMax_W / TRM_Count) * 100;
 	MigPercent_RTF = (MigsDueRTF / TRM_Count) * 100;
 	StealPercent = (StealCount / TRM_Count) * 100;
@@ -484,7 +488,7 @@ void Scheduler::CalculateStats()
 	//Calculate Processor Stats
 	for (int i = 0; i < totalProcessors; i++)
 	{
-		ListOfProcessors[i]->CalculatePLoad(AvgTRT * TRM_Count);
+		ListOfProcessors[i]->CalculatePLoad(TotalTRT);
 		ListOfProcessors[i]->CalculatePUtil();
 	}
 	

@@ -104,6 +104,9 @@ enum PROCESS::STATES
  {
 	 return WT;
  }
+ int PROCESS::get_deadline() const {
+	 return Deadline;
+ }
 
  bool PROCESS::get_isforked()
  {
@@ -263,6 +266,16 @@ enum PROCESS::STATES
 	 int IO_D = (IO + indx)->getsecond();
 	 IO_D--;
 	 (IO + indx)->setsecond(IO_D);
+ }
+
+ void PROCESS::SetTRT(int x)
+ {
+	 TRT = x;
+ }
+
+ void PROCESS::setWT(int x)
+ {
+	 WT = x;
  }
 
  
