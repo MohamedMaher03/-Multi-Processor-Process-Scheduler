@@ -17,6 +17,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int Number)
 						  //IO.second->IO-D
 	}
 	IsKilled = false;
+	isforked = false;
 	Child1 = nullptr;
 	Child2 = nullptr;
 	set_state("NEW");
@@ -62,6 +63,11 @@ enum PROCESS::STATES
 	 IsKilled = 1;
  }
 
+ void PROCESS::set_isforked(bool forked)
+ {
+	 isforked = forked;
+ }
+
  int PROCESS::get_PID() const
  {
 	 return PID;
@@ -95,6 +101,11 @@ enum PROCESS::STATES
  int PROCESS::get_WT() const
  {
 	 return WT;
+ }
+
+ bool PROCESS::get_isforked()
+ {
+	 return isforked;
  }
 
  void PROCESS::set_starttime(int t)
