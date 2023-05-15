@@ -13,7 +13,7 @@ This project requires the following dependencies to be installed:
 
 To install the project, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/multiprocessor-process-scheduler.git`
+1. Clone the repository: `git clone https://github.com/your-username/Multi-Processor-Process-Scheduler.git`
 2. Navigate to the project directory: `cd multiprocessor-process-scheduler`
 3. Create a build directory: `mkdir build && cd build`
 4. Run CMake to generate the build files: `cmake ..`
