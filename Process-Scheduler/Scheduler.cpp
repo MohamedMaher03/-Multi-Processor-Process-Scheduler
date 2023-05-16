@@ -186,7 +186,7 @@ int Scheduler::get_LiveTotalProcesses()
 
 int Scheduler::get_ForkPercent() const
 {
-	return ForkPercent;
+	return Forkability;
 }
 
 void Scheduler::increment_LiveTotalProcesses()
@@ -278,10 +278,6 @@ void Scheduler::SIMULATE()
 	
 	while (!AllDone())
 	{
-		if (TIMESTEP == 32)
-		{
-			int x = 2;
-		}
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		Execute(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
@@ -333,7 +329,7 @@ void Scheduler::Execute()
 bool Scheduler::AllDone()
 {
 	
-	return TRM_Count == ProcessesCount;
+	return TRM_Count == LiveTotalProcesses;
 }
 
 void Scheduler::AddToRunning()
