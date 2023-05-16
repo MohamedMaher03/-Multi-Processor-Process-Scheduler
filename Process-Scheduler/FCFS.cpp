@@ -47,6 +47,8 @@ void FCFS::ScheduleAlgo()
 			ExpectedFinishTime -= RUN->get_CT();
 			SchedPtr->increment_runningcount();
 			ForkTree(TEMP);
+			if (TEMP->get_RT() == -1)
+				TEMP->set_RT(SchedPtr->get_TIMESTEP() - TEMP->get_AT());
 	}
  
 	else

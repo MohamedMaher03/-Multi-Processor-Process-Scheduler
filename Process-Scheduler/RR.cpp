@@ -37,7 +37,8 @@ void RR::ScheduleAlgo()
 			RSIZE--;
 			ExpectedFinishTime -= (front->get_CT()-front->get_countsteps());
 			SchedPtr->increment_runningcount();
-
+			if (front->get_RT() == -1)
+				front->set_RT(SchedPtr->get_TIMESTEP() - front->get_AT());
 		}
 	}
 
