@@ -69,13 +69,13 @@ void Scheduler::SaveData()
 	OutputFile.open(File, ios::out);
 	if (OutputFile.is_open())
 	{
-		OutputFile << "TT    PID    AT    CT    IO_D        WT    RT    TRT" << endl;
+		OutputFile << "TT\t"  << "PID\t" << "AT\t" << "CT\t" << "IO_D\t" << "WT\t" << "RT\t" << "TRT\t" << endl;
 		while (!TRM.isEmpty())
 		{
 			PROCESS* temp;
 			TRM.dequeue(temp);
-			OutputFile << temp->get_TT() << "    " << temp->get_PID() << "    " << temp->get_AT() << "    " << temp->get_CT()
-				<< "    " << temp->get_totalIoD() << "        " << temp->get_WT() << "    " << temp->get_RT() << "    " << temp->get_TRT() << endl;
+			OutputFile << temp->get_TT() << "\t" << temp->get_PID() << "\t" << temp->get_AT() << "\t" << temp->get_CT()
+				<< "\t" << temp->get_totalIoD() << "\t" << temp->get_WT() << "\t" << temp->get_RT() << "\t" << temp->get_TRT() << endl;
 		}
 		OutputFile << "Processes: " << LiveTotalProcesses << endl;
 		OutputFile << "Avg WT = " << (int)AvgWaitingTime << ",      Avg RT = " << (int)AvgResponseTime << ",      Avg TRT = " << (int)AvgTRT << endl;
