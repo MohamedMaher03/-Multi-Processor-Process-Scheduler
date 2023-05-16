@@ -30,18 +30,21 @@ void Scheduler::LoadData()
 			string IO;
 			myFile >> IO;
 			stringstream ss(IO);
+			int Iod_total = 0;
 			for (int j = 0; j < N; j++)
 			{
 				int x, y;
 				char c1, c2, c3;
 				ss >> c1 >> x >> c2 >> y >> c3;
 				tmp->set_IO(x, y, j);
+				Iod_total += y;
 				if (j + 1 < N)
 				{
 					char c4;
 					ss >> c4;
 				}
 			}
+			tmp->setTotalIO_D(Iod_total);
 		}
 	}
 	CreateProcessors(FCFS_Count, SJF_Count, RR_Count, EDF_count);
@@ -82,7 +85,7 @@ void Scheduler::SaveData()
 		OutputFile << "Killed Processes: " << (int)KillPercent << "%" << endl;
 		OutputFile << endl;
 		OutputFile << "Processors: " << totalProcessors << " [" << FCFS_Count << " FCFS, " << SJF_Count << " SJF, "
-			<< RR_Count << " RR]" << endl;
+			<< RR_Count << " RR, " << EDF_count << " EDF]" << endl;
 		OutputFile << "Processors Load" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
@@ -155,6 +158,7 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 
 void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
+	temp->set_TT(TIMESTEP);
 	int AT = temp->get_AT();
 	int TRT = TIMESTEP - AT;
 	temp->SetTRT(TRT);

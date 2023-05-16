@@ -30,6 +30,8 @@ void SJF::ScheduleAlgo()
 				RSIZE--;
 				ExpectedFinishTime -= HighestPriorityPROCESS->get_CT();
 				SchedPtr->increment_runningcount();
+				if (HighestPriorityPROCESS->get_RT() == -1)
+					HighestPriorityPROCESS->set_RT(SchedPtr->get_TIMESTEP() - HighestPriorityPROCESS->get_AT());
 			}
 	}
 	else {	// if there is a process running in the CPU

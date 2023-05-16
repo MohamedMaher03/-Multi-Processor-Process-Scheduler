@@ -23,75 +23,63 @@ void RR::ScheduleAlgo()
 	else
 		TotalBusyTime++;
 
-
-
+	if (!RUN && RDY.isEmpty())
+		return;
+	if (!(RDY.isEmpty()) && (!RUN))//the processor is IDLE
 	{
-		if (!RUN && RDY.isEmpty())
-			return;
-		if (!(RDY.isEmpty()) && (!RUN))//the processor is IDLE
+		count_RR = 0;
+		PROCESS* front;
+		if (RDY.dequeue(front))
 		{
-			count_RR = 0;
-			PROCESS* front;
-			if (RDY.dequeue(front))
-			{
-				RUN = front;
-				STATE = 1;
-				RUN->set_starttime(SchedPtr->get_TIMESTEP());
-				RSIZE--;
-				ExpectedFinishTime -= (front->get_CT()-front->get_countsteps());
-				SchedPtr->increment_runningcount();
-
-			}
-
+			RUN = front;
+			STATE = 1;
+			RUN->set_starttime(SchedPtr->get_TIMESTEP());
+			RSIZE--;
+			ExpectedFinishTime -= (front->get_CT()-front->get_countsteps());
+			SchedPtr->increment_runningcount();
+			if (front->get_RT() == -1)
+				front->set_RT(SchedPtr->get_TIMESTEP() - front->get_AT());
 		}
+	}
+
+	if (SchedPtr->Process_completion(RUN))
+	{
+		RUN = nullptr;
+		STATE = 0;
+		return;
+	}
+	if (SchedPtr->IO_requesthandling(RUN))
+	{
+		RUN = nullptr;
+		STATE = 0;
+		return;
+	}
 
 
-
-		if (SchedPtr->Process_completion(RUN))
+	if (RUN)
+	{
+		if (SchedPtr->MIG_RR_SJF(RUN))
 		{
 			RUN = nullptr;
-			STATE = 0;
-			return;
+			SchedPtr->decrement_runningcount();
 		}
-		if (SchedPtr->IO_requesthandling(RUN))
+		else
 		{
-			RUN = nullptr;
-			STATE = 0;
-			return;
-		}
-
-
-		if (RUN)
-		{
-			if ((SchedPtr->MIG_RR_SJF(RUN)))
+			if (count_RR < SchedPtr->getTimeSlice())
 			{
-				RUN = nullptr;
+				RUN->incrementCountsteps(1);
+				count_RR++;
 			}
 			else
 			{
-				if (count_RR < SchedPtr->getTimeSlice())
-				{
-					RUN->incrementCountsteps(1);
-					count_RR++;
-				}
-				else
-				{
-					RDY.enqueue(RUN);
-					ExpectedFinishTime += (RUN->get_CT()-RUN->get_countsteps());
-					SchedPtr->RemoveFromRunning(RUN);
-					SchedPtr->decrement_runningcount();
-					RUN = NULL;
-					RSIZE++;
-
-
-
-				}
+				RDY.enqueue(RUN);
+				ExpectedFinishTime += (RUN->get_CT() - RUN->get_countsteps());
+				SchedPtr->RemoveFromRunning(RUN);
+				SchedPtr->decrement_runningcount();
+				RUN = NULL;
+				RSIZE++;
 			}
 		}
-
-
-
-
 	}
 }
 

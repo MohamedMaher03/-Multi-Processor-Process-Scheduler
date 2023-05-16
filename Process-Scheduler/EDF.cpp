@@ -23,13 +23,16 @@ void EDF::ScheduleAlgo()
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;
-		if (RDY.dequeue(HighestPriorityPROCESS)) {
+		if (RDY.dequeue(HighestPriorityPROCESS)) 
+		{
 			RUN = HighestPriorityPROCESS;
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
 			STATE = 1;
 			RSIZE--;
 			ExpectedFinishTime -= (HighestPriorityPROCESS->get_CT());
 			SchedPtr->increment_runningcount();
+			if (HighestPriorityPROCESS->get_RT() == -1)
+				HighestPriorityPROCESS->set_RT(SchedPtr->get_TIMESTEP() - HighestPriorityPROCESS->get_AT());
 		}
 	}
 	else {	// if there is a process running in the CPU
