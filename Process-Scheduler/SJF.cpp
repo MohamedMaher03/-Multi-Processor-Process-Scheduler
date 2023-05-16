@@ -92,10 +92,5 @@ void  SJF::PrintMyReady()
 	RDY.printContents();
 }
 
-PROCESS* SJF::find_first_nonforked_elemnt()
-{
-	PROCESS* p;
-	RDY.peek(p);
-	return p;
-}
+
 

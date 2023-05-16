@@ -40,6 +40,5 @@ public:
 	float getPUtil() const;
 	void CalculatePLoad(int);
 	void CalculatePUtil();
-	virtual PROCESS* find_first_nonforked_elemnt()=0;
 };
 
