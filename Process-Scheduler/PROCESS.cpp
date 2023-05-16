@@ -23,7 +23,8 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number
 	Child1 = nullptr;
 	Child2 = nullptr;
 	set_state("NEW");
-	calculateTotalIO_D();
+	totalIoD = calculateTotalIO_D();
+	
 }
 PROCESS::~PROCESS()
 {

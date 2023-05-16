@@ -57,7 +57,7 @@ void RR::ScheduleAlgo()
 
 	if (RUN)
 	{
-		if ((SchedPtr->MIG_RR_SJF(RUN)))
+		if (SchedPtr->MIG_RR_SJF(RUN))
 		{
 			RUN = nullptr;
 			SchedPtr->decrement_runningcount();

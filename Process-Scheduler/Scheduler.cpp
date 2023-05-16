@@ -82,7 +82,7 @@ void Scheduler::SaveData()
 		OutputFile << "Killed Processes: " << (int)KillPercent << "%" << endl;
 		OutputFile << endl;
 		OutputFile << "Processors: " << totalProcessors << " [" << FCFS_Count << " FCFS, " << SJF_Count << " SJF, "
-			<< RR_Count << " RR]" << endl;
+			<< RR_Count << " RR, " << EDF_count << " EDF]" << endl;
 		OutputFile << "Processors Load" << endl;
 		for (int i = 1; i < totalProcessors; i++)
 		{
@@ -155,6 +155,7 @@ void Scheduler::Add_toblocklist(PROCESS* blockedprocess)
 
 void Scheduler::Add_toterminatedlist(PROCESS* temp)
 {
+	temp->set_TT(TIMESTEP);
 	int AT = temp->get_AT();
 	int TRT = TIMESTEP - AT;
 	temp->SetTRT(TRT);
