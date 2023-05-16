@@ -45,10 +45,12 @@ void FCFS::ScheduleAlgo()
 			RDY.DeleteFirst();
 			RSIZE--;
 			ExpectedFinishTime -= RUN->get_CT();
-			RUN->incrementCountsteps(1);
+			SchedPtr->increment_runningcount();
+			ForkTree(TEMP);
 	}
  
-	else{
+	else
+	{
 		if(SchedPtr->Process_completion(RUN))
 		{
 			//SchedPtr->Add_toterminatedlist(RUN);
@@ -67,8 +69,6 @@ void FCFS::ScheduleAlgo()
 			RUN->incrementCountsteps(1);
 		}
 	}
-	if (RUN)
-		RUN->incrementCountsteps(1);
 	
 }
 
@@ -130,12 +130,12 @@ void FCFS::addToBeKilled(Pair* tmp)
 }
 void FCFS::ForkTree(PROCESS* P)
 {
-	if (STATE && (random()<= SchedPtr->get_ForkPercent()))
+	if (P->getChild1() && P->getChild2())
+		return;
+	int x = random();
+	if (x <= SchedPtr->get_ForkPercent())
 	{
-		if (RUN->get_PID() == P->get_PID())
-		{
-			 SchedPtr->CreateNewProcess(P);	 
-		}
+		SchedPtr->CreateNewProcess(P);	 
 	}
 }
 
@@ -178,6 +178,7 @@ bool FCFS::KillSignal(int id, int time)
 			Killchildren(RUN);
 		}
 		RUN = nullptr;
+		SchedPtr->decrement_runningcount();
 		STATE = 0;
 		return true;
 	}

@@ -252,26 +252,20 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 
 bool Scheduler::MIG_RR_SJF(PROCESS* run)
 {
-	if (check_is_SJF())
+	if ((run->get_CT() - run->get_countsteps()) < RTF)
 	{
-		if ((run->get_CT() - run->get_countsteps()) < RTF)
-		{
-			FindShortestProcessor('S')->addToMyRdy(run);
-			return true;
-		}
+		FindShortestProcessor('S')->addToMyRdy(run);
+		return true;
 	}
 	return false;
 }
 
 bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 {
-	if (check_is_RR())
+	if (get_WT_RR(run) > MaxW)
 	{
-		if (get_WT_RR(run) > MaxW)
-		{
-			FindShortestProcessor('R')->addToMyRdy(run);
-			return true;
-		}
+		FindShortestProcessor('R')->addToMyRdy(run);
+		return true;
 	}
 	return false;
 }
@@ -284,6 +278,10 @@ void Scheduler::SIMULATE()
 	
 	while (!AllDone())
 	{
+		if (TIMESTEP == 32)
+		{
+			int x = 2;
+		}
 		CheckNewArrivals(); //Step 3 Move processes with AT equaling Timestep to RDY Queue (Their time has come :) )
 		Execute(); //Iterates over all processors and move Rdy processes to Running if possible
 		AddToRunning();   //Iterates over all runnings of processors and add them to RUNNING array
@@ -558,7 +556,7 @@ void Scheduler::RemoveFromRunning(PROCESS* target)
 
 bool Scheduler::check_is_SJF()
 {
-	for (int i = 1; i < totalProcessors; i++)
+	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i]->getType() == "SJF")
 		{
@@ -571,7 +569,7 @@ bool Scheduler::check_is_SJF()
 
 bool Scheduler::check_is_RR()
 {
-	for (int i = 1; i < totalProcessors; i++)
+	for (int i = 0; i < totalProcessors; i++)
 	{
 		if (ListOfProcessors[i]->getType() == "RR")
 		{
