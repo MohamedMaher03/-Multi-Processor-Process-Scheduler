@@ -102,3 +102,8 @@ void  EDF::PrintMyReady()
 	RDY.printContents();
 }
 
+PROCESS* EDF::find_first_nonforked_elemnt()
+{
+	return nullptr;
+}
+

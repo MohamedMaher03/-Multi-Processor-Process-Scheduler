@@ -233,10 +233,10 @@ public:
 		}
 		Head = previous;
 	}
-	void Dequeue(T* temp) {
+	void Dequeue(T temp) {
 		Node<T>* tmpPtr = Head;
 		T value = Head->getItem();
-		temp = &value;
+		temp = value;
 		Head = Head->getNext();
 		delete tmpPtr;
 	}
