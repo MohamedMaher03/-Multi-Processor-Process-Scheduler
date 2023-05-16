@@ -124,3 +124,8 @@ bool RR::PromoteProcess()
 	}
 	return false;
 }
+
+PROCESS* RR::find_first_nonforked_elemnt()
+{
+	return nullptr;
+}

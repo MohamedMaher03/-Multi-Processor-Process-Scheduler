@@ -226,6 +226,8 @@ Scheduler::Scheduler()
 }
 
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
+	if (RUN == nullptr)
+		return false;
 	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
 	{
 		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
@@ -373,6 +375,17 @@ void Scheduler::WorkStealing()
 		StealLimit = float((LQF - SQF))/ LQF;
 		while (StealLimit > 0.4) {
 			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
+		
+			if (topLQF->get_isforked()) {
+				PROCESS* temptopLQF = ListOfProcessors[indxProcessorOfLQF]->find_first_nonforked_elemnt();
+				if (temptopLQF == nullptr) {
+					ListOfProcessors[indxProcessorOfLQF]->addToMyRdy(topLQF);
+					return;
+				}
+				else {
+					topLQF = temptopLQF;
+				}
+			}
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();

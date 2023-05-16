@@ -68,6 +68,7 @@ void FCFS::ScheduleAlgo()
 		}
 		else
 		{
+			if(RUN)
 			RUN->incrementCountsteps(1);
 		}
 	}
@@ -158,6 +159,33 @@ int FCFS::random()
 	return dis(gen);
 }
 
+PROCESS* FCFS::find_first_nonforked_elemnt()
+{
+	if (RDY.IsEmpty())
+		return nullptr;
+	PROCESS* firstnonforkedelement=nullptr;
+	bool find = false;
+	LinkedList<PROCESS*>TEMP;
+	while (!RDY.IsEmpty()) {
+		PROCESS* top;
+		top = RDY.peek()->getItem();
+		TEMP.InsertEnd(top);
+		RDY.DeleteFirst();
+		if (!(top->get_isforked()) && !find) {
+			firstnonforkedelement = top;
+			find = true;
+		}
+	}
+	while (!TEMP.IsEmpty()) {
+		PROCESS* top;
+		top = TEMP.peek()->getItem();
+		RDY.InsertBeg(top);
+		TEMP.DeleteFirst();
+	}
+	return firstnonforkedelement;
+
+}
+
 void FCFS::Kill(PROCESS* target)
 {
 	target->set_IsKilled();
@@ -172,6 +200,8 @@ bool FCFS::KillSignal(int id, int time)
 	{
 		return false;
 	}
+	if (!RUN)
+		return false;
 	if (RUN->get_PID() == id)
 	{
 		SchedPtr->Add_toterminatedlist(RUN);
