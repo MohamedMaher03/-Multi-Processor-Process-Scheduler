@@ -22,9 +22,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number
 	isforked = false;
 	Child1 = nullptr;
 	Child2 = nullptr;
-	set_state("NEW");
-	totalIoD = calculateTotalIO_D();
-	
+	set_state("NEW");	
 }
 PROCESS::~PROCESS()
 {
@@ -222,14 +220,9 @@ enum PROCESS::STATES
 	 return totalIoD;
  }
 
- int PROCESS::calculateTotalIO_D()
+ void PROCESS::setTotalIO_D(int x)
  {
-	 for (int i = 0; i < N; i++)
-	 {
-		 if(IO[i].getsecond() > 0)
-		 totalIoD += IO[i].getsecond();
-	 }
-	 return totalIoD;
+	 totalIoD = x;
  }
 
  void PROCESS::setParent(PROCESS* pr)

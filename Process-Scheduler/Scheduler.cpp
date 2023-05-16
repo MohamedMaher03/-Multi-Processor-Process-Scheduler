@@ -30,18 +30,21 @@ void Scheduler::LoadData()
 			string IO;
 			myFile >> IO;
 			stringstream ss(IO);
+			int Iod_total = 0;
 			for (int j = 0; j < N; j++)
 			{
 				int x, y;
 				char c1, c2, c3;
 				ss >> c1 >> x >> c2 >> y >> c3;
 				tmp->set_IO(x, y, j);
+				Iod_total += y;
 				if (j + 1 < N)
 				{
 					char c4;
 					ss >> c4;
 				}
 			}
+			tmp->setTotalIO_D(Iod_total);
 		}
 	}
 	CreateProcessors(FCFS_Count, SJF_Count, RR_Count, EDF_count);

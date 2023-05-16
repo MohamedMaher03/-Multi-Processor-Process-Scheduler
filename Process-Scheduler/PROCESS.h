@@ -58,7 +58,7 @@ public:
 	void set_state(string x);
 	string get_state();
 	int get_totalIoD() const;
-	int calculateTotalIO_D();
+	void setTotalIO_D(int);
 	void setParent(PROCESS*);
 	void setChild1(PROCESS*);
 	void setChild2(PROCESS*);
