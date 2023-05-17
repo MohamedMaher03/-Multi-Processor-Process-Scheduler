@@ -85,12 +85,12 @@ float PROCESSOR::getPUtil() const
 
 void PROCESSOR::CalculatePLoad(int TRT)
 {
-	PLoad = TotalBusyTime / TRT;
+	PLoad = (float(TotalBusyTime) / TRT)*100;
 }
 
 void PROCESSOR::CalculatePUtil()
 {
-	PUtil = TotalBusyTime * 1.0 / (TotalBusyTime + TotalIdleTime);
+	PUtil = (TotalBusyTime * 1.0 / (TotalBusyTime + TotalIdleTime))*100;
 }
 
 void PROCESSOR::setCooldown(int x)
