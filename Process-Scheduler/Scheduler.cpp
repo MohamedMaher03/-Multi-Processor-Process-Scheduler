@@ -165,7 +165,7 @@ void Scheduler::Add_toterminatedlist(PROCESS* temp)
 	int TRT = TIMESTEP - AT;
 	temp->SetTRT(TRT);
 	TotalTRT += temp->get_TRT();
-	temp->setWT(TRT - temp->get_CT());
+	temp->setWT(TRT - temp->get_countsteps());
 	TRM.enqueue(temp);
 	TRM_Count++;
 }
@@ -313,8 +313,8 @@ void Scheduler::SIMULATE()
 		default:
 			break;
 		}
-		if (TIMESTEP == 548) {
-			int x=0;
+		if (TIMESTEP == 31) {
+			int x=31;
 		}
 		TIMESTEP++;
 	}
@@ -635,6 +635,7 @@ void Scheduler::CreateNewProcess(PROCESS* parent)
 	PROCESS* Baby = new PROCESS(TIMESTEP, ++LiveTotalProcesses, parent->get_CT() - parent->get_countsteps(), 0, 0);
 	FindShortestProcessor('F')->addToMyRdy(Baby);
 	Baby->set_isforked();
+	ForkedCount++;
 	if (parent->getChild1())
 	{
 		parent->setChild2(Baby);
