@@ -51,8 +51,8 @@ void FCFS::ScheduleAlgo()
 				TEMP->set_RT(SchedPtr->get_TIMESTEP() - TEMP->get_AT());
 	}
  
-	else
-	{
+	
+	
 		if(SchedPtr->Process_completion(RUN))
 		{
 			//SchedPtr->Add_toterminatedlist(RUN);
@@ -78,7 +78,7 @@ void FCFS::ScheduleAlgo()
 				else
 					RUN->incrementCountsteps(1);
 		}
-	}
+	
 	
 }
 
