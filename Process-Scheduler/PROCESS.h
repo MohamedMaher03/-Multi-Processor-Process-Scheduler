@@ -16,6 +16,7 @@ class PROCESS
 	int StartTime; //the time at which process first enter in any processor
 	int Countsteps;// counter for the time steps that process take till now 
 	int CountN;	   //number of times process use IO till now 
+	int lastCT;
 	bool IsKilled;
 	bool isforked; //if process is forked return true
 	Pair* IO;      //IO.first->IO-R   ,  IO.second->IO-D
@@ -42,6 +43,8 @@ public:
 	int get_TT() const;
 	int get_TRT() const;
 	int get_WT() const;
+	void setlastCT(int);
+	int getlastCT()const;
 	int get_deadline() const;
 	bool get_isforked();
 	void set_starttime(int t); 

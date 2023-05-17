@@ -35,7 +35,7 @@ void RR::ScheduleAlgo()
 			STATE = 1;
 			RUN->set_starttime(SchedPtr->get_TIMESTEP());
 			RSIZE--;
-			ExpectedFinishTime -= (front->get_CT()-front->get_countsteps());
+			ExpectedFinishTime -= front->getlastCT();
 			SchedPtr->increment_runningcount();
 			if (front->get_RT() == -1)
 				front->set_RT(SchedPtr->get_TIMESTEP() - front->get_AT());
@@ -73,7 +73,8 @@ void RR::ScheduleAlgo()
 			else
 			{
 				RDY.enqueue(RUN);
-				ExpectedFinishTime += (RUN->get_CT() - RUN->get_countsteps());
+				ExpectedFinishTime += RUN->get_CT() - RUN->get_countsteps();
+				RUN->setlastCT(RUN->get_CT() - RUN->get_countsteps());
 				SchedPtr->RemoveFromRunning(RUN);
 				SchedPtr->decrement_runningcount();
 				RUN = NULL;
@@ -93,7 +94,8 @@ void RR::PrintMyReady()
 void RR::addToMyRdy(PROCESS* TMP)
 {
 	RDY.enqueue(TMP);
-	ExpectedFinishTime += (TMP->get_CT()-TMP->get_countsteps());
+	ExpectedFinishTime += TMP->get_CT() - TMP->get_countsteps();
+	TMP->setlastCT(TMP->get_CT() - TMP->get_countsteps());
 	RSIZE++;
 }
 
@@ -102,7 +104,7 @@ PROCESS* RR::removeTopOfMyRDY()
 	PROCESS* top=nullptr;
 	if (RDY.dequeue(top)) {
 		RSIZE--;
-		ExpectedFinishTime -= (top->get_CT()-top->get_countsteps());
+		ExpectedFinishTime -= top->getlastCT();
 	}
 	return top;
 }
@@ -118,7 +120,7 @@ bool RR::PromoteProcess()
 			RUN = toberun;
 			STATE = 1;
 			RSIZE--;
-			ExpectedFinishTime -= (toberun->get_CT()-toberun->get_countsteps());
+			ExpectedFinishTime -= toberun->getlastCT();
 			return true;
 		}
 	}

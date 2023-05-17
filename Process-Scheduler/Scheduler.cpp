@@ -300,6 +300,9 @@ void Scheduler::SIMULATE()
 		default:
 			break;
 		}
+		if (TIMESTEP == 548) {
+			int x=0;
+		}
 		TIMESTEP++;
 	}
 	if(RunMode == 3)

@@ -8,6 +8,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number
 	CT = CPU_Time;
 	Deadline = deadline;
 	N = Number;
+	lastCT = 0;
 	Countsteps = 0;//added
 	CountN = 0;    //added
 	StartTime = -1; //added
@@ -59,7 +60,10 @@ enum PROCESS::STATES
  {
 	 WT = termination - ArrivalTime - CPU_Time;
  }
+ int PROCESS:: getlastCT() const {
+	 return lastCT;
 
+ }
  void PROCESS:: set_IsKilled()
  {
 	 IsKilled = 1;
@@ -117,6 +121,9 @@ enum PROCESS::STATES
  {
 	 if(StartTime==-1)  //if not initialize before
 	 StartTime = t;
+ }
+ void PROCESS::setlastCT(int num) {
+	 lastCT = num;
  }
 
  void PROCESS::incrementCountsteps(int step)
