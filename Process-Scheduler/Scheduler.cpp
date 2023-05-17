@@ -315,9 +315,6 @@ void Scheduler::SIMULATE()
 		default:
 			break;
 		}
-		if (TIMESTEP == 31) {
-			int x=31;
-		}
 		TIMESTEP++;
 	}
 	if(RunMode == 3)
@@ -530,7 +527,7 @@ void Scheduler::CalculateStats()
 	StealPercent = (float(StealCount) / TRM_Count) * 100;
 	Forkability = (float(ForkedCount) / TRM_Count) * 100;
 	KillPercent = (float(KilledCount) / TRM_Count) * 100;
-	BeforeDeadlinePercent = (BeforeDeadline / TRM_Count) * 100;
+	BeforeDeadlinePercent = (float(BeforeDeadline) / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
 	{
 		PROCESS* temp;

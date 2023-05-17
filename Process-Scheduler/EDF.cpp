@@ -58,7 +58,8 @@ if (SchedPtr->random() < 4)
 
 		if (SchedPtr->Process_completion(RUN))
 		{
-			if (RUN->get_TRT() < RUN->get_deadline()) // Assuming a process has finished before its deadline
+		 // Assuming a process has finished before its deadline
+			if(RUN->get_TT()<RUN->get_deadline())
 				SchedPtr->incrementBeforeDeadline();
 			RUN = nullptr;
 			STATE = 0;
