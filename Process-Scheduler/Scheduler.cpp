@@ -527,7 +527,7 @@ void Scheduler::CalculateStats()
 	StealPercent = (float(StealCount) / TRM_Count) * 100;
 	ForkPercent = (float(ForkedCount) / TRM_Count) * 100;
 	KillPercent = (float(KilledCount) / TRM_Count) * 100;
-	BeforeDeadlinePercent = (BeforeDeadline / TRM_Count) * 100;
+	BeforeDeadlinePercent = (float(BeforeDeadline) / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
 	{
 		PROCESS* temp;
