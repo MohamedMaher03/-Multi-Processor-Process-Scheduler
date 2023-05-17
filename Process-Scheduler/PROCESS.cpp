@@ -25,6 +25,7 @@ PROCESS::PROCESS(int ArrivalTime, int ID, int CPU_Time, int deadline, int Number
 	Child2 = nullptr;
 	set_state("NEW");	
 	RT = -1;
+	WT = 0;
 }
 PROCESS::~PROCESS()
 {

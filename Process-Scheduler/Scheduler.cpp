@@ -102,7 +102,7 @@ void Scheduler::SaveData()
 			AvgUtilization += ListOfProcessors[i - 1]->getPUtil();
 		}
 		AvgUtilization += ListOfProcessors[totalProcessors - 1]->getPUtil();
-		AvgUtilization = (AvgUtilization / TRM_Count) * 100;
+		AvgUtilization /= totalProcessors;
 		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
 		OutputFile << "Avg utilization = " << AvgUtilization << "%";
 		OutputFile.close();
@@ -165,7 +165,7 @@ void Scheduler::Add_toterminatedlist(PROCESS* temp)
 	int TRT = TIMESTEP - AT;
 	temp->SetTRT(TRT);
 	TotalTRT += temp->get_TRT();
-	temp->setWT(TRT - temp->get_CT());
+	temp->setWT(TRT - temp->get_countsteps());
 	TRM.enqueue(temp);
 	TRM_Count++;
 }
@@ -231,7 +231,7 @@ Scheduler::Scheduler()
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 	if (RUN == nullptr)
 		return false;
-	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
+	if (RUN->get_N() > 0 && RUN->get_countN() < RUN->get_N())
 	{
 		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
 		{
@@ -315,8 +315,8 @@ void Scheduler::SIMULATE()
 		default:
 			break;
 		}
-		if (TIMESTEP == 548) {
-			int x=0;
+		if (TIMESTEP == 31) {
+			int x=31;
 		}
 		TIMESTEP++;
 	}
@@ -404,9 +404,11 @@ void Scheduler::WorkStealing()
 				}
 				else {
 					topLQF = temptopLQF;
+					StealCount--;
 				}
 			}
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
+			StealCount++;
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
 			if (LQF == 0)
@@ -499,6 +501,10 @@ void Scheduler::BLKtoRDY()
 			BLK.dequeue(tmp);
 			BLK_Count--;
 			FindShortestProcessor()->addToMyRdy(tmp);
+			if (BLK.peek(tmp)) {
+				if (tmp->get_IO_D(tmp->get_countN() - 1) > 0) 
+					tmp->DecrementIOD(tmp->get_countN() - 1);
+			}
 		}
 	}
 	
@@ -521,9 +527,9 @@ void Scheduler::CalculateStats()
 	AvgTRT = TotalTRT / TRM_Count;
 	MigPercent_MaxW = (MigsDueMax_W / TRM_Count) * 100;
 	MigPercent_RTF = (MigsDueRTF / TRM_Count) * 100;
-	StealPercent = (StealCount / TRM_Count) * 100;
-	Forkability = (ForkedCount / TRM_Count) * 100;
-	KillPercent = (KilledCount / TRM_Count) * 100;
+	StealPercent = (float(StealCount) / TRM_Count) * 100;
+	Forkability = (float(ForkedCount) / TRM_Count) * 100;
+	KillPercent = (float(KilledCount) / TRM_Count) * 100;
 	BeforeDeadlinePercent = (BeforeDeadline / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
 	{
@@ -631,6 +637,7 @@ void Scheduler::CreateNewProcess(PROCESS* parent)
 	PROCESS* Baby = new PROCESS(TIMESTEP, ++LiveTotalProcesses, parent->get_CT() - parent->get_countsteps(), 0, 0);
 	FindShortestProcessor('F')->addToMyRdy(Baby);
 	Baby->set_isforked();
+	ForkedCount++;
 	if (parent->getChild1())
 	{
 		parent->setChild2(Baby);
