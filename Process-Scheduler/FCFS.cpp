@@ -59,8 +59,8 @@ if (SchedPtr->random() < 4)
 				TEMP->set_RT(SchedPtr->get_TIMESTEP() - TEMP->get_AT());
 	}
  
-	else
-	{
+	
+	
 		if(SchedPtr->Process_completion(RUN))
 		{
 			//SchedPtr->Add_toterminatedlist(RUN);
@@ -77,9 +77,16 @@ if (SchedPtr->random() < 4)
 		else
 		{
 			if(RUN)
-			RUN->incrementCountsteps(1);
+				
+				if (SchedPtr->MIG_FCFS_RR(RUN))
+				{
+					RUN = nullptr;
+					SchedPtr->decrement_runningcount();
+				}
+				else
+					RUN->incrementCountsteps(1);
 		}
-	}
+	
 	
 }
 
