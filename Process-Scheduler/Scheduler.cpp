@@ -166,6 +166,8 @@ void Scheduler::Add_toterminatedlist(PROCESS* temp)
 	temp->SetTRT(TRT);
 	TotalTRT += temp->get_TRT();
 	temp->setWT(TRT - temp->get_countsteps());
+	if (temp->get_RT() == -1) //It should not have RT, it was killed before going into the RUN
+		temp->set_RT(0);
 	TRM.enqueue(temp);
 	TRM_Count++;
 }
