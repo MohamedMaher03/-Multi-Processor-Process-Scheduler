@@ -30,11 +30,13 @@ void FCFS::ScheduleAlgo()
 
 	if (!RUN && RDY.IsEmpty())
 		return;
-	if (SchedPtr->random() < 4)
-	{
-		STOP(SchedPtr->getCoolTime());
-		return;
-	}
+	/*
+if (SchedPtr->random() < 4)
+{
+	STOP(SchedPtr->getCoolTime());
+	return;
+}
+*/
 	Pair* target;
 	if (!ToBeKilled.isEmpty())
 	{
@@ -231,7 +233,7 @@ bool FCFS::KillSignal(int id, int time)
 
 PROCESS* FCFS::removeTopOfMyRDY()
 {
-	PROCESS* top = nullptr;
+	PROCESS* top;
 	top=RDY.peek()->getItem();
 	if (top) 
 	{
@@ -254,7 +256,8 @@ void FCFS::STOP(const int x)
 	while (!RDY.IsEmpty())
 	{
 		PROCESS* temp;
-		RDY.Dequeue(temp);
+		temp=RDY.peek()->getItem();
+		RDY.DeleteFirst();
 		SchedPtr->FindShortestProcessor()->addToMyRdy(temp);
 		RSIZE--;
 	}
