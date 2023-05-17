@@ -102,7 +102,7 @@ void Scheduler::SaveData()
 			AvgUtilization += ListOfProcessors[i - 1]->getPUtil();
 		}
 		AvgUtilization += ListOfProcessors[totalProcessors - 1]->getPUtil();
-		AvgUtilization = (AvgUtilization / TRM_Count) * 100;
+		AvgUtilization /= totalProcessors;
 		OutputFile << "p" << totalProcessors << "=" << (int)ListOfProcessors[totalProcessors - 1]->getPUtil() << "%\n";
 		OutputFile << "Avg utilization = " << AvgUtilization << "%";
 		OutputFile.close();
