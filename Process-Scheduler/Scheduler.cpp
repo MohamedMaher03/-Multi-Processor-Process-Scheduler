@@ -258,22 +258,32 @@ bool Scheduler::Process_completion(PROCESS* RUN)
 
 bool Scheduler::MIG_RR_SJF(PROCESS* run)
 {
-	if ((run->get_CT() - run->get_countsteps()) < RTF)
+	if (check_is_SJF())
 	{
-		FindShortestProcessor('S')->addToMyRdy(run);
-		return true;
+		if ((run->get_CT() - run->get_countsteps()) < RTF)
+		{
+			FindShortestProcessor('S')->addToMyRdy(run);
+			return true;
+		}
+		return false;
 	}
-	return false;
 }
 
 bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 {
-	if (get_WT_RR(run) > MaxW)
+	if (check_is_RR())
 	{
-		FindShortestProcessor('R')->addToMyRdy(run);
-		return true;
+		if (!(run->get_isforked()))
+		{
+
+			if (get_WT_RR(run) > MaxW)
+			{
+				FindShortestProcessor('R')->addToMyRdy(run);
+					return true;
+			}
+		}
+		return false;
 	}
-	return false;
 }
 
 

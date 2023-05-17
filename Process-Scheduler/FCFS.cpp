@@ -69,7 +69,14 @@ void FCFS::ScheduleAlgo()
 		else
 		{
 			if(RUN)
-			RUN->incrementCountsteps(1);
+				
+				if (SchedPtr->MIG_FCFS_RR(RUN))
+				{
+					RUN = nullptr;
+					SchedPtr->decrement_runningcount();
+				}
+				else
+					RUN->incrementCountsteps(1);
 		}
 	}
 	
