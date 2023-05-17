@@ -20,7 +20,6 @@ FCFS::~FCFS()
 {
 }
 
-
 void FCFS::ScheduleAlgo()
 {
 	if (!RUN)
@@ -30,7 +29,7 @@ void FCFS::ScheduleAlgo()
 
 	if (!RUN && RDY.IsEmpty())
 		return;
-	/*
+/*
 if (SchedPtr->random() < 4)
 {
 	STOP(SchedPtr->getCoolTime());
@@ -45,23 +44,22 @@ if (SchedPtr->random() < 4)
 	}
 	if (!RUN && !RDY.IsEmpty())
 	{
-			PROCESS* TEMP;
-			TEMP = RDY.peek()->getItem();
-			RUN = TEMP;
-			STATE = 1;
-			RUN->set_starttime(SchedPtr->get_TIMESTEP());
-			RDY.DeleteFirst();
-			RSIZE--;
-			ExpectedFinishTime -= RUN->getlastCT();
-			SchedPtr->increment_runningcount();
-			ForkTree(TEMP);
-			if (TEMP->get_RT() == -1)
-				TEMP->set_RT(SchedPtr->get_TIMESTEP() - TEMP->get_AT());
+		PROCESS* TEMP;
+		TEMP = RDY.peek()->getItem();
+		RUN = TEMP;
+		STATE = 1;
+		RUN->set_starttime(SchedPtr->get_TIMESTEP());
+		RDY.DeleteFirst();
+		RSIZE--;
+		ExpectedFinishTime -= RUN->getlastCT();
+		SchedPtr->increment_runningcount();
+		ForkTree(TEMP);
+		if (TEMP->get_RT() == -1)
+			TEMP->set_RT(SchedPtr->get_TIMESTEP() - TEMP->get_AT());
 	}
  
 	if (SchedPtr->Process_completion(RUN))
 	{
-		//SchedPtr->Add_toterminatedlist(RUN);
 		RUN = nullptr;
 		STATE = 0;
 		return;
@@ -115,6 +113,7 @@ bool FCFS::PromoteProcess()
 	}
 	return false;
 }
+
 void FCFS::Killchildren(PROCESS* P)
 {
 	if (!P->getChild1() && !P->getChild2())
@@ -129,6 +128,7 @@ void FCFS::Killchildren(PROCESS* P)
 	Kill(P);
 
 }
+
 bool FCFS::isInMyRdy(PROCESS* target)
 {
 	if (RDY.Find(target))
@@ -140,10 +140,12 @@ bool FCFS::isInMyRdy(PROCESS* target)
 	}
 	return false;
 }
+
 void FCFS::addToBeKilled(Pair* tmp)
 {
 	ToBeKilled.enqueue(tmp);
 }
+
 void FCFS::ForkTree(PROCESS* P)
 {
 	if (P->getChild1() && P->getChild2())
@@ -164,10 +166,11 @@ PROCESS* FCFS::find_first_nonforked_elemnt()
 {
 	if (RDY.IsEmpty())
 		return nullptr;
-	PROCESS* firstnonforkedelement=nullptr;
+	PROCESS* firstnonforkedelement = nullptr;
 	bool find = false;
 	LinkedList<PROCESS*>TEMP;
-	while (!RDY.IsEmpty()) {
+	while (!RDY.IsEmpty()) 
+	{
 		PROCESS* top;
 		top = RDY.peek()->getItem();
 		TEMP.InsertEnd(top);
@@ -177,7 +180,8 @@ PROCESS* FCFS::find_first_nonforked_elemnt()
 			find = true;
 		}
 	}
-	while (!TEMP.IsEmpty()) {
+	while (!TEMP.IsEmpty()) 
+	{
 		PROCESS* top;
 		top = TEMP.peek()->getItem();
 		RDY.InsertBeg(top);
@@ -193,46 +197,56 @@ void FCFS::Kill(PROCESS* target)
 	SchedPtr->Add_toterminatedlist(target);
 	SchedPtr->RemoveFromEverywhere(target);
 	SchedPtr->increment_KilledCount();
+	Pair* x;
+	ToBeKilled.dequeue(x);
 }
 
-bool FCFS::KillSignal(int id, int time)
+void FCFS::KillSignal(int time, int id)
 {
-	if (time != SchedPtr->get_TIMESTEP())
+	if (time != SchedPtr->get_TIMESTEP() || !RUN)
 	{
-		return false;
+		return;
 	}
-	if (!RUN)
-		return false;
 	if (RUN->get_PID() == id)
 	{
-		SchedPtr->Add_toterminatedlist(RUN);
 		if (RUN->getChild1() || RUN->getChild2()) //if prcocess have child and process terminate then their children must also terminated
 		{
 			Killchildren(RUN);
 		}
+		else
+			Kill(RUN);
 		RUN = nullptr;
-		SchedPtr->decrement_runningcount();
 		STATE = 0;
-		return true;
+		return;
 	}
-	for (int i = 0;i < RSIZE;i++) {
-		Node<PROCESS*>* current = RDY.peek();
-			if (current->getItem()->get_PID() == id) 
+	PROCESS* temp = nullptr;
+	LinkedList<PROCESS*>TMP;
+	while (!RDY.IsEmpty()) 
+	{
+		PROCESS* top;
+		top = RDY.peek()->getItem();
+		RDY.DeleteFirst();
+		if (top->get_PID() == id) 
+		{
+			if (top->getChild1() || top->getChild2()) //if prcocess have child and process terminate then their children must also terminated
 			{
-				PROCESS* itemPtr = current->getItem();
-				RDY.DeleteNode(itemPtr);
-				ExpectedFinishTime -= itemPtr->getlastCT();
-				SchedPtr->Add_toterminatedlist(itemPtr);
-				RSIZE--;
-				if (itemPtr->getChild1() || itemPtr->getChild2())
-				{
-					Killchildren(itemPtr);
-				}
-				return true;
+				Killchildren(top);
 			}
-			current = current->getNext();
+			else
+				Kill(top);
+			RSIZE--;
+		}
+		else
+			TMP.InsertEnd(top);
 	}
-	return false;
+	while (!TMP.IsEmpty()) 
+	{
+		PROCESS* top;
+		top = TMP.peek()->getItem();
+		RDY.InsertEnd(top);
+		TMP.DeleteFirst();
+	}
+	return;
 }
 
 PROCESS* FCFS::removeTopOfMyRDY()

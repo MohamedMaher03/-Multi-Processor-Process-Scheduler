@@ -368,8 +368,8 @@ void Scheduler::WorkStealing()
 {
 	if (TIMESTEP % STL == 0) //every STL timestep
 	{
-		int LQF= ListOfProcessors[0]->getExpectedFinishTime();
-		int SQF= ListOfProcessors[0]->getExpectedFinishTime();
+		int LQF = ListOfProcessors[0]->getExpectedFinishTime();
+		int SQF = ListOfProcessors[0]->getExpectedFinishTime();
 		int indxProcessorOfSQF=0;
 		int indxProcessorOfLQF=0;
 		for (int i = 1;i < totalProcessors;i++) {
@@ -390,7 +390,10 @@ void Scheduler::WorkStealing()
 			return;
 		}
 		StealLimit = float((LQF - SQF))/ LQF;
-		while (StealLimit > 0.4) {
+		while (StealLimit > 0.4) 
+		{
+			if (!ListOfProcessors[indxProcessorOfLQF]->getRSIZE())
+				return;
 			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
 		
 			if (topLQF->get_isforked()) {
@@ -580,6 +583,8 @@ void Scheduler::RemoveFromEverywhere(PROCESS* target)
 		if (ListOfProcessors[i]->getCurrentlyRunning() == target)
 		{
 			ListOfProcessors[i]->KillRun();
+			RemoveFromRunning(target);
+			RunningCount--;
 			return;
 		}
 		if (dynamic_cast<FCFS*>(ListOfProcessors[i])->isInMyRdy(target)) 
