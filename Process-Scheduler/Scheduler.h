@@ -34,6 +34,8 @@ class Scheduler
 	int RunningCount; // Total number of currently running processes
 	int TotalTRT;
 	int LiveTotalProcesses;
+	int BeforeDeadline;
+	int coolTime; // The amount of time a processor needs to cool down
 	string File;  // The name of the input file and will be used as the name of output file too
 	//--------- STATISTICS -------------
 	float AvgWaitingTime; //Average waiting time for all processes
@@ -51,6 +53,7 @@ class Scheduler
 	int StealCount; // Count of processes moved due to steal
 	int ForkedCount; // Count of processes forked
 	int KilledCount; // Count of processes killed
+	float BeforeDeadlinePercent; // Percentage of processes completed before their deadline
 
 public:
 	void LoadData(); // open the input file and load all processes into NEW list
@@ -92,6 +95,9 @@ public:
 	int get_WT_RR(PROCESS* running);//get the waiting time for migration to RR
 	void CreateNewProcess(PROCESS*);  //Creates a child process given its parent
 	int GetTRT();
+	void incrementBeforeDeadline();
+	int random();
+	int getCoolTime() const;
 	~Scheduler();
 };
 

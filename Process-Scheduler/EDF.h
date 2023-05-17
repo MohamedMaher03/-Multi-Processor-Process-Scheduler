@@ -13,5 +13,6 @@ public:
 	PROCESS* removeTopOfMyRDY() override;
 	void addToMyRdy(PROCESS* process);  //Schedular class will set RDYLIST
 	void PrintMyReady() override;
+	void STOP(const int) override;
 };
 

@@ -13,6 +13,7 @@ FCFS::FCFS(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
+	CooldownTimer = 0;
 }
 
 FCFS::~FCFS()
@@ -29,6 +30,11 @@ void FCFS::ScheduleAlgo()
 
 	if (!RUN && RDY.IsEmpty())
 		return;
+	if (SchedPtr->random() < 4)
+	{
+		STOP(SchedPtr->getCoolTime());
+		return;
+	}
 	Pair* target;
 	if (!ToBeKilled.isEmpty())
 	{
@@ -136,7 +142,7 @@ void FCFS::ForkTree(PROCESS* P)
 {
 	if (P->getChild1() && P->getChild2())
 		return;
-	int x = random();
+	int x = SchedPtr->random();
 	if (x <= SchedPtr->get_ForkPercent())
 	{
 		SchedPtr->CreateNewProcess(P);	 
@@ -146,18 +152,6 @@ void FCFS::ForkTree(PROCESS* P)
 void FCFS::RemoveFromMyRdy(PROCESS* target)
 {
 	RDY.DeleteNode(target);
-}
-
-int FCFS::random()
-{
-	random_device rd;
-	mt19937 gen(rd());
-
-	// Define the distribution for the random number
-	uniform_int_distribution<> dis(1, 100);
-
-	// Generate and return the random number
-	return dis(gen);
 }
 
 PROCESS* FCFS::find_first_nonforked_elemnt()
@@ -246,5 +240,24 @@ PROCESS* FCFS::removeTopOfMyRDY()
 		ExpectedFinishTime -= top->getlastCT();
 	}
 	return top;
+}
+
+void FCFS::STOP(const int x)
+{
+	CooldownTimer = x;
+	if (RUN)
+	{
+		SchedPtr->FindShortestProcessor()->addToMyRdy(RUN);
+		SchedPtr->decrement_runningcount();
+		RUN = NULL;
+	}
+	while (!RDY.IsEmpty())
+	{
+		PROCESS* temp;
+		RDY.Dequeue(temp);
+		SchedPtr->FindShortestProcessor()->addToMyRdy(temp);
+		RSIZE--;
+	}
+	ExpectedFinishTime = 0;
 }
 

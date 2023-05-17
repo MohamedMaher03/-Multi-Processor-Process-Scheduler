@@ -25,7 +25,7 @@ public:
 	void addToBeKilled(Pair*);
 	void ForkTree(PROCESS* P);
 	void RemoveFromMyRdy(PROCESS*); // Removes a certain process from its ready
-	int random();
 	virtual PROCESS* find_first_nonforked_elemnt();
+	void STOP(const int) override;
 };
 

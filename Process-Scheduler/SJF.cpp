@@ -9,6 +9,7 @@ SJF::SJF(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
+	CooldownTimer = 0;
 }
 
 void SJF::ScheduleAlgo()
@@ -20,6 +21,11 @@ void SJF::ScheduleAlgo()
 
 	if (!RUN && RDY.isEmpty())
 		return;
+	if (SchedPtr->random() < 4)
+	{
+		STOP(SchedPtr->getCoolTime());
+		return;
+	}
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;  
