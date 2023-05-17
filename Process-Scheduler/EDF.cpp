@@ -9,6 +9,7 @@ EDF::EDF(Scheduler* sc) :PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
+	CooldownTimer = 0;
 }
 
 void EDF::ScheduleAlgo()
@@ -20,6 +21,13 @@ void EDF::ScheduleAlgo()
 
 	if (!RUN && RDY.isEmpty())
 		return;
+	/*
+if (SchedPtr->random() < 4)
+{
+	STOP(SchedPtr->getCoolTime());
+	return;
+}
+*/
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;
@@ -50,6 +58,8 @@ void EDF::ScheduleAlgo()
 
 		if (SchedPtr->Process_completion(RUN))
 		{
+			if (RUN->get_TRT() < RUN->get_deadline()) // Assuming a process has finished before its deadline
+				SchedPtr->incrementBeforeDeadline();
 			RUN = nullptr;
 			STATE = 0;
 			return;
@@ -105,6 +115,26 @@ void  EDF::PrintMyReady()
 {
 	RDY.printContents();
 }
+
+void EDF::STOP(const int x)
+{
+	CooldownTimer = x;
+	if (RUN)
+	{
+		SchedPtr->FindShortestProcessor()->addToMyRdy(RUN);
+		SchedPtr->decrement_runningcount();
+		RUN = NULL;
+	}
+	while (!RDY.isEmpty())
+	{
+		PROCESS* temp;
+		RDY.dequeue(temp);
+		SchedPtr->FindShortestProcessor()->addToMyRdy(temp);
+		RSIZE--;
+	}
+	ExpectedFinishTime = 0;
+}
+
 
 
 

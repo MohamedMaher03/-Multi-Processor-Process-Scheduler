@@ -1,6 +1,7 @@
 #include "Scheduler.h"
 #include <fstream>
 #include <sstream>
+#include <random>
 using namespace std;
 class FCFS;
 void Scheduler::LoadData()
@@ -16,7 +17,7 @@ void Scheduler::LoadData()
 	myFile >> FCFS_Count >> SJF_Count >> RR_Count >> EDF_count;
 	totalProcessors = FCFS_Count + SJF_Count + RR_Count + EDF_count;
 	myFile >> TimeSlice;
-	myFile >> RTF >> MaxW >> STL >> Forkability;
+	myFile >> RTF >> MaxW >> STL >> Forkability >> coolTime;
 	myFile >> ProcessesCount;
 	LiveTotalProcesses = ProcessesCount; //updated 
 	for (int i = 0; i < ProcessesCount; i++)
@@ -79,10 +80,11 @@ void Scheduler::SaveData()
 		}
 		OutputFile << "Processes: " << LiveTotalProcesses << endl;
 		OutputFile << "Avg WT = " << (int)AvgWaitingTime << ",      Avg RT = " << (int)AvgResponseTime << ",      Avg TRT = " << (int)AvgTRT << endl;
-		OutputFile << "Migration % :        RTF = " << (int)RTF << "%,      MaxW = " << (int)MaxW << "%" << endl;
+		OutputFile << "Migration % :        RTF = " << (int)MigPercent_RTF << "%,      MaxW = " << (int)MigPercent_MaxW << "%" << endl;
 		OutputFile << "Work Steal % :" << (int)StealPercent << "%" << endl;
 		OutputFile << "Forked Processes: " << (int)ForkPercent << "%" << endl;
 		OutputFile << "Killed Processes: " << (int)KillPercent << "%" << endl;
+		OutputFile << "Before Deadline Processes: " << (int)BeforeDeadlinePercent << "%" << endl;
 		OutputFile << endl;
 		OutputFile << "Processors: " << totalProcessors << " [" << FCFS_Count << " FCFS, " << SJF_Count << " SJF, "
 			<< RR_Count << " RR, " << EDF_count << " EDF]" << endl;
@@ -223,6 +225,7 @@ Scheduler::Scheduler()
 	KillPercent = 0;
 	StealPercent = 0;
 	TotalTRT = 0;
+	BeforeDeadline = 0;
 }
 
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
@@ -341,6 +344,8 @@ void Scheduler::Execute()
 {
 	for (int i = 0; i < totalProcessors; i++)
 	{
+		if (ListOfProcessors[i]->getCooldown() > 0)
+			ListOfProcessors[i]->decrementCooldown();
 		ListOfProcessors[i]->ScheduleAlgo();
 	}
 }
@@ -423,6 +428,8 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 		int shortestProcessorIndex = 0; // Index of the shortest SJF
 		for (int i = 1; i < totalProcessors; i++)
 		{
+			if (ListOfProcessors[i]->getCooldown())
+				continue;
 			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "SJF")
 			{
 				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
@@ -437,6 +444,8 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 		int shortestProcessorIndex = 0; // Index of the shortest RR
 		for (int i = 1; i < totalProcessors; i++)
 		{
+			if (ListOfProcessors[i]->getCooldown())
+				continue;
 			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "RR")
 			{
 				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
@@ -451,6 +460,8 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 		int shortestProcessorIndex = 0; // Index of the shortest FCFS
 		for (int i = 1; i < FCFS_Count; i++)
 		{
+			if (ListOfProcessors[i]->getCooldown())
+				continue;
 			if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor && ListOfProcessors[i]->getType() == "FCFS")
 			{
 				shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
@@ -463,6 +474,8 @@ PROCESSOR* Scheduler::FindShortestProcessor(char x)
 	int shortestProcessorIndex = 0; // Index of the shortest processor
 	for (int i = 1; i < totalProcessors; i++)
 	{
+		if (ListOfProcessors[i]->getCooldown())
+			continue;
 		if (ListOfProcessors[i]->getExpectedFinishTime() < shortestProcessor)
 		{
 			shortestProcessor = ListOfProcessors[i]->getExpectedFinishTime();
@@ -509,6 +522,7 @@ void Scheduler::CalculateStats()
 	StealPercent = (StealCount / TRM_Count) * 100;
 	Forkability = (ForkedCount / TRM_Count) * 100;
 	KillPercent = (KilledCount / TRM_Count) * 100;
+	BeforeDeadlinePercent = (BeforeDeadline / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
 	{
 		PROCESS* temp;
@@ -629,6 +643,28 @@ void Scheduler::CreateNewProcess(PROCESS* parent)
 int Scheduler::GetTRT()
 {
 	return AvgTRT * TRM_Count;
+}
+
+void Scheduler::incrementBeforeDeadline()
+{
+	BeforeDeadline++;
+}
+
+int Scheduler::random()
+{
+	random_device rd;
+	mt19937 gen(rd());
+
+	// Define the distribution for the random number
+	uniform_int_distribution<> dis(1, 100);
+
+	// Generate and return the random number
+	return dis(gen);
+}
+
+int Scheduler::getCoolTime() const
+{
+	return coolTime;
 }
 
 Scheduler::~Scheduler()

@@ -10,6 +10,7 @@ RR::RR(Scheduler* sc):PROCESSOR(sc)
 	PLoad = 0;
 	PUtil = 0;
 	TotalBusyTime = 0;
+	CooldownTimer = 0;
 }
 
 RR::~RR()
@@ -25,6 +26,13 @@ void RR::ScheduleAlgo()
 
 	if (!RUN && RDY.isEmpty())
 		return;
+	/*
+	if (SchedPtr->random() < 4)
+	{
+		STOP(SchedPtr->getCoolTime());
+		return;
+	}
+	*/
 	if (!(RDY.isEmpty()) && (!RUN))//the processor is IDLE
 	{
 		count_RR = 0;
@@ -127,4 +135,21 @@ bool RR::PromoteProcess()
 	return false;
 }
 
-
+void RR::STOP(const int x)
+{
+	CooldownTimer = x;
+	if (RUN)
+	{
+		SchedPtr->FindShortestProcessor()->addToMyRdy(RUN);
+		SchedPtr->decrement_runningcount();
+		RUN = NULL;
+	}
+	while (!RDY.isEmpty())
+	{
+		PROCESS* temp;
+		RDY.dequeue(temp);
+		SchedPtr->FindShortestProcessor()->addToMyRdy(temp);
+		RSIZE--;
+	}
+	ExpectedFinishTime = 0;
+}

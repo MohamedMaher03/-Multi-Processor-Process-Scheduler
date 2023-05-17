@@ -1,14 +1,15 @@
-TT    PID    AT    CT    IO_D        WT    RT    TRT
-8    2    2    5    0        1    1    6
-14    4    4    9    0        1    1    10
-16    3    3    7    0        6    6    13
-27    1    1    25    0        1    0    26
+TT	PID	AT	CT	IO_D	WT	RT	TRT	
+2	25	1	0	-1717986920	1	0	1
+2	2	1	0	0	1	0	1
+4	3	1	0	0	3	2	3
+6	4	3	0	0	3	2	3
 Processes: 4
-Avg WT = 2,      Avg RT = 2,      Avg TRT = 13
-Migration % :        RTF = 4%,      MaxW = 50%
+Avg WT = 2,      Avg RT = 1,      Avg TRT = 2
+Migration % :        RTF = 0%,      MaxW = 0%
 Work Steal % :0%
 Forked Processes: 0%
 Killed Processes: 0%
+Before Deadline Processes: 0%
 
 Processors: 15 [5 FCFS, 5 SJF, 0 RR, 5 EDF]
 Processors Load
@@ -16,4 +17,4 @@ p1=0%,  p2=0%,  p3=0%,  p4=0%,  p5=0%,  p6=0%,  p7=0%,  p8=0%,  p9=0%,  p10=0%, 
 
 Processors Utiliz
 p1=0%,  p2=0%,  p3=0%,  p4=0%,  p5=0%,  p6=0%,  p7=0%,  p8=0%,  p9=0%,  p10=0%,  p11=0%,  p12=0%,  p13=0%,  p14=0%,  p15=0%
-Avg utilization = 43.5185%
+Avg utilization = 16.6667%

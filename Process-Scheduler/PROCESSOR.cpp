@@ -12,6 +12,7 @@ PROCESSOR::PROCESSOR(Scheduler* sch)
 	SchedPtr = sch;
 	TotalBusyTime = 0;
 	TotalIdleTime = 0;
+	CooldownTimer = 0;
 }
 
 int PROCESSOR::getRSIZE()
@@ -84,12 +85,32 @@ float PROCESSOR::getPUtil() const
 
 void PROCESSOR::CalculatePLoad(int TRT)
 {
-	PLoad = TotalBusyTime / TRT;
+	PLoad = (float(TotalBusyTime) / TRT)*100;
 }
 
 void PROCESSOR::CalculatePUtil()
 {
-	PUtil = TotalBusyTime * 1.0 / (TotalBusyTime + TotalIdleTime);
+	PUtil = (TotalBusyTime * 1.0 / (TotalBusyTime + TotalIdleTime))*100;
+}
+
+void PROCESSOR::setCooldown(int x)
+{
+	CooldownTimer = x;
+}
+
+int PROCESSOR::getCooldown() const
+{
+	return CooldownTimer;
+}
+
+void PROCESSOR::decrementCooldown()
+{
+	CooldownTimer--;
+}
+
+void PROCESSOR::STOP(const int n)
+{
+
 }
 
 PROCESSOR::~PROCESSOR()

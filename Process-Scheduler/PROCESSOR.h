@@ -18,6 +18,7 @@ protected:
 							//dec with CT when any process removed from RDY(as in case of kill)
 	int TotalBusyTime;
 	int TotalIdleTime;
+	int CooldownTimer; // int n, given in the input file, the amount of time for the processor to cooldown
 public:
 	PROCESSOR(Scheduler*);
 	~PROCESSOR();
@@ -40,5 +41,9 @@ public:
 	float getPUtil() const;
 	void CalculatePLoad(int);
 	void CalculatePUtil();
+	void setCooldown(int);
+	int getCooldown() const;
+	void decrementCooldown();
+	virtual void STOP(const int) = 0; // If a processor is in stop state due to overheating
 };
 
