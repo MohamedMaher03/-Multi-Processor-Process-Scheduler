@@ -231,7 +231,7 @@ Scheduler::Scheduler()
 bool Scheduler::IO_requesthandling(PROCESS* RUN) {
 	if (RUN == nullptr)
 		return false;
-	if (RUN->get_N() > 0 && RUN->get_countN() <= RUN->get_N())
+	if (RUN->get_N() > 0 && RUN->get_countN() < RUN->get_N())
 	{
 		if (RUN->get_countsteps() == RUN->get_IO_R(RUN->get_countN()))
 		{
@@ -499,6 +499,10 @@ void Scheduler::BLKtoRDY()
 			BLK.dequeue(tmp);
 			BLK_Count--;
 			FindShortestProcessor()->addToMyRdy(tmp);
+			if (BLK.peek(tmp)) {
+				if (tmp->get_IO_D(tmp->get_countN() - 1) > 0) 
+					tmp->DecrementIOD(tmp->get_countN() - 1);
+			}
 		}
 	}
 	
