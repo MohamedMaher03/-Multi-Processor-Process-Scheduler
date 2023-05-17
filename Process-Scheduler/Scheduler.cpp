@@ -392,9 +392,11 @@ void Scheduler::WorkStealing()
 				}
 				else {
 					topLQF = temptopLQF;
+					StealCount--;
 				}
 			}
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
+			StealCount++;
 			LQF = ListOfProcessors[indxProcessorOfLQF]->getExpectedFinishTime();
 			SQF = ListOfProcessors[indxProcessorOfSQF]->getExpectedFinishTime();
 			if (LQF == 0)
@@ -509,9 +511,9 @@ void Scheduler::CalculateStats()
 	AvgTRT = TotalTRT / TRM_Count;
 	MigPercent_MaxW = (MigsDueMax_W / TRM_Count) * 100;
 	MigPercent_RTF = (MigsDueRTF / TRM_Count) * 100;
-	StealPercent = (StealCount / TRM_Count) * 100;
-	Forkability = (ForkedCount / TRM_Count) * 100;
-	KillPercent = (KilledCount / TRM_Count) * 100;
+	StealPercent = (float(StealCount) / TRM_Count) * 100;
+	Forkability = (float(ForkedCount) / TRM_Count) * 100;
+	KillPercent = (float(KilledCount) / TRM_Count) * 100;
 	BeforeDeadlinePercent = (BeforeDeadline / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
 	{
