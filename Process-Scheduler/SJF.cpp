@@ -31,7 +31,8 @@ if (SchedPtr->random() < 4)
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
 		PROCESS* HighestPriorityPROCESS;  
-			if (RDY.dequeue(HighestPriorityPROCESS)) {
+			if (RDY.dequeue(HighestPriorityPROCESS)) 
+			{
 				RUN = HighestPriorityPROCESS;
 				RUN->set_starttime(SchedPtr->get_TIMESTEP());//set start time if process didn't start CPU before 
 				STATE = 1;
@@ -42,7 +43,8 @@ if (SchedPtr->random() < 4)
 					HighestPriorityPROCESS->set_RT(SchedPtr->get_TIMESTEP() - HighestPriorityPROCESS->get_AT());
 			}
 	}
-	else {	// if there is a process running in the CPU
+	else // if there is a process running in the CPU
+	{	
 		if (SchedPtr->Process_completion(RUN))
 		{
 			RUN = nullptr;
