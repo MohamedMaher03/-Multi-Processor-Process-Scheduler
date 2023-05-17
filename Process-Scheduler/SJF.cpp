@@ -99,5 +99,22 @@ void  SJF::PrintMyReady()
 	RDY.printContents();
 }
 
-
+void SJF::STOP(const int x)
+{
+	CooldownTimer = x;
+	if (RUN)
+	{
+		SchedPtr->FindShortestProcessor()->addToMyRdy(RUN);
+		SchedPtr->decrement_runningcount();
+		RUN = NULL;
+	}
+	while (!RDY.isEmpty())
+	{
+		PROCESS* temp;
+		RDY.dequeue(temp);
+		SchedPtr->FindShortestProcessor()->addToMyRdy(temp);
+		RSIZE--;
+	}
+	ExpectedFinishTime = 0;
+}
 
