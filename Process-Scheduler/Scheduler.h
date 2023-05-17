@@ -66,7 +66,7 @@ public:
 	bool Process_completion(PROCESS* RUN);
 	bool MIG_RR_SJF(PROCESS* run);
 	bool MIG_FCFS_RR(PROCESS* run);
-	int get_TIMESTEP();
+	int get_TIMESTEP() const;
 	int getTimeSlice();
 	int getRTF();
 	int get_LiveTotalProcesses();

@@ -81,7 +81,7 @@ void Scheduler::SaveData()
 		OutputFile << "Processes: " << LiveTotalProcesses << endl;
 		OutputFile << "Avg WT = " << (int)AvgWaitingTime << ",      Avg RT = " << (int)AvgResponseTime << ",      Avg TRT = " << (int)AvgTRT << endl;
 		OutputFile << "Migration % :        RTF = " << (int)MigPercent_RTF << "%,      MaxW = " << (int)MigPercent_MaxW << "%" << endl;
-		OutputFile << "Work Steal % :" << (int)StealPercent << "%" << endl;
+		OutputFile << "Work Steal % : " << (int)StealPercent << "%" << endl;
 		OutputFile << "Forked Processes: " << (int)ForkPercent << "%" << endl;
 		OutputFile << "Killed Processes: " << (int)KillPercent << "%" << endl;
 		OutputFile << "Before Deadline Processes: " << (int)BeforeDeadlinePercent << "%" << endl;
@@ -170,7 +170,7 @@ void Scheduler::Add_toterminatedlist(PROCESS* temp)
 	TRM_Count++;
 }
 
-int Scheduler::get_TIMESTEP()
+int Scheduler::get_TIMESTEP() const
 {
 	return TIMESTEP;
 }
@@ -525,7 +525,7 @@ void Scheduler::CalculateStats()
 	MigPercent_MaxW = (MigsDueMax_W / TRM_Count) * 100;
 	MigPercent_RTF = (MigsDueRTF / TRM_Count) * 100;
 	StealPercent = (float(StealCount) / TRM_Count) * 100;
-	Forkability = (float(ForkedCount) / TRM_Count) * 100;
+	ForkPercent = (float(ForkedCount) / TRM_Count) * 100;
 	KillPercent = (float(KilledCount) / TRM_Count) * 100;
 	BeforeDeadlinePercent = (float(BeforeDeadline) / TRM_Count) * 100;
 	while (!tmpQ.isEmpty())
