@@ -265,6 +265,7 @@ bool Scheduler::MIG_RR_SJF(PROCESS* run)
 	{
 		if ((run->get_CT() - run->get_countsteps()) < RTF)
 		{
+			increment_MigsDueRTF();
 			FindShortestProcessor('S')->addToMyRdy(run);
 			return true;
 		}
@@ -281,6 +282,7 @@ bool Scheduler::MIG_FCFS_RR(PROCESS* run)
 
 			if (get_WT_RR(run) > MaxW)
 			{
+				increment_MigsDueMax_W();
 				FindShortestProcessor('R')->addToMyRdy(run);
 					return true;
 			}

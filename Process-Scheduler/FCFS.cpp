@@ -61,7 +61,9 @@ if (SchedPtr->random() < 4)
  
 	
 	
-		if(SchedPtr->Process_completion(RUN))
+	
+	
+		if (SchedPtr->Process_completion(RUN))
 		{
 			//SchedPtr->Add_toterminatedlist(RUN);
 			RUN = nullptr;
@@ -74,21 +76,23 @@ if (SchedPtr->random() < 4)
 			STATE = 0;
 			return;
 		}
-		else
+		
 		{
-			if(RUN)
-				
+			if (RUN)
+
 				if (SchedPtr->MIG_FCFS_RR(RUN))
 				{
+					SchedPtr->RemoveFromRunning(RUN);
 					RUN = nullptr;
 					SchedPtr->decrement_runningcount();
+					
 				}
 				else
 					RUN->incrementCountsteps(1);
 		}
-	
-	
-}
+
+	}
+
 
 void FCFS::addToMyRdy(PROCESS *P)
 { 

@@ -68,8 +68,10 @@ void RR::ScheduleAlgo()
 	{
 		if (SchedPtr->MIG_RR_SJF(RUN))
 		{
+			SchedPtr->RemoveFromRunning(RUN);
 			RUN = nullptr;
 			SchedPtr->decrement_runningcount();
+			
 		}
 		else
 		{
