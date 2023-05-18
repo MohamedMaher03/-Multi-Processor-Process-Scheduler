@@ -22,11 +22,11 @@ void SJF::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-	/*if (SchedPtr->random() < 10)
+	if (SchedPtr->random() < 10)
 	{
 		STOP(SchedPtr->getCoolTime());
 		return;
-	}*/
+	}
 
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{

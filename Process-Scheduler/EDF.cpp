@@ -22,11 +22,11 @@ void EDF::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-	/*if (SchedPtr->random() < 5)
+	if (SchedPtr->random() < 5)
 	{
 		STOP(SchedPtr->getCoolTime());
 		return;
-	}*/
+	}
 
 	if (!RUN && !RDY.isEmpty())  //if the processor is IDLE 
 	{
