@@ -9,14 +9,20 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 		"-------------  RDY processes  -------------" << endl;
 	for (int i = 0; i < ProcessorsCount; i++)
 	{
-		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
-			ProccessorList[i]->getRSIZE() << " RDY: ";
+		if(ProccessorList[i]->getCooldown() > 0)
+		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: [OVERHEATING]" <<
+			ProccessorList[i]->getRSIZE() << " RDY: \n";
+		else
+		{
+			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
+				ProccessorList[i]->getRSIZE() << " RDY: \n";
+			ProccessorList[i]->PrintMyReady();
+		}
 		/*
 		- Each processor must have RSIZE (a count for the ready queue current size)
-		- Each processor must have type string that is one of those (FCFS / SJF / RR)
+		- Each processor must have type string that is one of those (FCFS / SJF / RR /EDF)
 		- Each processor must have RDY queue 
 		*/
-		ProccessorList[i]->PrintMyReady();
 		cout << endl;
 	}
 	cout << "------------ - BLK processes  ------------ - " << endl;
@@ -29,13 +35,13 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
 	cout << "\n \n";
 	
-	/*while (1)
+	while (1)
 	{
 		char x;
 		cin >> x;
 		if (x == 'e' || x == 'E')
 			break;
-	}*/
+	}
 	
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
@@ -44,14 +50,15 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 		"-------------  RDY processes  -------------" << endl;
 	for (int i = 0; i < ProcessorsCount; i++)
 	{
-		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
-			ProccessorList[i]->getRSIZE() << " RDY: ";
-		/*
-		- Each processor must have RSIZE (a count for the ready queue current size)
-		- Each processor must have type string that is one of those (FCFS / SJF / RR)
-		- Each processor must have RDY queue
-		*/
-		ProccessorList[i]->PrintMyReady();
+		if (ProccessorList[i]->getCooldown() > 0)
+			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: [OVERHEATING]" <<
+			ProccessorList[i]->getRSIZE() << " RDY: \n";
+		else
+		{
+			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
+				ProccessorList[i]->getRSIZE() << " RDY: \n";
+			ProccessorList[i]->PrintMyReady();
+		}
 		cout << endl;
 	}
 	cout << "------------ - BLK processes------------ - " << endl;

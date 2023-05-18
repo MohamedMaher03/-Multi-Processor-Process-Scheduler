@@ -22,7 +22,7 @@ void EDF::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-if (SchedPtr->random() < 4)
+if (SchedPtr->random() < 5)
 {
 	STOP(SchedPtr->getCoolTime());
 	return;

@@ -27,7 +27,7 @@ void RR::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-	if (SchedPtr->random() < 4)
+	if (SchedPtr->random() < 12)
 	{
 		STOP(SchedPtr->getCoolTime());
 		return;

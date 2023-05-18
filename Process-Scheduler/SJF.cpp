@@ -22,7 +22,7 @@ void SJF::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-if (SchedPtr->random() < 4)
+if (SchedPtr->random() < 10)
 {
 	STOP(SchedPtr->getCoolTime());
 	return;
