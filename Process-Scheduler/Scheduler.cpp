@@ -399,14 +399,17 @@ void Scheduler::WorkStealing()
 			PROCESS* topLQF = ListOfProcessors[indxProcessorOfLQF]->removeTopOfMyRDY();
 		
 			if (topLQF->get_isforked()) {
-				PROCESS* temptopLQF=dynamic_cast<FCFS*> (ListOfProcessors[indxProcessorOfLQF])->find_first_nonforked_elemnt();
+				PROCESS* temptopLQF = nullptr;
+				if (ListOfProcessors[indxProcessorOfLQF]->getType() == "FCFS")
+					PROCESS* temptopLQF = dynamic_cast<FCFS*> (ListOfProcessors[indxProcessorOfLQF])->find_first_nonforked_elemnt();
+				else
+					return;
 				if (temptopLQF == nullptr) {
 					ListOfProcessors[indxProcessorOfLQF]->addToMyRdy(topLQF);
 					return;
 				}
 				else {
 					topLQF = temptopLQF;
-					StealCount--;
 				}
 			}
 			ListOfProcessors[indxProcessorOfSQF]->addToMyRdy(topLQF);
