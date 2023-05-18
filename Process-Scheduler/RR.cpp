@@ -27,11 +27,11 @@ void RR::ScheduleAlgo()
 	if (!RUN && RDY.isEmpty())
 		return;
 	
-	if (SchedPtr->random() < 12)
+	/*if (SchedPtr->random() < 12)
 	{
 		STOP(SchedPtr->getCoolTime());
 		return;
-	}
+	}*/
 	
 	if (!(RDY.isEmpty()) && (!RUN))//the processor is IDLE
 	{

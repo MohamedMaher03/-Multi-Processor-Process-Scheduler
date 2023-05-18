@@ -30,11 +30,11 @@ void FCFS::ScheduleAlgo()
 	if (!RUN && RDY.IsEmpty())
 		return;
 
-if (SchedPtr->random() < 4)
-{
-	STOP(SchedPtr->getCoolTime());
-	return;
-}
+	//if (SchedPtr->random() < 4)
+	//{
+	//	STOP(SchedPtr->getCoolTime());
+	//	return;
+	//}
 
 	Pair* target;
 	if (!ToBeKilled.isEmpty())
