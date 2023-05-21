@@ -11,11 +11,11 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	{
 		if(ProccessorList[i]->getCooldown() > 0)
 		cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: [OVERHEATING]" <<
-			ProccessorList[i]->getRSIZE() << " RDY: \n";
+			ProccessorList[i]->getRSIZE() << " RDY: ";
 		else
 		{
 			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
-				ProccessorList[i]->getRSIZE() << " RDY: \n";
+				ProccessorList[i]->getRSIZE() << " RDY: ";
 			ProccessorList[i]->PrintMyReady();
 		}
 		/*
@@ -35,13 +35,13 @@ void UI::printInteractive(int Time, PROCESSOR** ProccessorList, int ProcessorsCo
 	cout << "PRESS ENTER E TO MOVE TO NEXT STEP !" << endl;
 	cout << "\n \n";
 	
-	/*while (1)
+	while (1)
 	{
 		char x;
 		cin >> x;
 		if (x == 'e' || x == 'E')
 			break;
-	}*/
+	}
 	
 }
 void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCount, LinkedQueue<PROCESS*> BLK, int BSize, int* RUN, LinkedQueue<PROCESS*> TRM, int TSize, int RunningCount)
@@ -52,11 +52,11 @@ void UI::printStepByStep(int Time, PROCESSOR** ProccessorList, int ProcessorsCou
 	{
 		if (ProccessorList[i]->getCooldown() > 0)
 			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: [OVERHEATING]" <<
-			ProccessorList[i]->getRSIZE() << " RDY: \n";
+			ProccessorList[i]->getRSIZE() << " RDY: ";
 		else
 		{
 			cout << "processor " << i + 1 << " [" << ProccessorList[i]->getType() << "]: " <<
-				ProccessorList[i]->getRSIZE() << " RDY: \n";
+				ProccessorList[i]->getRSIZE() << " RDY: ";
 			ProccessorList[i]->PrintMyReady();
 		}
 		cout << endl;
